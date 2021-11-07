@@ -21,7 +21,7 @@ export default function Register(props) {
     variables: {
       phoneNumber,
       password,
-      role: "vendor"
+      role: "buyer"
     },
     onCompleted: (data) => {
       navigation.navigate(SCREEN.LOGIN);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabBar } from '../components';
 import { SCREEN } from '../constants';
-import { } from '../pages';
+import { Notification, Home, Profile } from '../pages';
 const Tab = createBottomTabNavigator();
 
 const config = {
@@ -21,17 +21,16 @@ const config = {
 function TabHome() {
   return (
     <Tab.Navigator tabBar={props => <TabBar {...props} />}
-      initialRouteName={SCREEN.NEW_ORDER}
+      initialRouteName={SCREEN.HOME}
       screenOptions={{
         headerShown: false,
         transitionSpec: { open: config, close: config },
         gestureDirection: 'horizontal',
       }}
     >
-      {/* <Tab.Screen name={SCREEN.NEW_ORDER} component={NewOrder} options={{ icon: 'file-invoice' }} />
-      <Tab.Screen name={SCREEN.MANAGER} component={Manager} options={{ icon: 'tasks' }} />
+      <Tab.Screen name={SCREEN.HOME} component={Home} options={{ icon: 'home' }} />
       <Tab.Screen name={SCREEN.NOTIFICATION} component={Notification} options={{ icon: 'bell' }} />
-      <Tab.Screen name={SCREEN.STORE} component={Store} options={{ icon: 'store' }} /> */}
+      <Tab.Screen name={SCREEN.PROFILE} component={Profile} options={{ icon: 'user' }} />
 
     </Tab.Navigator>
   );

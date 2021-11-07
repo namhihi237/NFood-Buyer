@@ -13,9 +13,16 @@ export default {
       user {
         _id
         role
-        isVendor
+        isBuyer
       }
       token
+    }
+  }`,
+
+  SET_NAME_BUYER: gql`mutation setNameBuyer($name: String!) {
+    setNameBuyer(name: $name) {
+    success
+    message  
     }
   }`,
 

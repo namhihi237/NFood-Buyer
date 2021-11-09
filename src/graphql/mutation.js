@@ -26,5 +26,8 @@ export default {
     }
   }`,
 
+  SET_LOCATION_BUYER: gql`mutation updateGPSAddressBuyer($latitude: Float!, $longitude: Float!) {
+    updateGPSAddressBuyer(latitude: $latitude, longitude: $longitude) 
+  }`
 
 }

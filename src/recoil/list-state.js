@@ -5,9 +5,10 @@ export const gps = atom({
   default: false,
 });
 
-export const location = atom({
+export const locationGPS = atom({
   key: 'location',
   default: {
-
+    latitude: null,
+    longitude: null,
   },
 });

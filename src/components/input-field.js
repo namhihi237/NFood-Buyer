@@ -12,7 +12,7 @@ const InputField = (props) => {
 
   const onFocus = () => {
     setHeight(2);
-    setColor('#000');
+    setColor('#F24F04');
   };
 
   const onBlur = () => {

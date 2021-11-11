@@ -1,23 +1,52 @@
 import { Text, Button, Box, View, Modal } from "native-base";
 
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, FlatList} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
 
-import { InputField, ButtonCustom, Toast, Loading } from '../../components';
+import { InputField, ButtonCustom, Toast, Loading , Search} from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
-import { gps, location } from "../../recoil/list-state";
+import { gps, locationGPS } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION } from "../../graphql";
+import Address from "./address";
+import Popular from "./popular";
+import Category from "./Category";
+const popular = [
+  {
+    id: 1,
+    name: "Cà phê sữa",
+    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
+    price: "15000",
+    rating: 4.5
+  },
+  {
+    id: 2,
+    name: "Cà phê sữa",
+    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
+    price: "20000",
+    rating: 4.3
+  },
+  {
+    id: 3,
+    name: "Cà phê sữa",
+    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
+    price: "25000",
+    rating: 4.1
+  }
+];
 
+const data = [{ id: 1, name: "Food", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
+{ id: 2, name: "Juice", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
+{ id: 3, name: "Dessert", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190576/DoAnTN/Group_1173_megwgj.png" }];
 export default function Home(props) {
 
   const [isGPS, setIsGPS] = useRecoilState(gps);
-  const [location, setLocation] = useRecoilState(location);
+  const [location, setLocation] = useRecoilState(locationGPS);
   const [address, setAddress] = useState('');
   const [modalVisible, setModalVisible] = React.useState(!isGPS)
 
@@ -55,7 +84,9 @@ export default function Home(props) {
   }
 
   useEffect(() => {
-    getLocation();
+    setTimeout(() => {
+      getLocation();
+    }, 1000);
   }, [])
 
   const renderOpenGPS = () => {
@@ -92,56 +123,72 @@ export default function Home(props) {
     },
   })
 
+  const renderPopularItem = (item) => {
+    return (<Popular item={item} />);
+  }
+  
+  const keyExtractor = item => item?.id;
+
+  const renderCategoryItem = (item) => (
+    <Category item={item} />
+  );
+  
+  
   const renderContent = () => {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>
-            Chào mừng bạn đến với
-          </Text>
-          <Text style={styles.headerText}>
-            Shopee
-          </Text>
+      <ScrollView  style={styles.container}>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoryList}
+          renderItem={renderCategoryItem}
+          keyExtractor={keyExtractor}
+          data={data}
+        />
+        
+        <View style={styles.popularTitle}>
+          <TouchableOpacity>
+            <Text bold fontSize="lg" style={styles.text}>ĐỒ ĂN PHỔ BIẾN</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+            <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.content}>
-          <View style={styles.contentItem}>
-            <Text style={styles.contentItemText}>
-              Địa chỉ giao hàng
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(true);
-              }}
-            >
-              <Text style={styles.contentItemText}>
-                {address ? `${address}` : 'Chưa có vị trí'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.contentItem}>
-            <Text style={styles.contentItemText}>
-              Số điện thoại
-            </Text>
-            <Text style={styles.contentItemText}>
-              0987654321
-            </Text>
-          </View>
-          <View style={styles.contentItem}>
-            <Text style={styles.contentItemText}>
-              Email
-            </Text>
-            <Text style={styles.contentItemText}>
 
-            </Text>
-          </View>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.popularList}
+          renderItem={renderPopularItem}
+          keyExtractor={keyExtractor}
+          data={popular}
+        />
+
+        <View style={styles.popularTitle}>
+          <TouchableOpacity>
+            <Text bold fontSize="lg" style={styles.text}>QUÁN GẦN BẠN</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+            <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={styles.popularList}
+          renderItem={renderPopularItem}
+          keyExtractor={keyExtractor}
+          data={popular}
+        />
+      </ScrollView >
     )
   }
 
   const navigation = useNavigation();
   return (
     <View style={styles.mainContainer}>
+      <Address address={address || ""} />
       {!isGPS ? renderOpenGPS() : renderContent()}
     </View>
   );
@@ -149,13 +196,31 @@ export default function Home(props) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#D7D9DB',
     flex: 1,
-    paddingLeft: wp("5%"),
-    paddingRight: wp("5%"),
     display: 'flex',
     justifyContent: 'space-between',
-    paddingBottom: hp("5%")
   },
-
+  popularTitle: {
+    paddingHorizontal: wp("5%"),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: hp("1%"),
+  },
+  popularList: {
+    height: hp("31%"),
+    marginTop: 10,
+    marginBottom: 10
+  },
+  text: {
+    color: '#444251',
+  },
+  categoryList: {
+    height: 80,
+    paddingTop: hp("2%"),
+  },
+  textAll: {
+    color: '#36AFDC'
+  }
 });

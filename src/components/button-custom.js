@@ -19,7 +19,7 @@ export default ButtonCustom;
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: '#000000',
+    backgroundColor: '#F24F04',
     height: hp('8%'),
     borderRadius: 6,
     justifyContent: 'center',

@@ -104,7 +104,10 @@ export default function Login(props) {
         <View style={styles.saveMeContainer}>
           <View style={styles.saveMe}>
             <Switch
-              colorScheme="dark"
+              offTrackColor="#FCC342"
+              onTrackColor="#FCC342"
+              onThumbColor="#FCC342"
+              offThumbColor="#FCC342"
               size="md"
               onToggle={saveInfo}
               isChecked={check}
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
 
   },
   textLink: {
-    color: '#36AFDC',
+    color: '#F24F04',
     marginLeft: wp('2%'),
   },
   textColor: {

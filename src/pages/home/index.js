@@ -4,7 +4,7 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList} from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-import { useMutation } from '@apollo/client';
+import { useMutation , useQuery} from '@apollo/client';
 
 import { InputField, ButtonCustom, Toast, Loading , Search} from '../../components';
 import { SCREEN } from "../../constants"
@@ -12,10 +12,11 @@ import { GPSUtils } from "../../utils";
 import { gps, locationGPS } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION } from "../../graphql";
+import { MUTATION , QUERY} from "../../graphql";
 import Address from "./address";
 import Popular from "./popular";
 import Category from "./Category";
+import Vendor from "./Vendor";
 const popular = [
   {
     id: 1,
@@ -121,7 +122,19 @@ export default function Home(props) {
     onCompleted: (data) => {
       setAddress(data.updateGPSAddressBuyer);
     },
-  })
+  });
+
+  const { data: vendors } = useQuery(QUERY.VENDORS, {
+    variables: {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      distance: 20 //km
+    },
+    fetchPolicy: 'first-cache',
+    onCompleted: (data) => {
+      console.log(data.vendors);
+    }
+  });
 
   const renderPopularItem = (item) => {
     return (<Popular item={item} />);
@@ -132,7 +145,10 @@ export default function Home(props) {
   const renderCategoryItem = (item) => (
     <Category item={item} />
   );
-  
+
+  const renderVendorItem = (item) => (
+    <Vendor item={item} />
+  );
   
   const renderContent = () => {
     return (
@@ -177,9 +193,9 @@ export default function Home(props) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={styles.popularList}
-          renderItem={renderPopularItem}
+          renderItem={renderVendorItem}
           keyExtractor={keyExtractor}
-          data={popular}
+          data={vendors?.vendors?.items}
         />
       </ScrollView >
     )

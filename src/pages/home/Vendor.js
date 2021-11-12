@@ -9,7 +9,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const Popular = (props) => {
+const Vendor = (props) => {
   const { item, index } = props.item;
 
   const marginLeft = index === 0 ? wp('5%') : 0;
@@ -19,7 +19,7 @@ const Popular = (props) => {
         source={{ uri: item?.image }}
         style={styles.image}/>
       <Text bold style={styles.name}>{item?.name}</Text>
-      <Text style={styles.price}>$ {moneyUtils.convertVNDToString(item?.price || 0)} vnd</Text>
+      <Text style={styles.price}>{parseFloat(item.distance / 1000)} </Text>
       <View style={styles.rateContainer}>
         <FontAwesome5 name="star" size={hp('2%')} color="#ffc107" />
         <Text style={styles.rate}>{item?.rating}</Text>
@@ -28,7 +28,7 @@ const Popular = (props) => {
   );
 };
 
-export default Popular;
+export default Vendor;
 
 const styles = StyleSheet.create({
   container: {

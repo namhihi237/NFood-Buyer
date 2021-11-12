@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
   },
   textLink: {
-    color: '#36AFDC',
+    color: '#F24F04',
     marginLeft: wp('2%'),
   }
 

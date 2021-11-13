@@ -3,8 +3,10 @@ import { offsetLimitPagination } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import { storageUtils } from '../utils';
 
+const uri = "https://nfood-api.southeastasia.cloudapp.azure.com/api/v1/graphql";
+// const uri = 'https://nfoodfast.herokuapp.com/api/v1/graphql';
 const httpLink = createHttpLink({
-  uri: 'https://nfoodfast.herokuapp.com/api/v1/graphql',
+  uri
 });
 
 const authLink = setContext(async (_, { headers }) => {

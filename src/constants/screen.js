@@ -5,5 +5,6 @@ export default {
   PROFILE: 'profile',
   NOTIFICATION: 'notification',
   TAB: 'tab',
-  REGISTER_BUYER: 'registerBuyer'
+  REGISTER_BUYER: 'registerBuyer',
+  VENDOR: 'vendor',
 }

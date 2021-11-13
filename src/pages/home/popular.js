@@ -17,11 +17,11 @@ const Popular = (props) => {
     <TouchableOpacity style={{ ...styles.container, marginLeft }} onPress={props.onPress}>
       <Image
         source={{ uri: item?.image }}
-        style={styles.image}/>
-      <Text bold style={styles.name}>{item?.name}</Text>
+        style={styles.image} />
+      <Text bold style={styles.name} isTruncated={true} noOfLines={1}>{item?.name}</Text>
       <Text style={styles.price}>$ {moneyUtils.convertVNDToString(item?.price || 0)} vnd</Text>
       <View style={styles.rateContainer}>
-        <FontAwesome5 name="star" size={hp('2%')} color="#ffc107" />
+        <FontAwesome5 name="star" size={hp('1.9%')} color="#ffc107" />
         <Text style={styles.rate}>{item?.rating}</Text>
       </View>
     </TouchableOpacity>
@@ -33,15 +33,15 @@ export default Popular;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    width: wp('32%'),
-    height: hp("31%"),
+    width: wp('33%'),
+    height: hp("29%"),
     marginRight: 10,
     borderRadius: 12,
 
   },
   image: {
-    width: wp('32%'),
-    height: 130,
+    width: wp('33%'),
+    height: hp("15%"),
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },

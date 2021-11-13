@@ -131,16 +131,13 @@ export default function Home(props) {
       distance: 20 //km
     },
     fetchPolicy: 'first-cache',
-    onCompleted: (data) => {
-      console.log(data.vendors);
-    }
   });
 
   const renderPopularItem = (item) => {
     return (<Popular item={item} />);
   }
   
-  const keyExtractor = item => item?.id;
+  const keyExtractor = item => item?._id;
 
   const renderCategoryItem = (item) => (
     <Category item={item} />

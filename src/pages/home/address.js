@@ -20,7 +20,7 @@ export default Address;
 
 const styles = StyleSheet.create({
   address: {
-    height: hp('6%'),
+    height: hp('4%'),
     width: wp('90%'),
     backgroundColor: '#A4A4A4',
     marginTop: hp('1%'),

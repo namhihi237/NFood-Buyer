@@ -4,6 +4,7 @@ import Home from "./home";
 import Notification from "./notification";
 import Profile from "./profile";
 import RegisterBuyer from "./register-buyer";
+import Vendor from "./vendor";
 
 export {
   Register,
@@ -11,5 +12,6 @@ export {
   Home,
   Notification,
   Profile,
-  RegisterBuyer
+  RegisterBuyer,
+  Vendor
 };

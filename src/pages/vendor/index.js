@@ -1,4 +1,4 @@
-import { Button, Box, View, Modal } from "native-base";
+import { Heading, SectionList, View, Modal, Center } from "native-base";
 
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
@@ -14,14 +14,22 @@ import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import Info from "./info";
+import Menu from "./menu";
 
 export default function Vendor(props) {
   const route = useRoute();
   const navigation = useNavigation();
   const vendor = route.params.vendor;
 
+  const { data } = useQuery(QUERY.VENDOR, {
+    variables: {
+      vendorId: vendor._id
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <Image source={{ uri: vendor?.image }} style={{ height: hp('27%'), width: wp('100%') }} />
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <FontAwesome5 name="chevron-left" size={24} color="#000" />
@@ -32,7 +40,8 @@ export default function Vendor(props) {
         <Text style={styles.text}>Đặt hàng theo nhóm</Text>
         <FontAwesome5 name="chevron-right" size={18} color="#000" />
       </TouchableOpacity>
-    </View>
+      {data ? <Menu menu={data.vendor?.menu} /> : <Loading />}
+    </ScrollView>
   );
 }
 
@@ -63,6 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Avenir Book",
     color: '#000',
-  }
+  },
+
 
 });

@@ -9,8 +9,32 @@ export default {
         image
         distance
         address
+        numberOfReviews
       }  
       total
     }
-  }`
+  }`,
+  VENDOR: gql`query Vendor($vendorId: ID!) {
+    vendor(id: $vendorId) {
+      _id
+      name
+      phoneNumber
+      rating
+      image
+      distance
+      address
+      menu {
+        _id
+        name
+        items {
+          _id
+          name
+          isActive
+          price
+          image
+          description
+        }
+      }
+    }
+  }`,
 };

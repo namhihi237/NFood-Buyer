@@ -29,7 +29,7 @@ export default function Info(props) {
         <FontAwesome5 name="star" size={15} color="#ffc107" style={{ marginRight: 10 }} />
         <Text style={styles.text} >{vendor?.rating}</Text>
         <TouchableOpacity>
-          <Text style={styles.numberOfReview} >({vendor?.numnerOfReviews || 0} đánh giá)</Text>
+          <Text style={styles.numberOfReview} >({vendor?.numberOfReviews || 0} đánh giá)</Text>
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>

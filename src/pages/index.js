@@ -5,6 +5,7 @@ import Notification from "./notification";
 import Profile from "./profile";
 import RegisterBuyer from "./register-buyer";
 import Vendor from "./vendor";
+import Cart from "./cart";
 
 export {
   Register,
@@ -13,5 +14,6 @@ export {
   Notification,
   Profile,
   RegisterBuyer,
-  Vendor
+  Vendor,
+  Cart
 };

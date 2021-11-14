@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#1C1D26',
-    height: hp('8%'),
+    height: hp('6%'),
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     width: wp('100%'),
   },
   icon: {
-    fontSize: 25,
+    fontSize: 22,
     color: '#E5512F',
   },
   button: {
@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 30,
     justifyContent: 'center',
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
   },
   noFocus: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
   },
 });
 export default TabBar;

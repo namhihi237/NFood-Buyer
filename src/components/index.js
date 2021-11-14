@@ -5,5 +5,6 @@ import InputField from "./input-field";
 import ButtonCustom from "./button-custom";
 import HeaderBack from "./header-back";
 import Search from "./search";
+import Cart from "./cart";
 
-export { Toast, Loading, TabBar, InputField, ButtonCustom, HeaderBack, Search };
+export { Toast, Loading, TabBar, InputField, ButtonCustom, HeaderBack, Search, Cart };

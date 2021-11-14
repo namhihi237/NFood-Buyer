@@ -1,18 +1,18 @@
 import { Text, Button, Box, View, Modal } from "native-base";
 
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-import { useMutation , useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
-import { InputField, ButtonCustom, Toast, Loading , Search} from '../../components';
+import { InputField, ButtonCustom, Toast, Loading, Search, Cart } from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
 import { gps, locationGPS } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION , QUERY} from "../../graphql";
+import { MUTATION, QUERY } from "../../graphql";
 import Address from "./address";
 import Popular from "./popular";
 import Category from "./Category";
@@ -136,7 +136,7 @@ export default function Home(props) {
   const renderPopularItem = (item) => {
     return (<Popular item={item} />);
   }
-  
+
   const keyExtractor = item => item?._id;
 
   const renderCategoryItem = (item) => (
@@ -146,55 +146,61 @@ export default function Home(props) {
   const renderVendorItem = (item) => (
     <Vendor item={item} />
   );
-  
+
   const renderContent = () => {
     return (
-      <ScrollView  style={styles.container}>
-        <FlatList
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={styles.categoryList}
-          renderItem={renderCategoryItem}
-          keyExtractor={keyExtractor}
-          data={data}
-        />
-        
-        <View style={styles.popularTitle}>
-          <TouchableOpacity>
-            <Text bold fontSize="lg" style={styles.text}>ĐỒ ĂN PHỔ BIẾN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
-            <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <ScrollView style={styles.container}>
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryList}
+            renderItem={renderCategoryItem}
+            keyExtractor={keyExtractor}
+            data={data}
+          />
 
-        <FlatList
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={styles.popularList}
-          renderItem={renderPopularItem}
-          keyExtractor={keyExtractor}
-          data={popular}
-        />
+          <View style={styles.popularTitle}>
+            <TouchableOpacity>
+              <Text bold fontSize="lg" style={styles.text}>ĐỒ ĂN PHỔ BIẾN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+              <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.popularTitle}>
-          <TouchableOpacity>
-            <Text bold fontSize="lg" style={styles.text}>QUÁN GẦN BẠN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
-            <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
-          </TouchableOpacity>
-        </View>
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={styles.popularList}
+            renderItem={renderPopularItem}
+            keyExtractor={keyExtractor}
+            data={popular}
+          />
 
-        <FlatList
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={styles.popularList}
-          renderItem={renderVendorItem}
-          keyExtractor={keyExtractor}
-          data={vendors?.vendors?.items}
-        />
-      </ScrollView >
+          <View style={styles.popularTitle}>
+            <TouchableOpacity>
+              <Text bold fontSize="lg" style={styles.text}>QUÁN GẦN BẠN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+              <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={styles.popularList}
+            renderItem={renderVendorItem}
+            keyExtractor={keyExtractor}
+            data={vendors?.vendors?.items}
+          />
+
+
+        </ScrollView >
+        <Cart />
+      </View>
+
     )
   }
 
@@ -208,6 +214,8 @@ export default function Home(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+  },
   mainContainer: {
     // backgroundColor: '#D7D9DB',
     flex: 1,

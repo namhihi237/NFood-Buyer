@@ -7,4 +7,5 @@ export default {
   TAB: 'tab',
   REGISTER_BUYER: 'registerBuyer',
   VENDOR: 'vendor',
+  CART: 'cart',
 }

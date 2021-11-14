@@ -12,7 +12,7 @@ const Cart = (props) => {
     <TouchableOpacity style={styles.cartContainer} onPress={() => navigation.navigate(SCREEN.CART)}>
       <FontAwesome5 name="shopping-cart" size={wp('6%')} color="#f24f04" />
       <Badge
-        value={`${6}`}
+        value={`${props.number || 0}`}
         status="error"
         containerStyle={{ position: 'absolute', bottom: 26, right: 0, zIndex: 1 }}
       />

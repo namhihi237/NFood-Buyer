@@ -12,3 +12,8 @@ export const locationGPS = atom({
     longitude: null,
   },
 });
+
+export const listCarts = atom({
+  key: 'listCarts',
+  default: [],
+});

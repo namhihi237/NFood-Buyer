@@ -13,6 +13,19 @@ export default {
       }  
       total
     }
+
+    carts {
+      _id
+      vendorId
+      quantity
+      item {
+        _id
+        name
+        price
+        isActive
+      }
+    }
+
   }`,
   VENDOR: gql`query Vendor($vendorId: ID!) {
     vendor(id: $vendorId) {

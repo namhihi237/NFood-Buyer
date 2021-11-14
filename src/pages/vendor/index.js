@@ -40,7 +40,7 @@ export default function Vendor(props) {
         <Text style={styles.text}>Đặt hàng theo nhóm</Text>
         <FontAwesome5 name="chevron-right" size={18} color="#000" />
       </TouchableOpacity>
-      {data ? <Menu menu={data.vendor?.menu} /> : <Loading />}
+      {data ? <Menu menu={data.vendor?.menu} vendorId={vendor._id} /> : <Loading />}
     </ScrollView>
   );
 }

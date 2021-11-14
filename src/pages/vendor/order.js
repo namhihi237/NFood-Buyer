@@ -1,18 +1,10 @@
 import { Button, Box, View, Modal } from "native-base";
-
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/client';
-
-import { SCREEN } from "../../constants"
 import { moneyUtils } from "../../utils";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION, QUERY } from "../../graphql";
-
 export default function Order(props) {
-  const navigation = useNavigation();
 
   const { quantity, price } = props;
 
@@ -27,7 +19,7 @@ export default function Order(props) {
           <FontAwesome5 name="plus" size={18} color="#000" />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.buttonOrder} >
+      <TouchableOpacity style={styles.buttonOrder} onPress={props.addToCart}>
         <Text style={styles.buttonOrderText}>+ {moneyUtils.convertVNDToString(quantity * price)} đ</Text>
       </TouchableOpacity>
     </View>

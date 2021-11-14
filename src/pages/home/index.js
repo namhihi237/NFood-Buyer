@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { InputField, ButtonCustom, Toast, Loading, Search, Cart } from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
-import { gps, locationGPS } from "../../recoil/list-state";
+import { gps, locationGPS, listCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
@@ -41,7 +41,7 @@ const popular = [
   }
 ];
 
-const data = [{ id: 1, name: "Food", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
+const dataL = [{ id: 1, name: "Food", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
 { id: 2, name: "Juice", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
 { id: 3, name: "Dessert", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190576/DoAnTN/Group_1173_megwgj.png" }];
 export default function Home(props) {
@@ -49,8 +49,8 @@ export default function Home(props) {
   const [isGPS, setIsGPS] = useRecoilState(gps);
   const [location, setLocation] = useRecoilState(locationGPS);
   const [address, setAddress] = useState('');
-  const [modalVisible, setModalVisible] = React.useState(!isGPS)
-
+  const [modalVisible, setModalVisible] = React.useState(!isGPS);
+  const [cart, setCart] = useRecoilState(listCarts);
   const getLocation = async () => {
 
     try {
@@ -124,13 +124,16 @@ export default function Home(props) {
     },
   });
 
-  const { data: vendors } = useQuery(QUERY.VENDORS, {
+  const { data } = useQuery(QUERY.VENDORS, {
     variables: {
       latitude: location.latitude,
       longitude: location.longitude,
       distance: 20 //km
     },
     fetchPolicy: 'first-cache',
+    onCompleted: (data) => {
+      setCart(data.carts);
+    }
   });
 
   const renderPopularItem = (item) => {
@@ -157,7 +160,7 @@ export default function Home(props) {
             style={styles.categoryList}
             renderItem={renderCategoryItem}
             keyExtractor={keyExtractor}
-            data={data}
+            data={dataL}
           />
 
           <View style={styles.popularTitle}>
@@ -193,12 +196,12 @@ export default function Home(props) {
             style={styles.popularList}
             renderItem={renderVendorItem}
             keyExtractor={keyExtractor}
-            data={vendors?.vendors?.items}
+            data={data?.vendors?.items}
           />
 
 
         </ScrollView >
-        <Cart />
+        <Cart number={data?.carts.length} />
       </View>
 
     )

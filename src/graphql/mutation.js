@@ -28,6 +28,20 @@ export default {
 
   SET_LOCATION_BUYER: gql`mutation updateGPSAddressBuyer($latitude: Float!, $longitude: Float!) {
     updateGPSAddressBuyer(latitude: $latitude, longitude: $longitude) 
-  }`
+  }`,
+
+  ADD_TO_CART: gql`mutation AddToCart($itemId: ID!, $quantity: Int!, $vendorId: ID!) {
+    addToCart(itemId: $itemId, quantity: $quantity, vendorId: $vendorId) {
+      _id
+      item {
+        name
+        price
+      }
+      quantity
+      createdAt
+      vendorId
+    }
+  }
+`
 
 }

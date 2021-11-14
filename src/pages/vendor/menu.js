@@ -11,10 +11,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import { moneyUtils } from "../../utils"
 import Order from "./order";
+import { Toast } from "../../components";
 
 export default function Menu(props) {
   const navigation = useNavigation();
-  const { menu } = props;
+  const { menu, vendorId } = props;
   const { isOpen, onOpen, onClose } = useDisclose()
   const [itemMenu, setItemMenu] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -58,6 +59,27 @@ export default function Menu(props) {
     }
   }
 
+  const [addToCart] = useMutation(MUTATION.ADD_TO_CART, {
+    variables: {
+      vendorId: vendorId,
+      itemId: itemMenu?._id,
+      quantity
+    },
+    onCompleted: (data) => {
+      Toast("Đã thêm vào giỏ hàng", 'success', 'top-right')
+      setItemMenu(null);
+      setQuantity(1);
+      onClose();
+    },
+    onError: (error) => {
+      Toast(error.message, "danger", 'top-right');
+      setItemMenu(null);
+      setQuantity(1);
+      onClose();
+    }
+
+  });
+
   return (
     <View style={styles.menuContainer}>
       {renderListMenu()}
@@ -93,6 +115,7 @@ export default function Menu(props) {
           <Order quantity={quantity} price={itemMenu?.price}
             reduce={reduceQuantity}
             increase={() => setQuantity(quantity + 1)}
+            addToCart={addToCart}
           />
         </Actionsheet.Content>
       </Actionsheet>

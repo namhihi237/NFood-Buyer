@@ -201,7 +201,7 @@ export default function Home(props) {
 
 
         </ScrollView >
-        <Cart number={data?.carts.length} />
+        <Cart number={data?.getQuantityOfCart} />
       </View>
 
     )

@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
 import { InputField, ButtonCustom, Toast, Loading, Search, HeaderBack } from '../../components';
 import { SCREEN } from "../../constants"
-import { GPSUtils } from "../../utils";
+import { moneyUtils } from "../../utils";
 import { gps, locationGPS, listCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -18,20 +18,130 @@ export default function Cart(props) {
   const navigation = useNavigation();
   const [carts, setCart] = useRecoilState(listCarts);
 
-  console.log(carts);
+  const { data } = useQuery(QUERY.GET_CARTS, {
+    fetchPolicy: 'first-cache',
+    onCompleted: (data) => {
+      console.log(data.carts.carts);
+      setCart(data.carts.carts);
+    },
+  });
+
+  const rendererItems = () => {
+    return carts?.map((cart, index) => {
+      return (
+        <View key={index} style={{ paddingVertical: 10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+            <Text style={styles.text}>{cart.item.name}</Text>
+            <Text style={styles.text}>{moneyUtils.convertVNDToString(cart.item.price * cart.quantity)} đ</Text>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={styles.quantity}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={props.reduce}>
+                <FontAwesome5 name="minus" size={16} color="#000" />
+              </TouchableOpacity>
+              <Text style={styles.quantityText}>{cart.quantity.toString().padStart(2, '0')}</Text>
+              <TouchableOpacity style={styles.buttonContainer} onPress={props.increase}>
+                <FontAwesome5 name="plus" size={16} color="#000" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )
+    });
+  }
+
+  const renderTotal = () => {
+    return carts?.reduce((total, cart) => {
+      return total + (cart.item.price * cart.quantity);
+    }, 0);
+  }
 
   return (
-    <View>
-      <HeaderBack title="Giỏ hàng của bạn" />
-      <ScrollView style={styles.mainContainer}>
-
+    <View style={{ height: '100%' }}>
+      <HeaderBack title="Giỏ hàng của tôi" />
+      <ScrollView style={{ marginTop: 10, marginBottom: hp('15%') }}>
+        <TouchableOpacity style={styles.vendorContainer}>
+          <View>
+            <Text style={styles.vendorName}>{data?.carts.vendor.name}</Text>
+            <Text style={styles.address}>{data?.carts.vendor.address}</Text>
+          </View>
+          <FontAwesome5 name="chevron-right" size={20} color="#000" />
+        </TouchableOpacity>
+        <View style={{ paddingHorizontal: wp("4%"), backgroundColor: '#fff' }}>
+          {data ? rendererItems() : null}
+        </View>
       </ScrollView>
+      <View style={styles.orderContainer}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
+          <Text style={styles.text}>Tổng đơn (tạm tính)</Text>
+          <Text style={styles.text}>{moneyUtils.convertVNDToString(renderTotal())} đ</Text>
+        </View>
+        <TouchableOpacity style={styles.orderButton}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Đặt món</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
-
+  vendorContainer: {
+    paddingHorizontal: wp('4%'),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: hp('2%'),
+    backgroundColor: '#fff',
+    marginBottom: hp('1%'),
+  },
+  vendorName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: hp('1%'),
+  },
+  address: {
+    fontSize: 16,
+    color: '#959ba4',
+    fontFamily: 'HelveticaNeue'
+  },
+  text: {
+    fontSize: 16,
+    color: '#000',
+    fontFamily: 'HelveticaNeue'
+  },
+  quantity: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    minWidth: wp('22%'),
+  },
+  quantityText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  buttonContainer: {
+    padding: 3,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#b2b6bb',
+  },
+  orderContainer: {
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('2%'),
+    backgroundColor: '#fff',
+    marginTop: 2,
+    position: 'absolute',
+    bottom: 0,
+  },
+  orderButton: {
+    width: wp('92%'),
+    height: hp('6%'),
+    backgroundColor: '#f24f04',
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
 });

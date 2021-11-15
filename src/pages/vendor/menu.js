@@ -27,7 +27,7 @@ export default function Menu(props) {
           <Text style={styles.textTitleCategory}>{item.name?.toUpperCase()}</Text>
           <View style={styles.viewListMenu}>
             {item.items.map((itemMenu, index) => {
-              return (
+              return itemMenu.isActive ? (
                 <TouchableOpacity onPress={() => {
                   setItemMenu(itemMenu);
                   onOpen();
@@ -45,7 +45,7 @@ export default function Menu(props) {
                     <Text style={styles.textDescription} isTruncated={true} noOfLines={2}>{itemMenu.description}</Text>
                   </View>
                 </TouchableOpacity>
-              )
+              ) : null
             })}
           </View>
         </View>

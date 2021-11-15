@@ -16,7 +16,7 @@ class MoneyUtils {
     return money;
   }
 
-  convertVNDToString(money) {
+  convertVNDToString(money = 0) {
     return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   }

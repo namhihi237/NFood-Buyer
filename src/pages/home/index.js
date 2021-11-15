@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { InputField, ButtonCustom, Toast, Loading, Search, Cart } from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
-import { gps, locationGPS, listCarts } from "../../recoil/list-state";
+import { gps, locationGPS, listCarts, numberOfCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
@@ -50,7 +50,7 @@ export default function Home(props) {
   const [location, setLocation] = useRecoilState(locationGPS);
   const [address, setAddress] = useState('');
   const [modalVisible, setModalVisible] = React.useState(!isGPS);
-  const [cart, setCart] = useRecoilState(listCarts);
+  const [numberCart, setNumberCarts] = useRecoilState(numberOfCarts);
   const getLocation = async () => {
 
     try {
@@ -132,7 +132,7 @@ export default function Home(props) {
     },
     fetchPolicy: 'first-cache',
     onCompleted: (data) => {
-      setCart(data.carts);
+      setNumberCarts(data.getQuantityOfCart);
     }
   });
 
@@ -201,7 +201,7 @@ export default function Home(props) {
 
 
         </ScrollView >
-        <Cart number={data?.getQuantityOfCart} />
+        <Cart number={numberCart} />
       </View>
 
     )

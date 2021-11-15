@@ -17,3 +17,9 @@ export const listCarts = atom({
   key: 'listCarts',
   default: [],
 });
+
+
+export const numberOfCarts = atom({
+  key: 'numberOfCarts',
+  default: 0,
+})

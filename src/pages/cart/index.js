@@ -21,7 +21,6 @@ export default function Cart(props) {
   const { data } = useQuery(QUERY.GET_CARTS, {
     fetchPolicy: 'first-cache',
     onCompleted: (data) => {
-      console.log(data.carts.carts);
       setCart(data.carts.carts);
     },
   });

@@ -58,7 +58,6 @@ export default function Login(props) {
     onCompleted: async (data) => {
       Toast('Đăng nhập thành công', 'success', 'top-right');
       await storageUtils.setString('token', data.login.token);
-      console.log(data.login.user);
       if (data.login.user.isBuyer) {
         navigation.navigate(SCREEN.TAB);
       } else {

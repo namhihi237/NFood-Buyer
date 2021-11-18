@@ -59,13 +59,15 @@ export default function Cart(props) {
     <View style={{ height: '100%' }}>
       <HeaderBack title="Giỏ hàng của tôi" />
       <ScrollView style={{ marginTop: 10, marginBottom: hp('15%') }}>
-        <TouchableOpacity style={styles.vendorContainer}>
+        {data?.carts?.vendor ? (<TouchableOpacity style={styles.vendorContainer}>
           <View>
-            <Text style={styles.vendorName}>{data?.carts.vendor.name}</Text>
-            <Text style={styles.address}>{data?.carts.vendor.address}</Text>
+            <Text style={styles.vendorName}>{data?.carts?.vendor?.name}</Text>
+            <Text style={styles.address}>{data?.carts?.vendor?.address}</Text>
           </View>
           <FontAwesome5 name="chevron-right" size={20} color="#000" />
-        </TouchableOpacity>
+        </TouchableOpacity>) : (<View style={{ justifyContent: 'center', alignItems: 'center', height: 100 }}>
+          <Text style={styles.noCart}>Bạn chưa chọn món ăn nào</Text>
+        </View>)}
         <View style={{ paddingHorizontal: wp("4%"), backgroundColor: '#fff' }}>
           {data ? rendererItems() : null}
         </View>
@@ -141,6 +143,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  noCart: {
+    fontSize: 18,
+    fontFamily: 'Helvetica',
+    color: '#000'
   }
 
 });

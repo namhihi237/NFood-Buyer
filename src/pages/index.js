@@ -6,7 +6,7 @@ import Profile from "./profile";
 import RegisterBuyer from "./register-buyer";
 import Vendor from "./vendor";
 import Cart from "./cart";
-
+import AuthPhone from "./auth-phone";
 export {
   Register,
   Login,
@@ -15,5 +15,6 @@ export {
   Profile,
   RegisterBuyer,
   Vendor,
-  Cart
+  Cart,
+  AuthPhone
 };

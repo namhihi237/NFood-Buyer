@@ -8,4 +8,5 @@ export default {
   REGISTER_BUYER: 'registerBuyer',
   VENDOR: 'vendor',
   CART: 'cart',
+  AUTH_PHONE: 'authPhone',
 }

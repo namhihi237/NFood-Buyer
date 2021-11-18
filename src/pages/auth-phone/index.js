@@ -107,15 +107,15 @@ export default function AuthPhone(props) {
         ></Image>
         <View style={styles.form}>
           <Text fontSize="xl" bold >NFoodFast</Text>
-          <Text fontSize="md" style={styles.textDetail} >Fastest food delivery service</Text>
+          <Text fontSize="md" style={styles.textDetail} >Dịch vụ giao đồ ăn nhanh</Text>
         </View>
       </Box>
 
-      <Text fontSize="2xl" bold>Enter Your Code</Text>
-      <Text fontSize="lg" style={styles.textDetail} >Enter the code we just sent.</Text>
+      <Text fontSize="2xl" bold>Nhập mã của bạn</Text>
+      <Text fontSize="lg" style={styles.textDetail} >Nhập mã chúng tôi vừa gửi</Text>
       {
         timerLeft ? (<Text fontSize="lg" style={styles.textDetail} >
-          Code will expired after <Text fontSize="lg" style={{ color: "red" }}>{timerLeft}</Text> seconds
+          Mã sẽ hết hạn sau <Text fontSize="lg" style={{ color: "red" }}>{timerLeft}</Text> giây
         </Text>) : null
       }
       <InputAuth
@@ -128,9 +128,9 @@ export default function AuthPhone(props) {
         onChangeText4={onChangeNumber4}
       />
       <TouchableOpacity style={styles.resendCode} >
-        <Text fontSize="lg" style={{ color: '#F24F04' }} underline bold>Resend code</Text>
+        <Text fontSize="lg" style={{ color: '#F24F04' }} underline bold>Gửi lại code</Text>
       </TouchableOpacity>
-      <ButtonCustom title={"Next"} width={"92%"} />
+      <ButtonCustom title={"Tiếp Tục"} width={"92%"} height={"7%"} />
     </ScrollView>
   );
 }
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   },
   textDetail: {
     color: '#B2B6BB',
+    fontSize: 16
   },
 
   resendCode: {

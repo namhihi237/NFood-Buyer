@@ -5,7 +5,7 @@ import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image } from 'react
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
-import { numberOfCarts } from "../../recoil/list-state";
+import { numberOfCarts, listCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import { SCREEN } from "../../constants"
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,6 +21,7 @@ export default function Menu(props) {
   const [itemMenu, setItemMenu] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [number, setNumber] = useRecoilState(numberOfCarts);
+  const [carts, setCarts] = useRecoilState(listCarts);
 
   const renderListMenu = () => {
     return menu.map((item, index) => {
@@ -68,11 +69,14 @@ export default function Menu(props) {
       quantity
     },
     onCompleted: (data) => {
+      console.log(data);
       Toast("Đã thêm vào giỏ hàng", 'success', 'top-right')
       setItemMenu(null);
       setQuantity(1);
       setNumber(number + quantity);
+      setCarts(carts.concat(data.addToCart));
       onClose();
+
     },
     onError: (error) => {
       Toast(error.message, "danger", 'top-right');

@@ -10,4 +10,5 @@ export default {
   CART: 'cart',
   AUTH_PHONE: 'authPhone',
   CHECKOUT: 'checkout',
+  NEAR_VENDOR: 'nearVendor',
 }

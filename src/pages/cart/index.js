@@ -19,7 +19,7 @@ export default function Cart(props) {
   const [carts, setCart] = useRecoilState(listCarts);
 
   const { data } = useQuery(QUERY.GET_CARTS, {
-    fetchPolicy: 'first-cache',
+    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       setCart(data.carts.carts);
     },

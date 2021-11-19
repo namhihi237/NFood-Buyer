@@ -185,7 +185,7 @@ export default function Home(props) {
             <TouchableOpacity>
               <Text bold fontSize="lg" style={styles.text}>QUÁN GẦN BẠN</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.NEAR_VENDOR)}>
               <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>

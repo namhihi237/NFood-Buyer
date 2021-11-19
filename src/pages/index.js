@@ -8,6 +8,7 @@ import Vendor from "./vendor";
 import Cart from "./cart";
 import AuthPhone from "./auth-phone";
 import Checkout from "./checkout";
+import NearVendor from "./near-vendor";
 
 export {
   Register,
@@ -19,5 +20,6 @@ export {
   Vendor,
   Cart,
   AuthPhone,
-  Checkout
+  Checkout,
+  NearVendor
 };

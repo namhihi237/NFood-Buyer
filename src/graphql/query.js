@@ -55,5 +55,17 @@ export default {
         address
       }
     }
-  }`
+  }`,
+  GET_USER: gql`query GetUser($role: roleEnum!) {
+  getUser(role: $role) {
+    _id
+    phoneNumber
+    role
+    name
+    address
+    image
+    isBuyer
+    coordinates
+  }
+}`
 };

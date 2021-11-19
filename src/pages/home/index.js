@@ -128,11 +128,12 @@ export default function Home(props) {
     variables: {
       latitude: location.latitude,
       longitude: location.longitude,
-      distance: 20 //km
+      distance: 20, //km,
     },
     fetchPolicy: 'first-cache',
     onCompleted: (data) => {
       setNumberCarts(data.getQuantityOfCart);
+      console.log(data);
     }
   });
 
@@ -167,7 +168,7 @@ export default function Home(props) {
             <TouchableOpacity>
               <Text bold fontSize="lg" style={styles.text}>ĐỒ ĂN PHỔ BIẾN</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.POPULAR_LIST)}>
+            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.NEAR_VENDOR)}>
               <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>

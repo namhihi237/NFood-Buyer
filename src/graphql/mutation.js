@@ -42,6 +42,18 @@ export default {
       vendorId
     }
   }
-`
+`,
 
+  RESEND_CODE: gql`mutation GetCodePhoneNumber($phoneNumber: String!) {
+    getCodePhoneNumber(phoneNumber: $phoneNumber)
+  }`,
+
+  ACTIVE_PHONE_NUMBER: gql`mutation ActivePhoneNumber($phoneNumber: String!, $code: String!) {
+    activePhoneNumber(phoneNumber: $phoneNumber, code: $code) {
+      token
+      user {
+      name  
+      }
+    }
+  }`
 }

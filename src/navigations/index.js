@@ -22,7 +22,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={SCREEN.AUTH_PHONE}
+        initialRouteName={SCREEN.LOGIN}
         screenOptions={{
           headerShown: false,
           transitionSpec: { open: config, close: config },

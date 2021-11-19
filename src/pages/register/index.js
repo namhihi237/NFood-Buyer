@@ -25,7 +25,7 @@ export default function Register(props) {
     },
     onCompleted: (data) => {
       // navigation.navigate(SCREEN.LOGIN);
-      navigation.navigate(SCREEN.AUTH_PHONE);
+      navigation.navigate(SCREEN.AUTH_PHONE, { phoneNumber });
     },
     onError: (error) => {
       Toast(error.message, 'error');
@@ -47,7 +47,7 @@ export default function Register(props) {
       contentInsetAdjustmentBehavior="automatic"
       showsVerticalScrollIndicator={false}
     >
-      <Loading status={loading} message={'Đămg ký'} />
+      <Loading status={loading} message={'Đăng ký'} />
       < View style={styles.mainContainer} >
         <Text fontSize="3xl" bold style={styles.title}>Đăng Ký tài khoản</Text>
         <InputField

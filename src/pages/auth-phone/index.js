@@ -6,7 +6,7 @@ import { SCREEN } from "../../constants";
 import { ButtonCustom, InputAuth, Toast, Loading } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
-import { Mutation } from '../../graphql';
+import { MUTATION } from '../../graphql';
 import { storageUtils } from '../../utils';
 
 const delay = 120;
@@ -58,47 +58,46 @@ export default function AuthPhone(props) {
   const onChangeNumber4 = (number) => setNumber4(number);
 
   // resendCode mutation
-  // const [resendCode] = useMutation(Mutation.RESEND_CODE, {
-  //   variables: {
-  //     phoneNumber: route.params.phoneNumber
-  //   },
-  //   onCompleted: (data) => {
-  //     Toast("We sent new code, It valid for 2 minutes", "info");
-  //     setTimerLeft(delay);
-  //   },
-  //   onError: (error) => {
-  //     Toast(error.message, "warning");
-  //   }
-  // });
-
-  // const sendCode = () => {
-  //   if (number1 == '' || number2 == '' || number3 == '' || number4 == '') {
-  //     Toast("Vui lòng nhập đủ mã code", "warning");
-  //     return;
-  //   }
-  //   activePhoneNumber();
-  // }
+  const [resendCode] = useMutation(MUTATION.RESEND_CODE, {
+    variables: {
+      phoneNumber: route.params?.phoneNumber || ""
+    },
+    onCompleted: (data) => {
+      setTimerLeft(delay);
+    },
+    onError: (error) => {
+      Toast(error.message, "warning");
+    }
+  });
 
   // active account mutation
-  // const [activePhoneNumber, { loading }] = useMutation(Mutation.ACTIVE_PHONE_NUMBER, {
-  //   variables: {
-  //     phoneNumber: route.params.phoneNumber,
-  //     code: number1 + number2 + number3 + number4
-  //   },
-  //   onCompleted: async (data) => {
-  //     Toast("Tài khoản đã được kích hoạt", "success");
-  //     navigation.navigate(SCREEN.USER_TAB);
-  //     await storageUtils.setString("token", data.activePhoneNumber.token);
-  //     await storageUtils.setObject("user", data.activePhoneNumber.user);
-  //   },
-  //   onError: (error) => {
-  //     Toast(error.message, "warning");
-  //   }
-  // });
+  const [activePhoneNumber, { loading }] = useMutation(MUTATION.ACTIVE_PHONE_NUMBER, {
+    variables: {
+      phoneNumber: route.params?.phoneNumber || "",
+      code: number1 + number2 + number3 + number4
+    },
+    onCompleted: async (data) => {
+      Toast("Tài khoản đã được kích hoạt", "success");
+      navigation.navigate(SCREEN.REGISTER_BUYER);
+      await storageUtils.setString("token", data.activePhoneNumber.token);
+      await storageUtils.setObject("user", data.activePhoneNumber.user);
+    },
+    onError: (error) => {
+      Toast(error.message, "warning");
+    }
+  });
+
+  const sendCode = () => {
+    if (number1 == '' || number2 == '' || number3 == '' || number4 == '') {
+      Toast("Vui lòng nhập mã", "warning");
+      return;
+    }
+    activePhoneNumber();
+  }
 
   return (
     <ScrollView style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-      {/* <Loading status={loading} message={'Verify phone'} /> */}
+      <Loading status={loading} message={'Đang xác thực'} />
       <Box style={styles.box}>
         <Image
           source={require("../../../assets/images/logo.png")}
@@ -115,7 +114,7 @@ export default function AuthPhone(props) {
       <Text fontSize="lg" style={styles.textDetail} >Nhập mã chúng tôi vừa gửi</Text>
       {
         timerLeft ? (<Text fontSize="lg" style={styles.textDetail} >
-          Mã sẽ hết hạn sau <Text fontSize="lg" style={{ color: "red" }}>{timerLeft}</Text> giây
+          Mã sẽ hết hạn sau <Text fontSize="lg" style={{ color: "red", fontSize: 14 }}>{timerLeft}</Text> giây
         </Text>) : null
       }
       <InputAuth
@@ -127,10 +126,10 @@ export default function AuthPhone(props) {
         onChangeText3={onChangeNumber3}
         onChangeText4={onChangeNumber4}
       />
-      <TouchableOpacity style={styles.resendCode} >
+      <TouchableOpacity style={styles.resendCode} onPress={resendCode} >
         <Text fontSize="lg" style={{ color: '#F24F04' }} underline bold>Gửi lại code</Text>
       </TouchableOpacity>
-      <ButtonCustom title={"Tiếp Tục"} width={"92%"} height={"7%"} />
+      <ButtonCustom title={"Tiếp Tục"} width={"92%"} height={"7%"} onPress={sendCode} />
     </ScrollView>
   );
 }

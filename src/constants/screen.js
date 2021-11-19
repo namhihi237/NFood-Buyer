@@ -9,4 +9,5 @@ export default {
   VENDOR: 'vendor',
   CART: 'cart',
   AUTH_PHONE: 'authPhone',
+  CHECKOUT: 'checkout',
 }

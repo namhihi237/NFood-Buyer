@@ -55,6 +55,10 @@ export default function Cart(props) {
     }, 0);
   }
 
+  const checkout = () => {
+    navigation.navigate(SCREEN.CHECKOUT, {});
+  }
+
   return (
     <View style={{ height: '100%' }}>
       <HeaderBack title="Giỏ hàng của tôi" />
@@ -77,7 +81,7 @@ export default function Cart(props) {
           <Text style={styles.text}>Tổng đơn (tạm tính)</Text>
           <Text style={styles.text}>{moneyUtils.convertVNDToString(renderTotal())} đ</Text>
         </View>
-        <TouchableOpacity style={styles.orderButton}>
+        <TouchableOpacity style={styles.orderButton} onPress={checkout}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Đặt món</Text>
         </TouchableOpacity>
       </View>

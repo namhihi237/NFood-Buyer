@@ -51,6 +51,7 @@ export default {
         quantity
       }
       vendor {
+        _id
         name
         address
       }
@@ -67,5 +68,9 @@ export default {
     isBuyer
     coordinates
   }
-}`
+}`,
+
+  CALCULATE_SHIPPING: gql`query calculateShipping($vendorId: ID!) {
+    calculateShipping(vendorId: $vendorId)
+  }`
 };

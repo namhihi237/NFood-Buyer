@@ -5,11 +5,25 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom } from "../../components";
 import { moneyUtils } from "../../utils";
-
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { useQuery } from '@apollo/client';
+import { QUERY } from "../../graphql";
 
 export default function Checkout(props) {
 
-  const checkPromoCode = () => { }
+  const navigation = useNavigation();
+  const route = useRoute();
+  const [discount, setDiscount] = React.useState(0);
+
+  const checkPromoCode = () => {
+  }
+
+  const { data } = useQuery(QUERY.CALCULATE_SHIPPING, {
+    fetchPolicy: 'network-only',
+    variables: {
+      vendorId: route.params.vendorId
+    },
+  });
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
@@ -63,27 +77,27 @@ export default function Checkout(props) {
       <View style={styles.checkoutContainer}>
         <View style={styles.totalText}>
           <View style={styles.checkoutText}>
-            <Text fontSize="lg">Phí giao hàng</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(10000)} đ</Text>
+            <Text fontSize="lg">Tổng mặt hàng</Text>
+            <Text fontSize="lg">{moneyUtils.convertVNDToString(route.params.subtotal)}</Text>
           </View>
           <View style={styles.checkoutText}>
-            <Text fontSize="lg">Tổng mặt hàng</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(100000)} đ</Text>
+            <Text fontSize="lg">Phí giao hàng</Text>
+            <Text fontSize="lg">{moneyUtils.convertVNDToString(data?.calculateShipping)} đ</Text>
           </View>
           <View style={styles.checkoutText}>
             <Text fontSize="lg">Giảm giá</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(2000)} đ</Text>
+            <Text fontSize="lg">{moneyUtils.convertVNDToString(discount)} đ</Text>
           </View>
           <Text isTruncated={true}>............................................................................................................</Text>
           <View style={styles.checkoutText}>
             <Text bold fontSize="xl">Tổng cộng</Text>
-            <Text bold fontSize="xl">{moneyUtils.convertVNDToString(110000)} đ</Text>
+            <Text bold fontSize="xl">{moneyUtils.convertVNDToString(route.params.subtotal + data?.calculateShipping - discount)} đ</Text>
           </View>
         </View>
 
         <ButtonCustom title="Xác nhận thanh toán" style={{ marginTop: 23 }} width={"90%"} height={"7%"} />
       </View>
-    </View>
+    </View >
   );
 }
 
@@ -156,6 +170,5 @@ const styles = StyleSheet.create({
   infoContainer: {
     paddingHorizontal: wp('5%'),
   }
-
 
 });

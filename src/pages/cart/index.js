@@ -95,7 +95,7 @@ export default function Cart(props) {
   }
 
   const checkout = () => {
-    navigation.navigate(SCREEN.CHECKOUT, {});
+    navigation.navigate(SCREEN.CHECKOUT, { subtotal: renderTotal(), vendorId: data?.carts?.vendor._id });
   }
 
   return (

@@ -18,9 +18,6 @@ export default function Store(props) {
     variables: {
       role: "buyer"
     },
-    onCompleted: (data) => {
-      console.log(data);
-    }
   });
 
   const navigation = useNavigation();

@@ -55,5 +55,16 @@ export default {
       name  
       }
     }
+  }`,
+
+  DELETE_CART: gql`mutation RemoveFromCart($id: ID!) {
+    removeFromCart(id: $id)
+  }`,
+
+  UPDATE_CART_ITEM: gql`mutation UpdateQuantityInCart($id: ID!, $quantity: Int!) {
+    updateQuantityInCart(id: $id, quantity: $quantity) {
+    _id
+    quantity  
+    }
   }`
 }

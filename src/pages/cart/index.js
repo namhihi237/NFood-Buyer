@@ -8,15 +8,16 @@ import { useMutation, useQuery } from '@apollo/client';
 import { InputField, ButtonCustom, Toast, Loading, Search, HeaderBack } from '../../components';
 import { SCREEN } from "../../constants"
 import { moneyUtils } from "../../utils";
-import { gps, locationGPS, listCarts } from "../../recoil/list-state";
+import { gps, locationGPS, listCarts, numberOfCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY, client } from "../../graphql";
-
+import _ from 'lodash';
 export default function Cart(props) {
   const route = useRoute();
   const navigation = useNavigation();
   const [carts, setCart] = useRecoilState(listCarts);
+  const [number, setNumber] = useRecoilState(numberOfCarts);
 
   const { data } = useQuery(QUERY.GET_CARTS, {
     fetchPolicy: 'network-only',
@@ -24,6 +25,44 @@ export default function Cart(props) {
       setCart(data.carts.carts);
     },
   });
+
+  const reduceQuantity = (cartId) => {
+    const newCartsUpdate = carts.map(cart => {
+      if (cart._id === cartId) {
+        if (cart.quantity > 1) {
+          cart = JSON.parse(JSON.stringify(cart));
+          cart.quantity = cart.quantity - 1;
+          // update db
+          updateCartItem({ variables: { id: cart._id, quantity: cart.quantity } });
+        } else if (cart.quantity === 1) {
+          cart = JSON.parse(JSON.stringify(cart));
+          // delete cart
+          cart.quantity = 0;
+          deleteCartItem({ variables: { id: cartId } });
+        }
+      }
+      return cart;
+    }).filter(cart => cart.quantity > 0);
+    setCart(newCartsUpdate);
+    setNumber(number - 1);
+  }
+
+  const increaseQuantity = (cartId) => {
+    const newCartsUpdate = carts.map((cart) => {
+      if (cart._id === cartId) {
+        cart = JSON.parse(JSON.stringify(cart));
+        cart.quantity = cart.quantity + 1;
+        // update db
+        updateCartItem({ variables: { id: cart._id, quantity: cart.quantity } });
+      }
+      return cart;
+    });
+    setCart(newCartsUpdate);
+    setNumber(number + 1);
+  }
+
+  const [updateCartItem] = useMutation(MUTATION.UPDATE_CART_ITEM);
+  const [deleteCartItem] = useMutation(MUTATION.DELETE_CART);
 
   const rendererItems = () => {
     return carts?.map((cart, index) => {
@@ -35,11 +74,11 @@ export default function Cart(props) {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View style={styles.quantity}>
-              <TouchableOpacity style={styles.buttonContainer} onPress={props.reduce}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => reduceQuantity(cart._id)}>
                 <FontAwesome5 name="minus" size={16} color="#000" />
               </TouchableOpacity>
               <Text style={styles.quantityText}>{cart.quantity.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity style={styles.buttonContainer} onPress={props.increase}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => increaseQuantity(cart._id)}>
                 <FontAwesome5 name="plus" size={16} color="#000" />
               </TouchableOpacity>
             </View>

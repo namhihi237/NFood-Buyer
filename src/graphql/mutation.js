@@ -66,5 +66,19 @@ export default {
     _id
     quantity  
     }
+  }`,
+
+  CHECKOUT: gql`mutation Checkout($method: methodEnum!) {
+    checkout(method: $method) {
+      _id
+      total
+      subTotal
+      shipping
+      discount
+      name
+      phoneNumber
+      address
+      deliveryDate
+    }
   }`
 }

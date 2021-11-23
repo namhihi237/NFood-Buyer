@@ -6,7 +6,6 @@ import { Badge } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { SCREEN } from '../constants';
 const Cart = (props) => {
-
   const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.cartContainer} onPress={() => navigation.navigate(SCREEN.CART)}>

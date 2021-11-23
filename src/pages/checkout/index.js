@@ -3,18 +3,25 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
-import { HeaderBack, ButtonCustom } from "../../components";
-import { moneyUtils } from "../../utils";
+import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery } from '@apollo/client';
-import { QUERY } from "../../graphql";
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY, MUTATION } from "../../graphql";
+import { myAddress, listCarts, numberOfCarts } from "../../recoil/list-state";
+import { useRecoilState } from "recoil";
+import Summary from "./summary";
 
 export default function Checkout(props) {
 
   const navigation = useNavigation();
   const route = useRoute();
   const [discount, setDiscount] = React.useState(0);
-
+  const [address, setAddress] = useRecoilState(myAddress);
+  const [method, setMethod] = React.useState("");
+  const [isCOD, setIsCOD] = React.useState(false);
+  const [isCredit, setIsCredit] = React.useState(false);
+  const [carts, setCarts] = useRecoilState(listCarts);
+  const [number, setNumber] = useRecoilState(numberOfCarts);
   const checkPromoCode = () => {
   }
 
@@ -25,16 +32,63 @@ export default function Checkout(props) {
     },
   });
 
+  const { data: profile } = useQuery(QUERY.GET_USER, {
+    fetchPolicy: "cache-first",
+    variables: {
+      role: "buyer"
+    }
+  });
+
+  const [order, { loading }] = useMutation(MUTATION.CHECKOUT, {
+    onCompleted: (data) => {
+      Toast("Đặt hàng thành công", "success", "top-right");
+      setNumber(0);
+      setCarts([]);
+      navigation.navigate(SCREEN.TAB);
+    }
+  });
+
+  const onchangeCheckBox = (isSelected, cod) => {
+    if (isSelected) {
+      if (cod) {
+        setIsCOD(true);
+        setIsCredit(false);
+        setMethod("COD");
+      } else {
+        setIsCOD(false);
+        setIsCredit(true);
+        setMethod("ONLINE");
+      }
+    } else {
+      if (cod) {
+        setIsCOD(false);
+        setIsCredit(false);
+        setMethod("");
+      } else {
+        setIsCOD(false);
+        setIsCredit(false);
+        setMethod("");
+      }
+    }
+  }
+
+  const checkOut = () => {
+    if (method === "") {
+      Toast("Bạn chưa chọn phương thức thanh toán", "warning", "top-right");
+      return;
+    }
+    order({ variables: { method } });
+  }
+
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
       <View>
         <HeaderBack title={"Đặt hàng & thanh toán"} />
         <Text fontSize="xl" bold style={{ ...styles.textTitle, marginTop: 10, marginBottom: 10 }}>Đơn Hàng Sẽ được giao đến</Text>
         <View style={styles.infoContainer}>
-          <Text fontSize="md">Lê Trung Nam</Text>
-          <Text fontSize="md">120 Nguyễn Lương Bằng, hoa khanh bac, lien chieu, da nang</Text>
+          <Text fontSize="md">{profile?.getUser.name}</Text>
+          <Text fontSize="md">{address}</Text>
         </View>
-
         <View style={styles.paymentContainer}>
           <Text fontSize="xl" bold>Phương thức thanh toán</Text>
           <View style={styles.leftContainer}>
@@ -44,7 +98,9 @@ export default function Checkout(props) {
               </View>
               <Text fontSize="lg">Thẻ tín dụng</Text>
             </View>
-            <Checkbox colorScheme="orange" style={{ marginTop: 12 }} />
+            <Checkbox colorScheme="orange" style={{ marginTop: 12 }}
+              onChange={(isSelected) => onchangeCheckBox(isSelected)}
+              accessibilityLabel="This is visa card method checkbox" isChecked={isCredit} />
           </View>
           <View style={styles.leftContainer}>
             <View style={styles.left}>
@@ -53,7 +109,10 @@ export default function Checkout(props) {
               </View>
               <Text fontSize="lg">Thanh toán khi nhận hàng</Text>
             </View>
-            <Checkbox colorScheme="orange" style={{ marginTop: 12 }} />
+            <Checkbox colorScheme="orange" style={{ marginTop: 12 }}
+              accessibilityLabel="This is cod method checkbox"
+              onChange={(isSelected) => onchangeCheckBox(isSelected, true)}
+              isChecked={isCOD} />
           </View>
         </View>
 
@@ -74,29 +133,7 @@ export default function Checkout(props) {
           />
         </View>
       </View>
-      <View style={styles.checkoutContainer}>
-        <View style={styles.totalText}>
-          <View style={styles.checkoutText}>
-            <Text fontSize="lg">Tổng mặt hàng</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(route.params.subtotal)}</Text>
-          </View>
-          <View style={styles.checkoutText}>
-            <Text fontSize="lg">Phí giao hàng</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(data?.calculateShipping)} đ</Text>
-          </View>
-          <View style={styles.checkoutText}>
-            <Text fontSize="lg">Giảm giá</Text>
-            <Text fontSize="lg">{moneyUtils.convertVNDToString(discount)} đ</Text>
-          </View>
-          <Text isTruncated={true}>............................................................................................................</Text>
-          <View style={styles.checkoutText}>
-            <Text bold fontSize="xl">Tổng cộng</Text>
-            <Text bold fontSize="xl">{moneyUtils.convertVNDToString(route.params.subtotal + data?.calculateShipping - discount)} đ</Text>
-          </View>
-        </View>
-
-        <ButtonCustom title="Xác nhận thanh toán" style={{ marginTop: 23 }} width={"90%"} height={"7%"} />
-      </View>
+      <Summary data={data} discount={discount} subTotal={route.params.subTotal} onPress={checkOut} />
     </View >
   );
 }
@@ -142,27 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 10
   },
-  checkoutContainer: {
-    backgroundColor: '#fff',
-    height: hp('32%'),
-    borderTopRightRadius: 28,
-    borderTopLeftRadius: 28,
-    paddingHorizontal: wp('4%'),
-    paddingTop: 25,
-    opacity: 1,
-    shadowColor: '#000',
-    shadowOpacity: 0.6,
-    elevation: 5,
-    shadowOffset: { width: 1, height: 1 },
 
-  },
-  checkoutText: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: wp('90%'),
-    justifyContent: 'space-between',
-    marginTop: 5
-  },
   promoCodeContainer: {
     paddingHorizontal: wp('5%'),
     marginTop: 15

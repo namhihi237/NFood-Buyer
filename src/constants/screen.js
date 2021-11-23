@@ -11,4 +11,5 @@ export default {
   AUTH_PHONE: 'authPhone',
   CHECKOUT: 'checkout',
   NEAR_VENDOR: 'nearVendor',
+  LIST_ORDERS: 'listOrders',
 }

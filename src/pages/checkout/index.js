@@ -44,7 +44,7 @@ export default function Checkout(props) {
       Toast("Đặt hàng thành công", "success", "top-right");
       setNumber(0);
       setCarts([]);
-      navigation.navigate(SCREEN.TAB);
+      navigation.navigate(SCREEN.LIST_ORDERS);
     }
   });
 

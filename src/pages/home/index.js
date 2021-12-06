@@ -138,7 +138,6 @@ export default function Home(props) {
     fetchPolicy: 'first-cache',
     onCompleted: (data) => {
       setNumberCarts(data.getQuantityOfCart);
-      console.log(data);
     }
   });
 

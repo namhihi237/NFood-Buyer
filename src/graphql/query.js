@@ -58,19 +58,52 @@ export default {
     }
   }`,
   GET_USER: gql`query GetUser($role: roleEnum!) {
-  getUser(role: $role) {
-    _id
-    phoneNumber
-    role
-    name
-    address
-    image
-    isBuyer
-    coordinates
-  }
-}`,
+    getUser(role: $role) {
+      _id
+      phoneNumber
+      role
+      name
+      address
+      image
+      isBuyer
+      coordinates
+    }
+  }`,
 
   CALCULATE_SHIPPING: gql`query calculateShipping($vendorId: ID!) {
     calculateShipping(vendorId: $vendorId)
+  }`,
+
+  GET_ORDERS: gql`query GetOrderByBuyer {
+    getOrderByBuyer {
+      _id
+      invoiceNumber
+      subTotal
+      shipping
+      discount
+      total
+      orderItems {
+        _id
+        price
+        quantity
+        name
+        image
+        buyerName
+        note
+      }
+      address
+      phoneNumber
+      name
+      deliveredAt
+      acceptedShippingAt
+      estimatedDeliveryTime
+      paymentStatus
+      orderStatus
+      createdAt
+      vendor {
+        name
+        address
+      }
+    }
   }`
 };

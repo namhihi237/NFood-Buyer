@@ -78,7 +78,7 @@ export default {
       name
       phoneNumber
       address
-      deliveryDate
+      deliveredAt
     }
   }`
 }

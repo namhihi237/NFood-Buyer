@@ -12,4 +12,6 @@ export default {
   CHECKOUT: 'checkout',
   NEAR_VENDOR: 'nearVendor',
   LIST_ORDERS: 'listOrders',
+  TRACK_ORDER: 'trackOrder',
+  ORDER_DETAIL: 'orderDetail',
 }

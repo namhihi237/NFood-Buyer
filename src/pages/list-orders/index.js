@@ -38,7 +38,13 @@ export default function ListOrders(props) {
   ]);
 
   const renderItems = (order) => {
-    return (<Item order={order} />);
+    return (<Item order={order} onPress={() => {
+      if (order.orderStatus === 'Processing' || order.orderStatus === 'Shipping') {
+        navigation.navigate(SCREEN.TRACK_ORDER, { orderId: order._id });
+      } else {
+        navigation.navigate(SCREEN.ORDER_DETAIL, { orderId: order._id });
+      }
+    }} />);
   }
 
   const renderTabOrder = (key) => {
@@ -132,7 +138,7 @@ export default function ListOrders(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title="Đơn hàng của bạn" />
+      <HeaderBack title="Đơn hàng của bạn" onPress={() => navigation.navigate(SCREEN.HOME)} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={data ? renderScene : renderSceneNo}

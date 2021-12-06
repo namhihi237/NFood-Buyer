@@ -8,11 +8,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SCREEN } from '../constants';
 const HeaderBack = (props) => {
   const navigation = useNavigation();
-
+  const onPress = props.onPress ? props.onPress : () => navigation.goBack()
   return (
     <View style={styles.header}>
       <View style={styles.buttonTitle}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <TouchableOpacity onPress={props.onPress} style={styles.backButton}>
           <FontAwesome5 name="chevron-left" size={24} color="#444251" />
         </TouchableOpacity>
         <Text style={styles.text}>{props.title}</Text>

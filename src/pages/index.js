@@ -10,6 +10,9 @@ import AuthPhone from "./auth-phone";
 import Checkout from "./checkout";
 import NearVendor from "./near-vendor";
 import ListOrders from "./list-orders";
+import TrackingOrder from "./tracking-order";
+import OrderDetail from "./order-detail";
+
 export {
   Register,
   Login,
@@ -22,5 +25,7 @@ export {
   AuthPhone,
   Checkout,
   NearVendor,
-  ListOrders
+  ListOrders,
+  TrackingOrder,
+  OrderDetail
 };

@@ -6,10 +6,42 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
+import { SUBSCRIPTION, QUERY, MUTATION } from "../graphql";
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import { SCREEN } from '../constants';
 const TabBar = ({ state, descriptors, navigation }) => {
 
   const [count, setCount] = React.useState(0);
+
+  const { data } = useSubscription(SUBSCRIPTION.GET_NUMBER_OF_NOTIFICATIONS, {
+    variables: {
+      userType: 'buyer'
+    },
+    onSubscriptionData: ({ client, subscriptionData }) => {
+      setCount(subscriptionData.data.numberOfNotifications)
+    },
+  });
+
+  useQuery(QUERY.GET_NUMBER_OF_NOTIFICATIONS, {
+    fetchPolicy: 'network-only',
+    variables: {
+      userType: 'buyer'
+    },
+    onCompleted: (data) => {
+      setCount(data.getNumberOfNotifications)
+    }
+  });
+
+  const [resetNumberOfNotifications] = useMutation(MUTATION.RESET_NUMBER_OF_NOTIFICATIONS, {
+    variables: {
+      userType: 'buyer'
+    },
+    onCompleted: (data) => {
+      setCount(0)
+    }
+  });
+
+
 
   return (
     <View style={styles.container}>
@@ -26,8 +58,8 @@ const TabBar = ({ state, descriptors, navigation }) => {
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
           }
-          if (route.name === 'Notification') {
-
+          if (route.name === SCREEN.NOTIFICATION) {
+            resetNumberOfNotifications();
           }
         };
 

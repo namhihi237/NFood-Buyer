@@ -117,5 +117,10 @@ export default {
       }
       total
     }
-}`
+  }`,
+
+  GET_NUMBER_OF_NOTIFICATIONS: gql`query Query($userType: roleEnum!) {
+    getNumberOfNotifications(userType: $userType)
+  }`
+
 };

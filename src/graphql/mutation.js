@@ -80,5 +80,9 @@ export default {
       address
       deliveredAt
     }
+  }`,
+
+  RESET_NUMBER_OF_NOTIFICATIONS: gql`mutation ResetNumberOfNotifications($userType: roleEnum!) {
+    resetNumberOfNotifications(userType: $userType)
   }`
 }

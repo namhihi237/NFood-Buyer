@@ -7,19 +7,27 @@ import { Header, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY, MUTATION } from "../../graphql";
+import { timeUtils } from '../../utils';
 
 export default function Notification(props) {
 
   const navigation = useNavigation();
   const route = useRoute();
 
-  const { data } = useQuery(QUERY.GET_NOTIFICATIONS, {
+  const { data, refetch } = useQuery(QUERY.GET_NOTIFICATIONS, {
     variables: {
       userType: "buyer",
       skip: 0,
       limit: 100
     },
   });
+
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
+
 
   const renderItem = (item) => {
     return (
@@ -28,6 +36,9 @@ export default function Notification(props) {
           <Image source={require('../../../assets/images/no-order.png')} style={{ width: wp('20%'), height: wp('20%'), marginLeft: wp('4%') }} />
           <View style={{ marginRight: 10, paddingRight: wp('24%') }}>
             <Text style={{ fontSize: wp('3.4%'), marginTop: hp('1%') }}>{item.content}</Text>
+            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 5 }}>
+              <Text style={{ color: '#B2B6BB', fontSize: wp('3%') }} italic>{timeUtils.convertFullTime(new Date(item.createdAt - 0))}</Text>
+            </View>
           </View>
         </View>
         <View style={{ height: 2 }} />

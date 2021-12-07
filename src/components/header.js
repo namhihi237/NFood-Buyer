@@ -1,32 +1,33 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Button, Switch } from "native-base";
 // import { Text } from 'native-base';
 import { storageUtils } from '../utils'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from '../constants';
-const HeaderBack = (props) => {
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+const Header = (props) => {
   const navigation = useNavigation();
-  const onPress = props.onPress ? props.onPress : () => navigation.goBack()
+
+  const onPress = props.onPress ? props.onPress : () => navigation.navigate(SCREEN.HOME);
+
   return (
     <View style={styles.header}>
-      <View style={styles.buttonTitle}>
-        <TouchableOpacity onPress={onPress} style={styles.backButton}>
-          <FontAwesome5 name="chevron-left" size={24} color="#444251" />
-        </TouchableOpacity>
-        <Text style={styles.text}>{props.title}</Text>
-      </View>
-      <View style={styles.right}>
-        {props.button ? (<TouchableOpacity>
-          <Text fontSize="xl" bold>{props.button}</Text>
-        </TouchableOpacity>) : null}
-      </View>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <FontAwesome5 name={props.icon || "home"} size={wp('5%')} style={{ color: '#fff' }} />
+      </TouchableWithoutFeedback>
+      <Text style={styles.text}>{props.title}</Text>
+
+      <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.CART)}>
+        <FontAwesome5 name="shopping-cart" size={wp('5%')} color="white" style={styles.icon} />
+      </TouchableWithoutFeedback>
     </View>
   );
 };
 
-export default HeaderBack;
+export default Header;
 
 const styles = StyleSheet.create({
   header: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     paddingHorizontal: wp('5%'),
-    backgroundColor: '#fff',
+    backgroundColor: '#F24F04',
   },
   buttonTitle: {
     flexDirection: 'row',
@@ -46,21 +47,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    marginLeft: 18,
-    color: '#444251',
+    color: '#fff',
     fontFamily: 'SF-UI-Text-Semibold',
     fontWeight: "bold",
     fontSize: hp('2%'),
   },
-  backButton: {
-    height: hp('4%'),
-    width: hp('4%'),
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#B2B6BB'
-  },
+
   right: {
     flexDirection: 'row',
     display: 'flex',

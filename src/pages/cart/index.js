@@ -95,6 +95,10 @@ export default function Cart(props) {
   }
 
   const checkout = () => {
+    if (carts.length == 0) {
+      Toast('Bạn chưa có món ăn nào trong giỏ', 'warning', 'top-right');
+      return;
+    }
     navigation.navigate(SCREEN.CHECKOUT, { subTotal: renderTotal(), vendorId: data?.carts?.vendor._id });
   }
 

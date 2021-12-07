@@ -105,5 +105,17 @@ export default {
         address
       }
     }
-  }`
+  }`,
+
+  GET_NOTIFICATIONS: gql`query GetNotifications($userType: roleEnum!, $limit: Int, $skip: Int) {
+    getNotifications(userType: $userType, limit: $limit, skip: $skip) {
+      items {
+        _id
+        content
+        image
+        createdAt
+      }
+      total
+    }
+}`
 };

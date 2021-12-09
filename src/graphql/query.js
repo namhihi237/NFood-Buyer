@@ -121,6 +121,49 @@ export default {
 
   GET_NUMBER_OF_NOTIFICATIONS: gql`query Query($userType: roleEnum!) {
     getNumberOfNotifications(userType: $userType)
-  }`
+  }`,
 
+  GET_ORDER_BY_ID: gql`query getOrderByIdBuyer($id: ID!) {
+    getOrderByIdBuyer(id: $id) {
+      _id
+      invoiceNumber
+      subTotal
+      shipping
+      discount
+      total
+      orderItems {
+        price
+        buyerId
+        quantity
+        name
+        buyerName
+        image
+        note
+        _id
+      }
+      address
+      phoneNumber
+      name
+      deliveredAt
+      acceptedShippingAt
+      estimatedDeliveryTime
+      paymentStatus
+      orderStatus
+      createdAt
+      vendor {
+        _id
+        name
+        phoneNumber
+        image
+        address
+      }
+      shipper {
+        _id
+        phoneNumber
+        image
+        name
+        _id
+      }
+    }
+  }`
 };

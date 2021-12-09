@@ -1,5 +1,3 @@
-import { Heading, SectionList, View, Modal, Center } from "native-base";
-
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,9 +6,6 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { InputField, ButtonCustom, Toast, Loading, Search, HeaderBack } from '../../components';
 import { SCREEN } from "../../constants"
-import { GPSUtils } from "../../utils";
-import { gps, locationGPS } from "../../recoil/list-state";
-import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import Info from "./info";
@@ -25,16 +20,16 @@ export default function Vendor(props) {
     variables: {
       vendorId: vendor._id
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
   });
 
   return (
     <ScrollView style={styles.mainContainer}>
-      <Image source={{ uri: vendor?.image }} style={{ height: hp('27%'), width: wp('100%') }} />
+      <Image source={{ uri: data?.vendor?.image }} style={{ height: hp('27%'), width: wp('100%') }} />
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <FontAwesome5 name="chevron-left" size={24} color="#000" />
       </TouchableOpacity>
-      <Info vendor={vendor} />
+      <Info vendor={data?.vendor} />
       <TouchableOpacity style={styles.group}>
         <FontAwesome5 name="user-plus" size={18} color="#000" />
         <Text style={styles.text}>Đặt hàng theo nhóm</Text>

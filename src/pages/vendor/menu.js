@@ -69,7 +69,6 @@ export default function Menu(props) {
       quantity
     },
     onCompleted: (data) => {
-      console.log(data);
       Toast("Đã thêm vào giỏ hàng", 'success', 'top-right')
       setItemMenu(null);
       setQuantity(1);

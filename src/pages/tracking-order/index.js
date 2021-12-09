@@ -15,7 +15,7 @@ export default function TrackingOrder(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title="Theo giõi đơn hàng" />
+      <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber}`} />
 
     </View >
   );

@@ -32,6 +32,38 @@ class Order {
         return 'tertiary.600';
     }
   }
+
+  orderStatusIcon(status) {
+    switch (status) {
+      case 'Pending':
+        return {
+          icon: 'clock',
+          color: '#fb923c',
+        };
+      case 'Processing':
+        return {
+          icon: 'shopping-cart',
+          color: '#f472b6',
+        }
+      case 'Shipping':
+        return {
+          icon: 'truck',
+          color: '#fb7185',
+        }
+      case 'Delivered':
+        return {
+          icon: 'check-circle',
+          color: '#4ade80',
+        }
+      case 'Cancelled':
+        return {
+          icon: 'times-circle',
+          color: '#a3a3a3',
+        }
+      default:
+        return 'help';
+    }
+  }
 }
 
 export default new Order();

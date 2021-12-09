@@ -66,7 +66,7 @@ export default function Login(props) {
     },
     onError: (error) => {
       Toast(error.message, 'danger');
-      if (error.message.includes("active")) {
+      if (error?.message.includes("active")) {
         navigation.navigate(SCREEN.AUTH_PHONE, { phoneNumber });
       }
     }

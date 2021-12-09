@@ -45,6 +45,10 @@ export default function Checkout(props) {
       setNumber(0);
       setCarts([]);
       navigation.navigate(SCREEN.LIST_ORDERS);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: SCREEN.HOME }],
+      });
     }
   });
 

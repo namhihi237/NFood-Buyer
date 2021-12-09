@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Text, Center } from 'native-base';
 import { storageUtils } from '../utils'
@@ -17,11 +17,9 @@ const HeaderBack = (props) => {
         </TouchableOpacity>
         <Center><Text style={styles.text}>{props.title}</Text></Center>
       </View>
-      <View style={styles.right}>
-        {props.button ? (<TouchableOpacity>
-          <Text fontSize="xl" bold>{props.button}</Text>
-        </TouchableOpacity>) : null}
-      </View>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.CART)}>
+        <FontAwesome5 name="shopping-cart" size={wp('5%')} color="white" style={styles.icon} />
+      </TouchableWithoutFeedback>
     </View>
   );
 };

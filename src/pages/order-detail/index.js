@@ -81,6 +81,14 @@ export default function OrderDetail(props) {
     return { title, icon };
   }
 
+  const onPressButtonClick = () => {
+    if (data?.getOrderByIdBuyer?.orderStatus === 'Pending') {
+      // cancelOrder();
+    } else if (['Delivered', 'Canceled'].includes(data?.getOrderByIdBuyer?.orderStatus)) {
+      navigation.navigate(SCREEN.VENDOR, { vendor: data?.getOrderByIdBuyer?.vendor });
+    }
+  }
+
   return (
     <View style={styles.container} >
       <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber}`} />
@@ -141,7 +149,7 @@ export default function OrderDetail(props) {
           </View>
         </View>
       </ScrollView>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPressButtonClick}>
         <View style={styles.button}>
           <FontAwesome5 name={renderButtonTitle().icon} size={wp('4%')} color="#fff" />
           <Text fontSize="md" ml="2" color="#fff">{renderButtonTitle().title}</Text>

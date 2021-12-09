@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import { Text } from 'native-base';
+import { Text, Center } from 'native-base';
 import { storageUtils } from '../utils'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from '../constants';
@@ -13,9 +13,9 @@ const HeaderBack = (props) => {
     <View style={styles.header}>
       <View style={styles.buttonTitle}>
         <TouchableOpacity onPress={onPress} style={styles.backButton}>
-          <FontAwesome5 name="chevron-left" size={24} color="#444251" />
+          <FontAwesome5 name="chevron-left" size={24} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.text}>{props.title}</Text>
+        <Center><Text style={styles.text}>{props.title}</Text></Center>
       </View>
       <View style={styles.right}>
         {props.button ? (<TouchableOpacity>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     paddingHorizontal: wp('5%'),
-    backgroundColor: '#fff',
+    backgroundColor: '#F24F04',
   },
   buttonTitle: {
     flexDirection: 'row',
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    marginLeft: 18,
-    color: '#444251',
+    marginLeft: 16,
+    color: '#fff',
     fontFamily: 'SF-UI-Text-Semibold',
     fontWeight: "bold",
-    fontSize: hp('2%'),
+    fontSize: hp('1.8%'),
   },
   backButton: {
     height: hp('4%'),

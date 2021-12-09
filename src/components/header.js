@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'SF-UI-Text-Semibold',
     fontWeight: "bold",
-    fontSize: hp('2%'),
+    fontSize: hp('1.8%'),
   },
 
   right: {

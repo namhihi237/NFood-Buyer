@@ -20,6 +20,15 @@ export default function OrderDetail(props) {
     fetchPolicy: 'network-only',
   });
 
+  const [cancelOrderPending] = useMutation(MUTATION.CANCEL_ORDER, {
+    onCompleted: () => {
+      navigation.goBack();
+    },
+    onError: (error) => {
+      Toast(error.message, 'danger', 'top-right');
+    }
+  });
+
   const rendererItems = () => {
     return data?.getOrderByIdBuyer?.orderItems?.map((item, index) => {
       return (
@@ -83,7 +92,11 @@ export default function OrderDetail(props) {
 
   const onPressButtonClick = () => {
     if (data?.getOrderByIdBuyer?.orderStatus === 'Pending') {
-      // cancelOrder();
+      cancelOrderPending({
+        variables: {
+          id: route.params.orderId
+        }
+      });
     } else if (['Delivered', 'Canceled'].includes(data?.getOrderByIdBuyer?.orderStatus)) {
       navigation.navigate(SCREEN.VENDOR, { vendor: data?.getOrderByIdBuyer?.vendor });
     }

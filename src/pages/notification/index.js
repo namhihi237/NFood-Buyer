@@ -1,6 +1,6 @@
 import { Text, Pressable, View, Box, Center } from "native-base";
 import React from "react";
-import { StyleSheet, StatusBar, Image, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
 import { Header, ButtonCustom, Toast } from "../../components";
@@ -31,7 +31,7 @@ export default function Notification(props) {
 
   const renderItem = (item) => {
     return (
-      <View>
+      <TouchableOpacity >
         <View style={{ flexDirection: 'row', backgroundColor: '#fff', paddingTop: 10 }}>
           <Image source={require('../../../assets/images/no-order.png')} style={{ width: wp('20%'), height: wp('20%'), marginLeft: wp('4%') }} />
           <View style={{ marginRight: 10, paddingRight: wp('24%') }}>
@@ -42,7 +42,7 @@ export default function Notification(props) {
           </View>
         </View>
         <View style={{ height: 2 }} />
-      </View>
+      </TouchableOpacity>
     )
   }
 

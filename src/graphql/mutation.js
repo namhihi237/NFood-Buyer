@@ -84,5 +84,9 @@ export default {
 
   RESET_NUMBER_OF_NOTIFICATIONS: gql`mutation ResetNumberOfNotifications($userType: roleEnum!) {
     resetNumberOfNotifications(userType: $userType)
+  }`,
+
+  CANCEL_ORDER: gql`mutation CancelOrder($id: ID!) {
+    cancelOrder(id: $id)
   }`
 }

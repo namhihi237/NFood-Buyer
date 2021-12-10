@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Text } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -11,7 +11,7 @@ const Address = (props) => {
   return (
     <TouchableOpacity style={styles.address}>
       <FontAwesome5 name="map-marker-alt" size={wp('4.5%')} color="green" />
-      <Text style={styles.addressText} isTruncated={true} bold>{props.address}</Text>
+      <Text style={styles.addressText} isTruncated={true} bold>{props.address?.trim()}</Text>
     </TouchableOpacity>
   );
 };

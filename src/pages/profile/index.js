@@ -51,25 +51,25 @@ export default function Store(props) {
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.listOrderContainer}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate(SCREEN.LIST_ORDERS, { index: 0 }) }}>
             <View style={styles.orderListIcon}>
               <FontAwesome5 name="wallet" size={hp('2.6%')} color="#000" style={{ marginLeft: 10, marginBottom: 5 }} />
               <Text>Đang chờ</Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate(SCREEN.LIST_ORDERS, { index: 1 }) }} >
             <View style={styles.orderListIcon}>
               <FontAwesome5 name="shipping-fast" size={hp('2.6%')} color="#000" style={{ marginLeft: 10, marginBottom: 5 }} />
               <Text>Đang giao</Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate(SCREEN.LIST_ORDERS, { index: 2 }) }}>
             <View style={styles.orderListIcon}>
               <FontAwesome5 name="hand-holding-usd" size={hp('2.6%')} color="#000" style={{ marginLeft: 10, marginBottom: 5 }} />
               <Text>Đã nhận</Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate(SCREEN.LIST_ORDERS, { index: 3 }) }}>
             <View style={styles.orderListIcon}>
               <FontAwesome5 name="window-close" size={hp('2.6%')} color="#000" style={{ marginLeft: 10, marginBottom: 5 }} />
               <Text>Đã hủy</Text>

@@ -29,12 +29,12 @@ export default function ListOrders(props) {
     });
   }, []);
 
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(route?.params?.index || 0);
   const [routes] = React.useState([
     { key: 'pending', title: 'Đang chờ' },
     { key: 'shipping', title: 'Đang giao' },
     { key: 'delivered', title: 'Đã nhận' },
-    { key: 'canceled', title: 'Đã hủy' },
+    { key: 'cancelled', title: 'Đã hủy' },
   ]);
 
   const renderItems = (order) => {
@@ -60,8 +60,8 @@ export default function ListOrders(props) {
         case 'delivered':
           orders = data.getOrderByBuyer.filter(order => order.orderStatus === 'Delivered');
           break;
-        case 'canceled':
-          orders = data.getOrderByBuyer.filter(order => order.orderStatus === 'Canceled');
+        case 'cancelled':
+          orders = data.getOrderByBuyer.filter(order => order.orderStatus === 'Cancelled');
           break;
         default:
           break;
@@ -98,20 +98,20 @@ export default function ListOrders(props) {
   const renderPending = () => renderTabOrder('pending');
   const renderShipping = () => renderTabOrder('shipping');
   const renderDelivered = () => renderTabOrder('delivered');
-  const renderCanceled = () => renderTabOrder('canceled');
+  const renderCanceled = () => renderTabOrder('cancelled');
 
   const renderSceneNo = SceneMap({
     pending: FirstRoute,
     shipping: SecondRoute,
     delivered: ThirdRoute,
-    canceled: FourthRoute,
+    cancelled: FourthRoute,
   });
 
   const renderScene = SceneMap({
     pending: renderPending,
     shipping: renderShipping,
     delivered: renderDelivered,
-    canceled: renderCanceled
+    cancelled: renderCanceled
   });
 
   const renderTabBar = (props) => {
@@ -138,7 +138,7 @@ export default function ListOrders(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title="Đơn hàng của bạn" onPress={() => navigation.navigate(SCREEN.HOME)} />
+      <HeaderBack title="Đơn hàng của bạn" />
       <TabView
         navigationState={{ index, routes }}
         renderScene={data ? renderScene : renderSceneNo}

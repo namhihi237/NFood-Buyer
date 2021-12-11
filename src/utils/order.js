@@ -64,6 +64,15 @@ class Order {
         return 'help';
     }
   }
+
+  paymentMethod(method) {
+    switch (method) {
+      case 'COD':
+        return 'Thanh toán khi nhận hàng';
+      case 'CRE':
+        return 'Thanh toán bằng thẻ tín dụng';
+    }
+  }
 }
 
 export default new Order();

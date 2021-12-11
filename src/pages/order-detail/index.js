@@ -34,8 +34,8 @@ export default function OrderDetail(props) {
       return (
         <View key={index} style={{ paddingVertical: 10 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-            <Text style={styles.text}>{item.name} ({item.quantity.toString().padStart(2, '0')})</Text>
-            <Text style={styles.text}>{moneyUtils.convertVNDToString(item.price * item.quantity)} đ</Text>
+            <Text>{item.name} ({item.quantity.toString().padStart(2, '0')})</Text>
+            <Text>{moneyUtils.convertVNDToString(item.price * item.quantity)} đ</Text>
           </View>
         </View>
       )
@@ -59,7 +59,7 @@ export default function OrderDetail(props) {
       case 'Delivered':
         status = 'ĐÃ NHẬN HÀNG';
         break;
-      case 'Canceled':
+      case 'Cancelled':
         status = 'ĐÃ HỦY';
         break;
       default:
@@ -109,14 +109,14 @@ export default function OrderDetail(props) {
         <View alignItems="center" justifyContent="center" mt='1' bg="#fff" pt="2" pb="4">
           <FontAwesome5 name={orderUtils.orderStatusIcon(data?.getOrderByIdBuyer?.orderStatus).icon} size={wp('10%')}
             color={orderUtils.orderStatusIcon(data?.getOrderByIdBuyer?.orderStatus).color} />
-          <Text style={styles.text} mt="2" bold fontSize="xl">{renderStatus()}</Text>
+          <Text mt="2" bold fontSize="xl">{renderStatus()}</Text>
         </View>
         {
           data?.getOrderByIdBuyer?.shipper ? (<View style={styles.shipperContainer}>
             <View>
               <Text bold fontSize="md">{data?.getOrderByIdBuyer?.shipper?.name}</Text>
               <TouchableOpacity style={styles.reviewerContainer}>
-                <Text bold style={styles.text}>Đánh giá người giao hàng</Text>
+                <Text bold>Đánh giá người giao hàng</Text>
               </TouchableOpacity>
             </View>
             <Image style={styles.image} source={{ uri: data?.getOrderByIdBuyer?.shipper?.image }} />
@@ -149,22 +149,32 @@ export default function OrderDetail(props) {
           {rendererItems()}
           <Text isTruncated>................................................................................................................</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.text}>Phí giao hàng</Text>
-            <Text style={styles.text}>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.shipping)} đ</Text>
+            <Text>Phí giao hàng</Text>
+            <Text>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.shipping)} đ</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.text}>Giảm giá</Text>
-            <Text style={styles.text}>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.discount)} đ</Text>
+            <Text>Giảm giá</Text>
+            <Text>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.discount)} đ</Text>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text bold style={styles.text}>Tổng tiền</Text>
-            <Text bold style={styles.text}>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.total)} đ</Text>
+            <Text bold>Tổng tiền</Text>
+            <Text bold>{moneyUtils.convertVNDToString(data?.getOrderByIdBuyer?.total)} đ</Text>
+          </View>
+        </View>
+        <View style={styles.paymentContainer}>
+          <Text bold fontSize="md">PHƯƠNG THỨC THANH TOÁN</Text>
+          <View style={styles.payment}>
+            {
+              data?.getOrderByIdBuyer?.paymentMethod === 'CRE' ? (<FontAwesome5 name="credit-card" size={wp('4%')} color="#F24F04" />) : (
+                <FontAwesome5 name="money-bill-wave" size={wp('4%')} color="#16a34a" />)
+            }
+            <Text style={{ marginLeft: 10 }}>{orderUtils.paymentMethod(data?.getOrderByIdBuyer?.paymentMethod)}</Text>
           </View>
         </View>
       </ScrollView>
       <TouchableOpacity onPress={onPressButtonClick}>
         <View style={styles.button}>
-          <FontAwesome5 name={renderButtonTitle().icon} size={wp('4%')} color="#fff" />
+          <FontAwesome5 name={renderButtonTitle().icon} size={wp('3.9%')} color="#fff" />
           <Text fontSize="md" ml="2" color="#fff">{renderButtonTitle().title}</Text>
         </View>
       </TouchableOpacity>
@@ -219,5 +229,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 4,
     borderRadius: 7,
+  },
+  paymentContainer: {
+    paddingHorizontal: wp('5%'),
+    backgroundColor: '#fff',
+    marginTop: 10,
+  },
+  payment: {
+    flexDirection: 'row',
+    paddingBottom: 10,
+    paddingTop: 5,
   }
 });

@@ -148,6 +148,7 @@ export default {
       acceptedShippingAt
       estimatedDeliveryTime
       paymentStatus
+      paymentMethod
       orderStatus
       createdAt
       vendor {

@@ -39,11 +39,7 @@ export default function ListOrders(props) {
 
   const renderItems = (order) => {
     return (<Item order={order} onPress={() => {
-      if (order.orderStatus === 'Processing' || order.orderStatus === 'Shipping') {
-        navigation.navigate(SCREEN.TRACK_ORDER, { orderId: order._id, invoiceNumber: order.invoiceNumber });
-      } else {
-        navigation.navigate(SCREEN.ORDER_DETAIL, { orderId: order._id, invoiceNumber: order.invoiceNumber });
-      }
+      navigation.navigate(SCREEN.ORDER_DETAIL, { orderId: order._id, invoiceNumber: order.invoiceNumber });
     }} />);
   }
 

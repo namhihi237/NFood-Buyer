@@ -5,18 +5,34 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation } from '@apollo/client';
-import { QUERY, MUTATION } from "../../graphql";
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import { QUERY, MUTATION, SUBSCRIPTION } from "../../graphql";
 import { TabView, SceneMap } from 'react-native-tab-view';
-
+import MapView, { PROVIDER_GOOGLE, Marker, Circle } from 'react-native-maps';
 export default function TrackingOrder(props) {
   const navigation = useNavigation();
   const route = useRoute();
 
   return (
     <View style={styles.container} >
-      <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber}`} />
-
+      <HeaderBack />
+      <MapView
+        initialRegion={{
+          latitude: 16.076,
+          longitude: 108.14894,
+          latitudeDelta: 0.1022,
+          longitudeDelta: 0.0721,
+        }}
+        provider={PROVIDER_GOOGLE}
+        style={{ flex: 1 }}
+        showsTraffic={false}
+        showsBuildings={false}
+        showsUserLocation={true}
+        minZoomLevel={5}
+        showsPointsOfInterest={false}
+        showsCompass={false}
+      >
+      </MapView>
     </View >
   );
 }

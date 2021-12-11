@@ -5,8 +5,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation } from '@apollo/client';
-import { QUERY, MUTATION } from "../../graphql";
+import { useQuery, useMutation, useSubscription } from '@apollo/client';
+import { QUERY, MUTATION, SUBSCRIPTION } from "../../graphql";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { moneyUtils, orderUtils } from "../../utils";
 export default function OrderDetail(props) {
@@ -56,6 +56,12 @@ export default function OrderDetail(props) {
       case 'Pending':
         status = 'CHỜ XÁC NHẬN';
         break;
+      case 'Processing':
+        status = 'ĐANG LẤY HÀNG';
+        break;
+      case 'Shipping':
+        status = 'ĐANG GIAO HÀNG';
+        break;
       case 'Delivered':
         status = 'ĐÃ NHẬN HÀNG';
         break;
@@ -102,6 +108,26 @@ export default function OrderDetail(props) {
     }
   }
 
+  const renderShipper = () => {
+    if (data?.getOrderByIdBuyer?.orderStatus === 'Shipping' || data?.getOrderByIdBuyer?.orderStatus === 'Processing') {
+      return `Xem trên bản đồ`;
+    } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
+      return `Đánh giá người giao hàng`;
+    }
+  }
+
+  const actionShipper = () => {
+    if (data?.getOrderByIdBuyer?.orderStatus === 'Shipping' || data?.getOrderByIdBuyer?.orderStatus === 'Processing') {
+      navigation.navigate(SCREEN.TRACK_ORDER, {
+
+      });
+    } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
+      navigation.navigate(SCREEN.RATING, {
+
+      });
+    }
+  }
+
   return (
     <View style={styles.container} >
       <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber}`} />
@@ -115,8 +141,8 @@ export default function OrderDetail(props) {
           data?.getOrderByIdBuyer?.shipper ? (<View style={styles.shipperContainer}>
             <View>
               <Text bold fontSize="md">{data?.getOrderByIdBuyer?.shipper?.name}</Text>
-              <TouchableOpacity style={styles.reviewerContainer}>
-                <Text bold>Đánh giá người giao hàng</Text>
+              <TouchableOpacity style={styles.reviewerContainer} onPress={actionShipper}>
+                <Text bold>{renderShipper()}</Text>
               </TouchableOpacity>
             </View>
             <Image style={styles.image} source={{ uri: data?.getOrderByIdBuyer?.shipper?.image }} />

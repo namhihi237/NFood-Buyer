@@ -42,7 +42,7 @@ class Order {
         };
       case 'Processing':
         return {
-          icon: 'shopping-cart',
+          icon: 'truck',
           color: '#f472b6',
         }
       case 'Shipping':

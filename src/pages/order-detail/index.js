@@ -119,7 +119,7 @@ export default function OrderDetail(props) {
   const actionShipper = () => {
     if (data?.getOrderByIdBuyer?.orderStatus === 'Shipping' || data?.getOrderByIdBuyer?.orderStatus === 'Processing') {
       navigation.navigate(SCREEN.TRACK_ORDER, {
-
+        orderId: route.params.orderId,
       });
     } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
       navigation.navigate(SCREEN.RATING, {

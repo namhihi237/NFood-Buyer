@@ -6,12 +6,26 @@ import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation, useSubscription } from '@apollo/client';
-import { QUERY, MUTATION, SUBSCRIPTION } from "../../graphql";
+import { QUERY, MUTATION, SUBSCRIPTION, client } from "../../graphql";
 import { TabView, SceneMap } from 'react-native-tab-view';
 import MapView, { PROVIDER_GOOGLE, Marker, Circle } from 'react-native-maps';
 export default function TrackingOrder(props) {
   const navigation = useNavigation();
   const route = useRoute();
+  const [location, setLocation] = React.useState(null);
+
+
+  useSubscription(SUBSCRIPTION.GET_LOCATION_SHIPPER, {
+    variables: {
+      orderId: route.params.orderId
+    },
+    onSubscriptionData: ({ client, subscriptionData }) => {
+      const { data } = subscriptionData;
+      if (data.locationShipper) {
+        setLocation(data.locationShipper);
+      }
+    }
+  });
 
   return (
     <View style={styles.container} >
@@ -32,6 +46,17 @@ export default function TrackingOrder(props) {
         showsPointsOfInterest={false}
         showsCompass={false}
       >
+        {location && <Marker
+          centerOffset={{ x: 25, y: 25 }}
+          anchor={{ x: 0.5, y: 0.5 }}
+          coordinate={
+            {
+              latitude: location[1],
+              longitude: location[0]
+            }
+          } >
+          <Image source={require('../../../assets/images/shipper.png')} style={{ height: 25, width: 25, backgroundColor: 'red', borderRadius: 10 }} />
+        </Marker>}
       </MapView>
     </View >
   );

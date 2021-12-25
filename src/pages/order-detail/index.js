@@ -82,6 +82,9 @@ export default function OrderDetail(props) {
         title = 'HỦY ĐƠN';
         icon = 'window-close';
         break;
+      case 'Processing':
+        title = 'HỦY ĐƠN';
+        icon = 'window-close';
       case 'Delivered':
         title = 'ĐẶT LẠI';
         icon = 'undo-alt';
@@ -97,7 +100,7 @@ export default function OrderDetail(props) {
   }
 
   const onPressButtonClick = () => {
-    if (data?.getOrderByIdBuyer?.orderStatus === 'Pending') {
+    if (data?.getOrderByIdBuyer?.orderStatus === 'Pending' || data?.getOrderByIdBuyer?.orderStatus === 'Processing') {
       cancelOrderPending({
         variables: {
           id: route.params.orderId

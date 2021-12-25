@@ -166,5 +166,19 @@ export default {
         _id
       }
     }
+  }`,
+
+  CHECK_PROMO_CODE: gql`query CheckPromoCode($promoCode: String!, $vendorId: ID!, $subTotal: Float!) {
+    checkPromoCode(promoCode: $promoCode, vendorId: $vendorId, subTotal: $subTotal) {
+      promoCode
+      _id
+      discount
+      status
+      quantity
+      startDate
+      endDate
+      discountType
+      createdAt
+    }
   }`
 };

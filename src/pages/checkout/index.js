@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import { QUERY, MUTATION } from "../../graphql";
 import { myAddress, listCarts, numberOfCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
@@ -16,14 +16,15 @@ export default function Checkout(props) {
   const navigation = useNavigation();
   const route = useRoute();
   const [discount, setDiscount] = React.useState(0);
+  const [promoCode, setPromoCode] = React.useState('');
   const [address, setAddress] = useRecoilState(myAddress);
   const [method, setMethod] = React.useState("");
   const [isCOD, setIsCOD] = React.useState(false);
   const [isCredit, setIsCredit] = React.useState(false);
   const [carts, setCarts] = useRecoilState(listCarts);
   const [number, setNumber] = useRecoilState(numberOfCarts);
-  const checkPromoCode = () => {
-  }
+
+  const onChangePromoCode = (value) => setPromoCode(value);
 
   const { data } = useQuery(QUERY.CALCULATE_SHIPPING, {
     fetchPolicy: 'network-only',
@@ -76,13 +77,51 @@ export default function Checkout(props) {
     }
   }
 
+  const calculateDiscount = (discount, discountType) => {
+    const subTotal = route.params.subTotal;
+    if (discountType === 'PERCENT') {
+      return subTotal * (discount / 100);
+    } else {
+      return discount;
+    }
+  }
+
+  const [checkVoucher] = useLazyQuery(QUERY.CHECK_PROMO_CODE, {
+    variables: {
+      promoCode: promoCode.toLocaleUpperCase(),
+      subTotal: route.params.subTotal,
+      vendorId: route.params.vendorId
+    },
+    onCompleted: (data) => {
+      setDiscount(calculateDiscount(data.checkPromoCode.discount, data.checkPromoCode.discountType));
+
+    },
+    onError: (error) => {
+      Toast(error.message, "danger", "top-right");
+      setDiscount(0);
+    }
+  })
+
   const checkOut = () => {
     if (method === "") {
       Toast("Bạn chưa chọn phương thức thanh toán", "warning", "top-right");
       return;
     }
-    order({ variables: { method } });
+    console.log(method, promoCode);
+    order({ variables: { method, promoCode: promoCode.toLocaleUpperCase() } });
   }
+
+  const checkPromoCode = () => {
+    console.log("aaaa");
+    // check required promoCode
+    if (promoCode === '') {
+      Toast('Bạn chưa nhập mã khuyến mãi', 'warning', 'top-right');
+      return;
+    }
+
+    checkVoucher();
+  }
+
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
@@ -128,6 +167,7 @@ export default function Checkout(props) {
               base: "100%",
               md: "25%",
             }}
+            onChangeText={onChangePromoCode}
             InputRightElement={
               <Button size="xs" rounded="none" w="1/6" h="full" onPress={checkPromoCode}>
                 {"Áp dụng"}

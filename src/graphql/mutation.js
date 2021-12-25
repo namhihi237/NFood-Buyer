@@ -68,8 +68,8 @@ export default {
     }
   }`,
 
-  CHECKOUT: gql`mutation Checkout($method: methodEnum!) {
-    checkout(method: $method) {
+  CHECKOUT: gql`mutation Checkout($method: methodEnum!, $promoCode: String) {
+  checkout(method: $method, promoCode: $promoCode) {
       _id
       total
       subTotal

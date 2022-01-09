@@ -88,5 +88,9 @@ export default {
 
   CANCEL_ORDER: gql`mutation CancelOrder($id: ID!) {
     cancelOrder(id: $id)
+  }`,
+
+  ADD_REVIEW: gql`mutation AddReview($rating: Int!, $comment: String!, $reviewedId: ID!, $type: reviewEnum!) {
+    addReview(rating: $rating, comment: $comment, reviewedId: $reviewedId, type: $type)
   }`
 }

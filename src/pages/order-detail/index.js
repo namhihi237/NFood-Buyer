@@ -125,8 +125,8 @@ export default function OrderDetail(props) {
         orderId: route.params.orderId,
       });
     } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
-      navigation.navigate(SCREEN.RATING, {
-
+      navigation.navigate(SCREEN.REVIEW_SHIPPER, {
+        shipper: data?.getOrderByIdBuyer?.shipper,
       });
     }
   }

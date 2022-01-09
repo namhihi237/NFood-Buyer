@@ -12,6 +12,7 @@ import NearVendor from "./near-vendor";
 import ListOrders from "./list-orders";
 import TrackingOrder from "./tracking-order";
 import OrderDetail from "./order-detail";
+import { ReviewShipper } from './reviews';
 
 export {
   Register,
@@ -27,5 +28,7 @@ export {
   NearVendor,
   ListOrders,
   TrackingOrder,
-  OrderDetail
+  OrderDetail,
+  ReviewShipper,
+
 };

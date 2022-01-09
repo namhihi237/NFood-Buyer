@@ -13,7 +13,8 @@ import {
   NearVendor,
   ListOrders,
   TrackingOrder,
-  OrderDetail
+  OrderDetail,
+  ReviewShipper
 } from '../pages';
 
 import Tab from './tab';
@@ -53,6 +54,7 @@ const Navigation = () => {
         <Stack.Screen name={SCREEN.LIST_ORDERS} component={ListOrders} />
         <Stack.Screen name={SCREEN.TRACK_ORDER} component={TrackingOrder} />
         <Stack.Screen name={SCREEN.ORDER_DETAIL} component={OrderDetail} />
+        <Stack.Screen name={SCREEN.REVIEW_SHIPPER} component={ReviewShipper} />
 
       </Stack.Navigator>
     </NavigationContainer>

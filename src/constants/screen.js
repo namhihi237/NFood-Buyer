@@ -14,4 +14,7 @@ export default {
   LIST_ORDERS: 'listOrders',
   TRACK_ORDER: 'trackOrder',
   ORDER_DETAIL: 'orderDetail',
+  REVIEW_SHIPPER: 'reviewShipper',
+  REVIEW_VENDOR: 'reviewVendor',
+  REVIEW_ORDER: 'reviewOrder',
 }

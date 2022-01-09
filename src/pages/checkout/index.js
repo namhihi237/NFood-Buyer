@@ -107,12 +107,10 @@ export default function Checkout(props) {
       Toast("Bạn chưa chọn phương thức thanh toán", "warning", "top-right");
       return;
     }
-    console.log(method, promoCode);
     order({ variables: { method, promoCode: promoCode.toLocaleUpperCase() } });
   }
 
   const checkPromoCode = () => {
-    console.log("aaaa");
     // check required promoCode
     if (promoCode === '') {
       Toast('Bạn chưa nhập mã khuyến mãi', 'warning', 'top-right');

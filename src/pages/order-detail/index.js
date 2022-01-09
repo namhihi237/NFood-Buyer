@@ -18,9 +18,6 @@ export default function OrderDetail(props) {
       id: route.params.orderId
     },
     fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      console.log(data);
-    }
   });
 
   const [cancelOrderPending] = useMutation(MUTATION.CANCEL_ORDER, {
@@ -126,7 +123,6 @@ export default function OrderDetail(props) {
   }
 
   const renderTitleVendor = () => {
-    console.log(data?.getOrderByIdBuyer?.isReviewedVendor);
     if (data?.getOrderByIdBuyer?.isReviewedVendor) {
       return `Đã đánh giá`;
     }

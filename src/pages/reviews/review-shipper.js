@@ -31,14 +31,6 @@ export default function ReviewShipper(props) {
       navigation.goBack();
     },
     onError: (error) => {
-      console.log({
-        rating: rating,
-        comment: comment,
-        reviewedId: route.params?.shipper?._id,
-        type: 'shipper',
-        orderId: route.params?.orderId
-      });
-
       Toast(error.message, 'danger', 'top-right');
     }
   });

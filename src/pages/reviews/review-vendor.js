@@ -9,7 +9,7 @@ import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import { QUERY, MUTATION, SUBSCRIPTION, client } from "../../graphql";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-export default function ReviewShipper(props) {
+export default function ReviewVendor(props) {
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -22,8 +22,8 @@ export default function ReviewShipper(props) {
     variables: {
       rating: rating,
       comment: comment,
-      reviewedId: route.params?.shipper?._id,
-      type: 'shipper'
+      reviewedId: route.params?.vendor?._id,
+      type: 'vendor'
     },
     onCompleted: (data) => {
       Toast('Đánh giá thành công', 'success', 'top-right');
@@ -36,11 +36,18 @@ export default function ReviewShipper(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title="Đánh giá tài xế" />
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, marginHorizontal: wp('5%') }}>
-        <Image source={{ uri: route.params?.shipper?.image }} style={{ height: 60, width: 60, borderRadius: 30, marginRight: 10 }} />
-        <Text fontSize="md">Đánh giá người giao hàng </Text>
-        <Text bold fontSize="md">{route.params?.shipper?.name}</Text>
+      <HeaderBack title="Cảm nhận về cửa hàng" />
+      <View style={styles.vendorHeader}>
+        <Text fontSize="md" color="#959BA4" bold>Nơi mua hàng</Text>
+        <Text fontSize="md" color="#959BA4">Đơn hàng: #{route.params?.invoiceNumber}</Text>
+      </View>
+      <View style={styles.vendor}>
+        <Image source={{ uri: route.params?.vendor?.image }} style={{ height: 60, width: 60, marginRight: 15 }} />
+        <View>
+          <Text bold fontSize="md" isTruncated={true}>{route.params?.vendor?.name}</Text>
+          <Text fontSize="md" italic isTruncated={true}> {route.params?.vendor?.address}</Text>
+        </View>
+
       </View>
 
       <View style={styles.iconContainer}>
@@ -83,7 +90,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
+  },
+  vendorHeader: {
+    marginHorizontal: wp('5%'),
+    marginTop: hp('2%'),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  vendor: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: wp('5%'),
     backgroundColor: '#fff',
+    paddingVertical: 10,
+    borderRadius: 10,
   },
   iconContainer: {
     flexDirection: 'row',

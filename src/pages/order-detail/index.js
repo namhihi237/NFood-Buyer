@@ -162,6 +162,14 @@ export default function OrderDetail(props) {
                 <Text bold>{data?.getOrderByIdBuyer?.vendor?.name}</Text>
               </View>
             </View>
+            {
+              data?.getOrderByIdBuyer?.orderStatus === 'Delivered' ? (<TouchableOpacity onPress={() => navigation.navigate(SCREEN.REVIEW_VENDOR, {
+                vendor: data?.getOrderByIdBuyer?.vendor,
+                invoiceNumber: data?.getOrderByIdBuyer?.invoiceNumber
+              })}>
+                <Text bold style={{ color: 'red' }}>Đánh giá cửa hàng</Text>
+              </TouchableOpacity>) : null
+            }
             <FontAwesome5 name="chevron-right" size={wp('4.5%')} color="#444251" />
           </TouchableOpacity>
 

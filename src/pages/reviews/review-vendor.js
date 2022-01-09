@@ -23,7 +23,8 @@ export default function ReviewVendor(props) {
       rating: rating,
       comment: comment,
       reviewedId: route.params?.vendor?._id,
-      type: 'vendor'
+      type: 'vendor',
+      orderId: route.params?.orderId
     },
     onCompleted: (data) => {
       Toast('Đánh giá thành công', 'success', 'top-right');

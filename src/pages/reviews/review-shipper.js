@@ -23,13 +23,22 @@ export default function ReviewShipper(props) {
       rating: rating,
       comment: comment,
       reviewedId: route.params?.shipper?._id,
-      type: 'shipper'
+      type: 'shipper',
+      orderId: route.params?.orderId
     },
     onCompleted: (data) => {
       Toast('Đánh giá thành công', 'success', 'top-right');
       navigation.goBack();
     },
     onError: (error) => {
+      console.log({
+        rating: rating,
+        comment: comment,
+        reviewedId: route.params?.shipper?._id,
+        type: 'shipper',
+        orderId: route.params?.orderId
+      });
+
       Toast(error.message, 'danger', 'top-right');
     }
   });

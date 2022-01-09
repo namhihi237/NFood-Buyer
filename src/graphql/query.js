@@ -151,6 +151,8 @@ export default {
       paymentMethod
       orderStatus
       createdAt
+      isReviewedShipper
+      isReviewVendor
       vendor {
         _id
         name

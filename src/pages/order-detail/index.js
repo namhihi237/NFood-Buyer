@@ -18,6 +18,9 @@ export default function OrderDetail(props) {
       id: route.params.orderId
     },
     fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      console.log(data);
+    }
   });
 
   const [cancelOrderPending] = useMutation(MUTATION.CANCEL_ORDER, {
@@ -115,8 +118,19 @@ export default function OrderDetail(props) {
     if (data?.getOrderByIdBuyer?.orderStatus === 'Shipping' || data?.getOrderByIdBuyer?.orderStatus === 'Processing') {
       return `Xem trên bản đồ`;
     } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
+      if (data?.getOrderByIdBuyer?.isReviewedShipper) {
+        return `Đã đánh giá`;
+      }
       return `Đánh giá người giao hàng`;
     }
+  }
+
+  const renderTitleVendor = () => {
+    console.log(data?.getOrderByIdBuyer?.isReviewedVendor);
+    if (data?.getOrderByIdBuyer?.isReviewedVendor) {
+      return `Đã đánh giá`;
+    }
+    return `Đánh giá nhà của hàng`;
   }
 
   const actionShipper = () => {
@@ -127,6 +141,7 @@ export default function OrderDetail(props) {
     } else if (data?.getOrderByIdBuyer?.orderStatus === 'Delivered') {
       navigation.navigate(SCREEN.REVIEW_SHIPPER, {
         shipper: data?.getOrderByIdBuyer?.shipper,
+        orderId: route.params.orderId,
       });
     }
   }
@@ -145,7 +160,7 @@ export default function OrderDetail(props) {
             <View>
               <Text bold fontSize="md">{data?.getOrderByIdBuyer?.shipper?.name}</Text>
               <TouchableOpacity style={styles.reviewerContainer} onPress={actionShipper}>
-                <Text bold>{renderShipper()}</Text>
+                <Text bold color={data?.getOrderByIdBuyer?.isReviewedShipper ? "#16a34a" : '#F24F04'}>{renderShipper()}</Text>
               </TouchableOpacity>
             </View>
             <Image style={styles.image} source={{ uri: data?.getOrderByIdBuyer?.shipper?.image }} />
@@ -165,9 +180,10 @@ export default function OrderDetail(props) {
             {
               data?.getOrderByIdBuyer?.orderStatus === 'Delivered' ? (<TouchableOpacity onPress={() => navigation.navigate(SCREEN.REVIEW_VENDOR, {
                 vendor: data?.getOrderByIdBuyer?.vendor,
-                invoiceNumber: data?.getOrderByIdBuyer?.invoiceNumber
+                invoiceNumber: data?.getOrderByIdBuyer?.invoiceNumber,
+                orderId: route.params.orderId,
               })}>
-                <Text bold style={{ color: 'red' }}>Đánh giá cửa hàng</Text>
+                <Text bold color={data?.getOrderByIdBuyer?.isReviewedVendor ? "#16a34a" : '#F24F04'}>{renderTitleVendor()}</Text>
               </TouchableOpacity>) : null
             }
             <FontAwesome5 name="chevron-right" size={wp('4.5%')} color="#444251" />

@@ -77,7 +77,7 @@ export default function Store(props) {
           </TouchableWithoutFeedback>
         </View>
 
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.WALLET)}>
           <View style={styles.ordersHeader} >
             <View style={styles.ordersHeaderLeft}>
               <FontAwesome5 name="wallet" size={hp('2.6%')} color="#3c63b2" style={{ marginRight: 10 }} />

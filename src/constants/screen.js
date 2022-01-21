@@ -17,4 +17,5 @@ export default {
   REVIEW_SHIPPER: 'reviewShipper',
   REVIEW_VENDOR: 'reviewVendor',
   REVIEW_ORDER: 'reviewOrder',
+  WALLET: 'wallet',
 }

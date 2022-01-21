@@ -160,6 +160,7 @@ export default function Home(props) {
       <View>
         <ScrollView style={styles.container}>
           <FlatList
+            key="1"
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={styles.categoryList}
@@ -178,6 +179,7 @@ export default function Home(props) {
           </View>
 
           <FlatList
+            key="2"
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={styles.popularList}
@@ -196,6 +198,7 @@ export default function Home(props) {
           </View>
 
           <FlatList
+            key="3"
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={styles.popularList}

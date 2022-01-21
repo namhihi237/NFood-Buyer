@@ -1,7 +1,8 @@
-import { Text, Input, View, Checkbox, Button } from "native-base";
+import { Text, Input, View, Checkbox, Button, Center, Modal } from "native-base";
 import React from "react";
-import { StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, ScrollView, Linking, Dimensions } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { WebView } from 'react-native-webview';
 import { SCREEN } from "../../constants";
 import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -10,6 +11,9 @@ import { QUERY, MUTATION } from "../../graphql";
 import { myAddress, listCarts, numberOfCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import Summary from "./summary";
+import axios from "axios";
+import { storageUtils } from '../../utils';
+const url = 'https://nfood-api.southeastasia.cloudapp.azure.com/api/v1/payment/charge-order';
 
 export default function Checkout(props) {
 
@@ -23,6 +27,9 @@ export default function Checkout(props) {
   const [isCredit, setIsCredit] = React.useState(false);
   const [carts, setCarts] = useRecoilState(listCarts);
   const [number, setNumber] = useRecoilState(numberOfCarts);
+
+  const [showModal, setShowModal] = React.useState(false);
+  const [urlPayment, setUrlPayment] = React.useState('');
 
   const onChangePromoCode = (value) => setPromoCode(value);
 
@@ -39,6 +46,29 @@ export default function Checkout(props) {
       role: "buyer"
     }
   });
+
+  const chargeOrder = async () => {
+    try {
+      const token = await storageUtils.getString('token');
+      const { data } = await axios.post(`${url}`, {
+        promoCode,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      console.log(data.url);
+      setUrlPayment(data.url);
+      setShowModal(true);
+      return
+    } catch (error) {
+      Toast('Có lỗi xảy ra, vui lòng thử lại sau', 'danger', 'top-right');
+
+    }
+  }
+
+
 
   const [order, { loading }] = useMutation(MUTATION.CHECKOUT, {
     onCompleted: (data) => {
@@ -62,7 +92,7 @@ export default function Checkout(props) {
       } else {
         setIsCOD(false);
         setIsCredit(true);
-        setMethod("ONLINE");
+        setMethod("CRE");
       }
     } else {
       if (cod) {
@@ -102,9 +132,12 @@ export default function Checkout(props) {
     }
   })
 
-  const checkOut = () => {
+  const checkOut = async () => {
     if (method === "") {
       Toast("Bạn chưa chọn phương thức thanh toán", "warning", "top-right");
+      return;
+    } else if (method === 'CRE') {
+      await chargeOrder();
       return;
     }
     order({ variables: { method, promoCode: promoCode.toLocaleUpperCase() } });
@@ -119,6 +152,19 @@ export default function Checkout(props) {
 
     checkVoucher();
   }
+
+  const handleResponse = data => {
+    if (data.title === "success") {
+      setShowModal(false);
+      Toast("Thanh toán thành công", "success", "top-right");
+      navigation.navigate(SCREEN.LIST_ORDERS);
+    } else if (data.title === "cancel") {
+      Toast("Thanh toán thất bại, thử lại", "danger", "top-right");
+      setShowModal(false);
+    } else {
+      return;
+    }
+  };
 
 
   return (
@@ -176,6 +222,19 @@ export default function Checkout(props) {
         </View>
       </View>
       <Summary data={data} discount={discount} subTotal={route.params.subTotal} onPress={checkOut} />
+
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content maxWidth="500px">
+          <Modal.CloseButton />
+          <Modal.Body minHeight="600px">
+            <WebView
+              source={{ uri: urlPayment }}
+              style={{ marginTop: 20 }}
+              onNavigationStateChange={(event) => handleResponse(event)}
+            />
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
     </View >
   );
 }

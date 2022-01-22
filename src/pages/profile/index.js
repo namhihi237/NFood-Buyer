@@ -9,6 +9,7 @@ import { InputField, ButtonCustom, Toast, Loading } from '../../components';
 import { SCREEN } from "../../constants";
 import { QUERY, client } from '../../graphql';
 import { display, flexDirection } from "styled-system";
+import { storageUtils } from '../../utils';
 
 const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1637807216/user_ilxv1x.png";
 
@@ -22,6 +23,13 @@ export default function Store(props) {
   });
 
   const navigation = useNavigation();
+
+  const logOut = async () => {
+    await storageUtils.removeItem("token");
+    await storageUtils.removeItem("phoneNumber");
+    await storageUtils.removeItem("password");
+    navigation.navigate(SCREEN.LOGIN, { clear: true });
+  }
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
@@ -82,6 +90,14 @@ export default function Store(props) {
             <View style={styles.ordersHeaderLeft}>
               <FontAwesome5 name="wallet" size={hp('2.6%')} color="#3c63b2" style={{ marginRight: 10 }} />
               <Text>Ví của tôi</Text>
+            </View>
+            <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={logOut}>
+          <View style={styles.ordersHeader} >
+            <View style={styles.ordersHeaderLeft}>
+              <Text bold color="#06b6d4">Đăng xuất tài khoản</Text>
             </View>
             <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
           </View>

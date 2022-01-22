@@ -94,6 +94,15 @@ export default function Store(props) {
             <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
           </View>
         </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.FAVORITE)}>
+          <View style={styles.ordersHeader} >
+            <View style={styles.ordersHeaderLeft}>
+              <FontAwesome5 name="wallet" size={hp('2.6%')} color="#3c63b2" style={{ marginRight: 10 }} />
+              <Text>Danh sách cửa hàng yêu thích</Text>
+            </View>
+            <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
+          </View>
+        </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={logOut}>
           <View style={styles.ordersHeader} >
             <View style={styles.ordersHeaderLeft}>

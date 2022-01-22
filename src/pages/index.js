@@ -14,6 +14,7 @@ import TrackingOrder from "./tracking-order";
 import OrderDetail from "./order-detail";
 import { ReviewShipper, ReviewVendor } from './reviews';
 import Wallet from "./wallet";
+import Favorite from "./favorite";
 
 export {
   Register,
@@ -32,5 +33,6 @@ export {
   OrderDetail,
   ReviewShipper,
   ReviewVendor,
-  Wallet
+  Wallet,
+  Favorite
 };

@@ -16,7 +16,8 @@ import {
   OrderDetail,
   ReviewShipper,
   ReviewVendor,
-  Wallet
+  Wallet,
+  Favorite
 } from '../pages';
 
 import Tab from './tab';
@@ -59,6 +60,7 @@ const Navigation = () => {
         <Stack.Screen name={SCREEN.REVIEW_SHIPPER} component={ReviewShipper} />
         <Stack.Screen name={SCREEN.REVIEW_VENDOR} component={ReviewVendor} />
         <Stack.Screen name={SCREEN.WALLET} component={Wallet} />
+        <Stack.Screen name={SCREEN.FAVORITE} component={Favorite} />
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,0 +1,102 @@
+import { Text, View, Actionsheet, Center, useDisclose, Heading } from "native-base";
+import React from "react";
+import { StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Header } from "../../components";
+import { useNavigation } from "@react-navigation/native";
+import { useQuery } from '@apollo/client';
+import { QUERY } from "../../graphql";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+export default function Favorite(props) {
+
+  const navigation = useNavigation();
+  const { isOpen, onOpen, onClose } = useDisclose()
+
+  var BUTTONS = ['Option 1', 'Option 2', 'Option 3', 'Delete', 'Cancel'];
+  var DESTRUCTIVE_INDEX = 3;
+  var CANCEL_INDEX = 4;
+  const { data, refetch } = useQuery(QUERY.GET_VENDOR_FAVORITES, {
+    onCompleted: (data) => {
+    },
+    fetchPolicy: 'network-only'
+  });
+
+  const renderItem = (item) => {
+    return (
+      <View style={styles.cardContainer}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+        <View style={styles.right}>
+          <View>
+            <Text fontSize="md" bold>{item?.name}</Text>
+            <View style={{ marginTop: 5 }}>
+              <Text fontSize="md">45% hài lòng</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={{ marginTop: 2, width: 5 }} onPress={() => {
+            onOpen();
+          }}>
+            <FontAwesome5 name="ellipsis-v" size={wp('4%')} color="#000" />
+          </TouchableOpacity>
+        </View>
+        <Actionsheet isOpen={isOpen} onClose={() => {
+          onClose();
+        }}>
+          <Actionsheet.Content>
+            <TouchableOpacity onPress={() => { }} style={styles.delete}>
+              <FontAwesome5 name="trash" size={wp('4%')} color="#000" />
+              <Text ml="4">Gỡ yêu thích</Text>
+            </TouchableOpacity>
+          </Actionsheet.Content>
+        </Actionsheet>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.container} >
+      <Header icon="arrow-left" title="Danh yêu thích" onPress={() => navigation.goBack()} />
+      <FlatList
+        style={{}}
+        data={data ? data.getVendorFavorite : []}
+        renderItem={({ item }) => renderItem(item)}
+        keyExtractor={item => item._id}
+      />
+    </View >
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    display: 'flex',
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    marginBottom: 2,
+
+  },
+  image: {
+    width: wp('30%'),
+    height: wp('30%'),
+    marginLeft: wp('4%'),
+    borderRadius: 10,
+  },
+  right: {
+    marginLeft: 10,
+    flexDirection: 'row',
+    width: wp('60%'),
+    justifyContent: 'space-between',
+  },
+  cardName: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    display: 'flex',
+  },
+  delete: {
+    flexDirection: 'row',
+  }
+
+});

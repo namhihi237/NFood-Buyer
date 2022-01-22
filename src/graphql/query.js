@@ -182,5 +182,21 @@ export default {
       discountType
       createdAt
     }
+  }`,
+
+  GET_VENDOR_FAVORITES: gql`query GetVendorFavorite {
+    getVendorFavorite {
+      _id
+      name
+      phoneNumber
+      rating
+      image
+      distance
+      address
+      numberOfReviews
+      location {
+        coordinates
+      }
+    }
   }`
 };

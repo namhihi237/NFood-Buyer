@@ -141,7 +141,6 @@ export default function ListOrders(props) {
         renderTabBar={renderTabBar}
         onIndexChange={setIndex}
         initialLayout={initialLayout}
-        style={{ marginTop: StatusBar.currentHeight }}
       />
     </View >
   );

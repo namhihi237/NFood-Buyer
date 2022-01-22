@@ -1,17 +1,16 @@
-import { Text, Button, Box, View, Modal } from "native-base";
+import { Text, Button, View, Modal } from "native-base";
 
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
 
-import { InputField, ButtonCustom, Toast, Loading, Search, Cart } from '../../components';
+import { Search, Cart } from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
-import { gps, locationGPS, listCarts, numberOfCarts, myAddress } from "../../recoil/list-state";
+import { gps, locationGPS, numberOfCarts, myAddress } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import Address from "./address";
 import Popular from "./popular";
@@ -19,31 +18,31 @@ import Category from "./Category";
 import Vendor from "./Vendor";
 const popular = [
   {
-    id: 1,
+    _id: 1,
     name: "Cà phê sữa",
     image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
     price: "15000",
-    rating: 4.5
+    rating: 3
   },
   {
-    id: 2,
+    _id: 2,
     name: "Cà phê sữa",
     image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
     price: "20000",
-    rating: 4.3
+    rating: 3
   },
   {
-    id: 3,
+    _id: 3,
     name: "Cà phê sữa",
     image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
     price: "25000",
-    rating: 4.1
+    rating: 3
   }
 ];
 
-const dataL = [{ id: 1, name: "Bánh mỳ", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
-{ id: 2, name: "Sinh tố", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
-{ id: 3, name: "Kem", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190576/DoAnTN/Group_1173_megwgj.png" }];
+const dataL = [{ _id: 1, name: "Bánh mỳ", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
+{ _id: 2, name: "Sinh tố", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
+{ _id: 3, name: "Kem", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190576/DoAnTN/Group_1173_megwgj.png" }];
 export default function Home(props) {
 
   const [isGPS, setIsGPS] = useRecoilState(gps);
@@ -52,15 +51,11 @@ export default function Home(props) {
   const [modalVisible, setModalVisible] = React.useState(!isGPS);
   const [numberCart, setNumberCarts] = useRecoilState(numberOfCarts);
   const getLocation = async () => {
-
     try {
       const status = await GPSUtils.requestPermission();
-      console.log(status);
       if (status === 'already-enabled') {
         setModalVisible(false);
         const location = await GPSUtils.getCurrentPosition();
-        console.log(location);
-
         updateGPSAddressBuyer({
           variables: {
             latitude: location.coords.latitude,
@@ -80,7 +75,6 @@ export default function Home(props) {
         getLocation();
       }
     } catch (error) {
-      Toast('Bạn chưa bật GPS', 'danger', 'top-right');
     }
   }
 
@@ -147,8 +141,8 @@ export default function Home(props) {
 
   const keyExtractor = item => item?._id;
 
-  const renderCategoryItem = (item) => (
-    <Category item={item} />
+  const renderCategoryItem = (item, index) => (
+    <Category item={item} key={item._id} />
   );
 
   const renderVendorItem = (item) => (
@@ -164,7 +158,7 @@ export default function Home(props) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={styles.categoryList}
-            renderItem={renderCategoryItem}
+            renderItem={(item, index) => renderCategoryItem(item, index)}
             keyExtractor={keyExtractor}
             data={dataL}
           />

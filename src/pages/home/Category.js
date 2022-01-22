@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Text } from 'native-base';
 
 import {

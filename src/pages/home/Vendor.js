@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Text } from 'native-base';
-import { moneyUtils } from '../../utils';
 import { useNavigation } from '@react-navigation/native';
 import { SCREEN } from "../../constants"
 

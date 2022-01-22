@@ -1,18 +1,17 @@
-import { Text, Pressable, View, Box, Center } from "native-base";
+import { Text, View } from "native-base";
 import React from "react";
-import { StyleSheet, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
-import { Header, ButtonCustom, Toast } from "../../components";
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation } from '@apollo/client';
-import { QUERY, MUTATION } from "../../graphql";
+import { Header } from "../../components";
+import { useNavigation } from "@react-navigation/native";
+import { useQuery } from '@apollo/client';
+import { QUERY } from "../../graphql";
 import { timeUtils } from '../../utils';
 
 export default function Notification(props) {
 
   const navigation = useNavigation();
-  const route = useRoute();
 
   const { data, refetch } = useQuery(QUERY.GET_NOTIFICATIONS, {
     variables: {

@@ -157,6 +157,8 @@ export default function Checkout(props) {
     if (data.title === "success") {
       setShowModal(false);
       Toast("Thanh toán thành công", "success", "top-right");
+      setNumber(0);
+      setCarts([]);
       navigation.navigate(SCREEN.LIST_ORDERS);
     } else if (data.title === "cancel") {
       Toast("Thanh toán thất bại, thử lại", "danger", "top-right");
@@ -181,9 +183,9 @@ export default function Checkout(props) {
           <View style={styles.leftContainer}>
             <View style={styles.left}>
               <View style={styles.iconContainer}>
-                <Image source={require("../../../assets/images/credit-card.png")} style={styles.iconPayment} />
+                <Image source={require("../../../assets/images/paypal-icon.png")} style={styles.iconPayment} />
               </View>
-              <Text fontSize="lg">Thẻ tín dụng</Text>
+              <Text fontSize="lg">Thanh toán qua paypal</Text>
             </View>
             <Checkbox colorScheme="orange" style={{ marginTop: 12 }}
               onChange={(isSelected) => onchangeCheckBox(isSelected)}
@@ -265,8 +267,8 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   iconPayment: {
-    height: 18.6,
-    width: 30,
+    height: 20,
+    width: 18.6,
   },
   left: {
     display: 'flex',

@@ -70,7 +70,7 @@ class Order {
       case 'COD':
         return 'Thanh toán khi nhận hàng';
       case 'CRE':
-        return 'Thanh toán bằng thẻ tín dụng';
+        return 'Thanh toán qua paypal';
     }
   }
 }

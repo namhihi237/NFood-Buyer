@@ -30,7 +30,9 @@ export default function Notification(props) {
 
   const renderItem = (item) => {
     return (
-      <TouchableOpacity >
+      <TouchableOpacity onPress={() => navigation.navigate(SCREEN.ORDER_DETAIL, {
+        orderId: item.orderId
+      })}>
         <View style={{ flexDirection: 'row', backgroundColor: '#fff', paddingTop: 10 }}>
           <Image source={require('../../../assets/images/no-order.png')} style={{ width: wp('20%'), height: wp('20%'), marginLeft: wp('4%') }} />
           <View style={{ marginRight: 10, paddingRight: wp('24%') }}>

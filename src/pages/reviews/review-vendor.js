@@ -46,7 +46,7 @@ export default function ReviewVendor(props) {
         <Image source={{ uri: route.params?.vendor?.image }} style={{ height: 60, width: 60, marginRight: 15 }} />
         <View>
           <Text bold fontSize="md" isTruncated={true}>{route.params?.vendor?.name}</Text>
-          <Text fontSize="md" italic isTruncated={true}> {route.params?.vendor?.address}</Text>
+          <Text fontSize="md" italic isTruncated={true} style={{ maxWidth: '90%' }}> {route.params?.vendor?.address} </Text>
         </View>
 
       </View>

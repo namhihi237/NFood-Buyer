@@ -144,7 +144,7 @@ export default function OrderDetail(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber}`} />
+      <HeaderBack title={`Đơn hàng #${route.params.invoiceNumber || data?.getOrderByIdBuyer?.invoiceNumber}`} />
       <ScrollView>
         <View alignItems="center" justifyContent="center" mt='1' bg="#fff" pt="2" pb="4">
           <FontAwesome5 name={orderUtils.orderStatusIcon(data?.getOrderByIdBuyer?.orderStatus).icon} size={wp('10%')}

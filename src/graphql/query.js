@@ -114,6 +114,7 @@ export default {
         content
         image
         createdAt
+        orderId
       }
       total
     }

@@ -15,6 +15,7 @@ import OrderDetail from "./order-detail";
 import { ReviewShipper, ReviewVendor } from './reviews';
 import Wallet from "./wallet";
 import Favorite from "./favorite";
+import { Forgot, CheckCode, UpdatePassword } from "./forgot-password";
 
 export {
   Register,
@@ -34,5 +35,8 @@ export {
   ReviewShipper,
   ReviewVendor,
   Wallet,
-  Favorite
+  Favorite,
+  Forgot,
+  CheckCode,
+  UpdatePassword,
 };

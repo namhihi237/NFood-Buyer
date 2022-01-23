@@ -58,7 +58,6 @@ export default function Checkout(props) {
         }
       });
 
-      console.log(data.url);
       setUrlPayment(data.url);
       setShowModal(true);
       return

@@ -33,6 +33,7 @@ const InputField = (props) => {
         onBlur={onBlur}
         value={props.value}
         secureTextEntry={props.secureTextEntry}
+        keyboardType={props.keyboardType}
       />
     </View>
   );

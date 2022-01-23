@@ -96,5 +96,17 @@ export default {
 
   ADD_FAVORITE: gql`mutation AddVendorFavorite($vendorId: ID!, $isAdd: Boolean!) {
     addVendorFavorite(vendorId: $vendorId, isAdd: $isAdd)
+  }`,
+
+  FORGOT_PASSWORD: gql`mutation ForgotPassword($phoneNumber: String!) {
+    forgotPassword(phoneNumber: $phoneNumber)
+  }`,
+
+  VERIFY_CODE: gql`mutation VerifyCode($code: String!, $phoneNumber: String!) {
+    verifyCode(code: $code, phoneNumber: $phoneNumber)
+  }`,
+
+  UPDATE_PASSWORD: gql`mutation UpdatePassword($password: String!, $code: String!) {
+    updatePassword(password: $password, code: $code)
   }`
 }

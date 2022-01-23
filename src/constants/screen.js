@@ -19,4 +19,7 @@ export default {
   REVIEW_ORDER: 'reviewOrder',
   WALLET: 'wallet',
   FAVORITE: 'favorite',
+  FORGOT_PASSWORD: 'forgotPassword',
+  CHECK_CODE: 'checkCode',
+  UPDATE_PASSWORD: 'updatePassword',
 }

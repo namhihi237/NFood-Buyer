@@ -97,18 +97,17 @@ export default function Store(props) {
         <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.FAVORITE)}>
           <View style={styles.ordersHeader} >
             <View style={styles.ordersHeaderLeft}>
-              <FontAwesome5 name="wallet" size={hp('2.6%')} color="#3c63b2" style={{ marginRight: 10 }} />
+              <FontAwesome5 name="heart" size={hp('2.6%')} color="#ec4899" style={{ marginRight: 10 }} />
               <Text>Danh sách cửa hàng yêu thích</Text>
             </View>
             <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={logOut}>
-          <View style={styles.ordersHeader} >
+          <View style={styles.btnLogout} >
             <View style={styles.ordersHeaderLeft}>
               <Text bold color="#06b6d4">Đăng xuất tài khoản</Text>
             </View>
-            <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
           </View>
         </TouchableWithoutFeedback>
 
@@ -183,6 +182,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 2,
+  },
+  btnLogout: {
+    paddingHorizontal: wp('5%'),
+    backgroundColor: '#fff',
+    marginBottom: 2,
+    marginTop: 5,
+    paddingTop: 20,
+    paddingBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
 });

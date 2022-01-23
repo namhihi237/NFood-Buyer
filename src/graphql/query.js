@@ -198,5 +198,23 @@ export default {
         coordinates
       }
     }
+  }`,
+
+  GET_ALL_VENDORS: gql`query GetAllVendors($keyword: String, $offset: Int, $limit: Int, $distance: Float) {
+    getAllVendors(keyword: $keyword, offset: $offset, limit: $limit, distance: $distance) {
+      items {
+        name
+        _id
+        rating
+        image
+        distance
+        address
+        numberOfReviews
+        menu {
+          name
+          _id
+        }
+      }
+    }
   }`
 };

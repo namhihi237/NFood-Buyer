@@ -6,14 +6,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const Search = (props) => {
 
   return (
-    <View style={styles.header}>
-      <View style={styles.container}>
-        <TextInput style={styles.inputText}></TextInput>
-        <TouchableOpacity style={styles.button} onPress={props.onPress}>
-          <FontAwesome5 name="search" size={20} color="#fff" />
-        </TouchableOpacity>
-      </View>
-
+    <View style={styles.container}>
+      <TextInput style={styles.inputText} onChangeText={props.onChangeText}></TextInput>
+      <TouchableOpacity style={styles.button} onPress={props.onPress}>
+        <FontAwesome5 name="search" size={20} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -22,26 +19,28 @@ export default Search;
 
 const styles = StyleSheet.create({
   container: {
-    height: 58,
+    height: 50,
     width: wp('90%'),
     marginLeft: wp('5%'),
     backgroundColor: '#D7D9DB',
     borderRadius: 18,
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginTop: hp('2%'),
   },
   button: {
-    height: 58,
-    width: 58,
+    height: 50,
+    width: 50,
     borderRadius: 18,
     backgroundColor: '#F24F04',
     justifyContent: 'center',
     alignItems: 'center'
   },
   inputText: {
-    height: 58,
+    height: 50,
     width: '80%',
     fontSize: 18,
+    color: '#000',
   }
 
 });

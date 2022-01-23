@@ -1,25 +1,40 @@
-import { Text, View, Actionsheet, Center, useDisclose, Heading } from "native-base";
+import { Text, View, Actionsheet, useDisclose, } from "native-base";
 import React from "react";
 import { StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Header } from "../../components";
+import { Header, Toast } from "../../components";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery } from '@apollo/client';
-import { QUERY } from "../../graphql";
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY, MUTATION } from "../../graphql";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function Favorite(props) {
 
   const navigation = useNavigation();
   const { isOpen, onOpen, onClose } = useDisclose()
 
-  var BUTTONS = ['Option 1', 'Option 2', 'Option 3', 'Delete', 'Cancel'];
-  var DESTRUCTIVE_INDEX = 3;
-  var CANCEL_INDEX = 4;
   const { data, refetch } = useQuery(QUERY.GET_VENDOR_FAVORITES, {
     onCompleted: (data) => {
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   });
+
+  const [removeFavorite] = useMutation(MUTATION.ADD_FAVORITE, {
+    onCompleted: (data) => {
+      onClose();
+      Toast('Đã xóa khỏi danh sách yêu thích');
+      refetch();
+    }
+  });
+
+  const removeFavoriteVendor = async (vendorId) => {
+    removeFavorite({
+      variables: {
+        vendorId,
+        isAdd: false
+      }
+    });
+  }
+
 
   const renderItem = (item) => {
     return (
@@ -42,7 +57,7 @@ export default function Favorite(props) {
           onClose();
         }}>
           <Actionsheet.Content>
-            <TouchableOpacity onPress={() => { }} style={styles.delete}>
+            <TouchableOpacity onPress={() => removeFavoriteVendor(item._id)} style={styles.delete}>
               <FontAwesome5 name="trash" size={wp('4%')} color="#000" />
               <Text ml="4">Gỡ yêu thích</Text>
             </TouchableOpacity>
@@ -98,5 +113,4 @@ const styles = StyleSheet.create({
   delete: {
     flexDirection: 'row',
   }
-
 });

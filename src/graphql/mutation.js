@@ -92,5 +92,9 @@ export default {
 
   ADD_REVIEW: gql`mutation AddReview($rating: Int!, $comment: String!, $reviewedId: ID!, $type: reviewEnum!,$orderId: ID!) {
     addReview(rating: $rating, comment: $comment, reviewedId: $reviewedId, type: $type, orderId: $orderId)
+  }`,
+
+  ADD_FAVORITE: gql`mutation AddVendorFavorite($vendorId: ID!, $isAdd: Boolean!) {
+    addVendorFavorite(vendorId: $vendorId, isAdd: $isAdd)
   }`
 }

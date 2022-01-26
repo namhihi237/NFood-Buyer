@@ -29,7 +29,7 @@ export default function TrackingOrder(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack />
+      <HeaderBack title="Vị trí của shipper" />
       <MapView
         initialRegion={{
           latitude: 16.076,

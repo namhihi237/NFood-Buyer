@@ -1,19 +1,24 @@
-import { Text, Box, View, Switch } from "native-base";
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, FormControl, View, Modal, Button, Input } from "native-base";
+import React, { useState } from 'react';
+import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { InputField, ButtonCustom, Toast, Loading } from '../../components';
+import { Toast } from '../../components';
 import { SCREEN } from "../../constants";
-import { QUERY, client } from '../../graphql';
-import { display, flexDirection } from "styled-system";
+import { QUERY, MUTATION } from '../../graphql';
 import { storageUtils } from '../../utils';
 
 const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1637807216/user_ilxv1x.png";
 
 export default function Store(props) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+
+  const onChangePassword = (text) => setPassword(text);
+  const onChangeNewPassword = (text) => setNewPassword(text);
 
   const { data } = useQuery(QUERY.GET_USER, {
     fetchPolicy: "cache-first",
@@ -21,6 +26,43 @@ export default function Store(props) {
       role: "buyer"
     },
   });
+
+  const [changePassword] = useMutation(MUTATION.CHANGE_PASSWORD, {
+    variables: {
+      oldPassword: password,
+      newPassword: newPassword
+    },
+    onCompleted: (data) => {
+      setModalVisible(false);
+      Toast('Đổi mật khẩu thành công', 'success', 'top-right');
+    },
+    onError: (error) => {
+      Toast(error.message, 'danger', 'top-right');
+    }
+  });
+
+  const changePasswordHandler = async () => {
+    // validate password
+    if (password === '' || newPassword === '') {
+      Toast('Vui lòng nhập đầy đủ thông tin', 'danger', 'top-right');
+      return;
+    }
+
+    // new password > 6 characters
+    if (newPassword.length < 6) {
+      Toast('Mật khẩu mới phải có ít nhất 6 ký tự', 'danger', 'top-right');
+      return;
+    }
+
+    // check 2 password dont  same password
+    if (password === newPassword) {
+      Toast('Mật khẩu mới không được trùng với mật khẩu cũ', 'danger', 'top-right');
+      return;
+    }
+
+    await changePassword();
+  }
+
 
   const navigation = useNavigation();
 
@@ -103,6 +145,14 @@ export default function Store(props) {
             <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
           </View>
         </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
+          <View style={styles.btnLogout} >
+            <View style={styles.ordersHeaderLeft}>
+              <Text bold color="#06b6d4">Thay đổi mật khẩu</Text>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={logOut}>
           <View style={styles.btnLogout} >
             <View style={styles.ordersHeaderLeft}>
@@ -112,6 +162,47 @@ export default function Store(props) {
         </TouchableWithoutFeedback>
 
       </View>
+
+      <Modal
+        isOpen={modalVisible}
+        onClose={() => setModalVisible(false)}
+        closeOnOverlayClick={false}
+      >
+        <Modal.Content>
+          <Modal.CloseButton />
+          <Modal.Header>Đổi mật khẩu mới</Modal.Header>
+          <Modal.Body>
+            <FormControl>
+              <FormControl.Label>Mật khẩu hiện tại</FormControl.Label>
+              <Input onChangeText={onChangePassword} type='password' />
+            </FormControl>
+            <FormControl mt="3">
+              <FormControl.Label>Mật khẩu mới</FormControl.Label>
+              <Input onChangeText={onChangeNewPassword} type='password' />
+            </FormControl>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button
+                variant="ghost"
+                colorScheme="blueGray"
+                onPress={() => {
+                  setModalVisible(false)
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                onPress={() => {
+                  changePasswordHandler();
+                }}
+              >
+                Save
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </View >
   );
 }

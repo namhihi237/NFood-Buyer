@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client';
-import { offsetLimitPagination } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import { storageUtils } from '../utils';
 import { WebSocketLink } from '@apollo/client/link/ws';

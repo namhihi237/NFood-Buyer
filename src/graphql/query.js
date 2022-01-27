@@ -217,5 +217,20 @@ export default {
         }
       }
     }
+  }`,
+
+  GET_REVIEWS_BY_VENDOR: gql`query GetReviewsByVendor($vendorId: ID!) {
+    getReviewsByVendor(vendorId: $vendorId) {
+      reviews {
+        _id
+        rating
+        comment
+        image
+        buyer {
+          name
+        }
+        createdAt
+      }
+    }
   }`
 };

@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, ScrollView, Image, Text } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
-import { InputField, ButtonCustom, Toast, Loading, Search, HeaderBack } from '../../components';
+import { Loading } from '../../components';
 import { SCREEN } from "../../constants"
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION, QUERY } from "../../graphql";
+import { QUERY } from "../../graphql";
 import Info from "./info";
 import Menu from "./menu";
 

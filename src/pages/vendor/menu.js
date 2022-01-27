@@ -1,21 +1,16 @@
 import { Actionsheet, Text, View, Input, useDisclose, Heading, Center } from "native-base";
-
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { numberOfCarts, listCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
-import { SCREEN } from "../../constants"
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION, QUERY } from "../../graphql";
+import { MUTATION } from "../../graphql";
 import { moneyUtils } from "../../utils"
 import Order from "./order";
 import { Toast } from "../../components";
 
 export default function Menu(props) {
-  const navigation = useNavigation();
   const { menu, vendorId } = props;
   const { isOpen, onOpen, onClose } = useDisclose()
   const [itemMenu, setItemMenu] = useState(null);
@@ -26,7 +21,7 @@ export default function Menu(props) {
   const renderListMenu = () => {
     return menu.map((item, index) => {
       return (
-        <View style={styles.categoryContainer}>
+        <View style={styles.categoryContainer} key={index}>
           <Text style={styles.textTitleCategory}>{item.name?.toUpperCase()}</Text>
           <View style={styles.viewListMenu}>
             {item.items.map((itemMenu, index) => {
@@ -35,6 +30,7 @@ export default function Menu(props) {
                   setItemMenu(itemMenu);
                   onOpen();
                 }}
+                  key={index}
                   style={styles.viewItemMenu}>
                   <View style={styles.viewImageItemMenu}>
                     <Image

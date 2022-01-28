@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
 
-import { Search, Cart } from '../../components';
+import { Cart } from '../../components';
 import { SCREEN } from "../../constants"
 import { GPSUtils } from "../../utils";
 import { gps, locationGPS, numberOfCarts, myAddress } from "../../recoil/list-state";
@@ -50,6 +50,7 @@ export default function Home(props) {
   const [address, setAddress] = useRecoilState(myAddress);
   const [modalVisible, setModalVisible] = React.useState(!isGPS);
   const [numberCart, setNumberCarts] = useRecoilState(numberOfCarts);
+
   const getLocation = async () => {
     try {
       const status = await GPSUtils.requestPermission();

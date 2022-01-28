@@ -1,12 +1,12 @@
-import { Text, View, Box, Center } from "native-base";
+import { Text, View } from "native-base";
 import React from "react";
-import { StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
-import { HeaderBack, ButtonCustom, Toast } from "../../components";
+import { HeaderBack, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation, useSubscription } from '@apollo/client';
-import { QUERY, MUTATION, SUBSCRIPTION } from "../../graphql";
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY, MUTATION } from "../../graphql";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { moneyUtils, orderUtils } from "../../utils";
 export default function OrderDetail(props) {

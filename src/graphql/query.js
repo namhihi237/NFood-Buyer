@@ -13,7 +13,6 @@ export default {
       }  
       total
     }
-
     getQuantityOfCart
   }`,
   VENDOR: gql`query Vendor($vendorId: ID!) {
@@ -45,6 +44,7 @@ export default {
       carts {
         _id
         item {
+          _id
           name
           price
         }

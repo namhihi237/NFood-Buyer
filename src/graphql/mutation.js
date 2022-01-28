@@ -34,6 +34,7 @@ export default {
     addToCart(itemId: $itemId, quantity: $quantity, vendorId: $vendorId) {
       _id
       item {
+        _id
         name
         price
       }

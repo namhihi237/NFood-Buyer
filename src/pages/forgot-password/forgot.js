@@ -1,16 +1,15 @@
 import { Text, View } from "native-base";
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
 import { MUTATION } from "../../graphql";
-import { InputField, ButtonCustom, Toast, Loading } from '../../components';
+import { InputField, ButtonCustom, Toast } from '../../components';
 import { SCREEN } from "../../constants"
 export default function Forgot(props) {
 
   const navigation = useNavigation();
-  const route = useRoute();
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -21,11 +20,9 @@ export default function Forgot(props) {
       phoneNumber
     },
     onCompleted: (data) => {
-      console.log();
       Toast('Gửi mã xác nhận thành công', 'success', 'top-right');
     },
     onError: (error) => {
-      console.log(error);
       Toast(error.message, 'danger', 'top-right');
     }
   });

@@ -1,17 +1,17 @@
-import { Heading, SectionList, View, Modal, Center } from "native-base";
+import { View, Modal } from "native-base";
 
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, Text } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
-import { InputField, ButtonCustom, Toast, Loading, Search, HeaderBack } from '../../components';
+import { Toast, HeaderBack } from '../../components';
 import { SCREEN } from "../../constants"
 import { moneyUtils } from "../../utils";
-import { gps, locationGPS, listCarts, numberOfCarts } from "../../recoil/list-state";
+import { listCarts, numberOfCarts } from "../../recoil/list-state";
 import { useRecoilState } from "recoil";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { MUTATION, QUERY, client } from "../../graphql";
+import { MUTATION, QUERY } from "../../graphql";
 import _ from 'lodash';
 export default function Cart(props) {
   const route = useRoute();

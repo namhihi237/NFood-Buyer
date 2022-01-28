@@ -1,6 +1,6 @@
-import { Button, Box, View, Modal } from "native-base";
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Text } from 'react-native';
+import { View } from "native-base";
+import React from 'react';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { moneyUtils } from "../../utils";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

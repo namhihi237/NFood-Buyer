@@ -2,10 +2,10 @@ import { Actionsheet, Text, View, Input, useDisclose, Heading, Center } from "na
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useMutation } from '@apollo/client';
-import { numberOfCarts, listCarts } from "../../recoil/list-state";
+import { useMutation, useQuery } from '@apollo/client';
+import { numberOfCarts } from "../../recoil/list-state";
+import { MUTATION, QUERY } from "../../graphql";
 import { useRecoilState } from "recoil";
-import { MUTATION } from "../../graphql";
 import { moneyUtils } from "../../utils"
 import Order from "./order";
 import { Toast } from "../../components";
@@ -16,7 +16,28 @@ export default function Menu(props) {
   const [itemMenu, setItemMenu] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [number, setNumber] = useRecoilState(numberOfCarts);
-  const [carts, setCarts] = useRecoilState(listCarts);
+
+  const [carts, setCarts] = useState([]);
+
+  const { data, refetch } = useQuery(QUERY.GET_CARTS, {
+    onCompleted: (data) => {
+      setCarts(data.carts.carts);
+    },
+    fetchPolicy: 'no-cache',
+  })
+
+  const renderBuyQuantity = (id) => {
+    if (carts?.length > 0) {
+      const index = carts.findIndex(cart => cart.item._id === id);
+      if (index !== -1) {
+        return (<View style={styles.quantity}>
+          <Text style={styles.textQuantity}>x {carts[index].quantity}</Text>
+        </View>)
+      }
+      return null;
+    }
+    return null;
+  }
 
   const renderListMenu = () => {
     return menu.map((item, index) => {
@@ -38,11 +59,15 @@ export default function Menu(props) {
                       source={{ uri: itemMenu.image }}
                     />
                   </View>
-                  <View style={styles.viewTextItemMenu}>
+                  <View >
                     <Text style={styles.textItemMenu} isTruncated={true}>{itemMenu.name}</Text>
                     <Text style={styles.textPriceItemMenu}>{moneyUtils.convertVNDToString(itemMenu.price)} đ</Text>
                     <Text style={styles.textDescription} isTruncated={true} noOfLines={2}>{itemMenu.description}</Text>
+                    <View style={styles.quantityContainer}>
+                      {renderBuyQuantity(itemMenu._id)}
+                    </View>
                   </View>
+
                 </TouchableOpacity>
               ) : null
             })}
@@ -69,7 +94,18 @@ export default function Menu(props) {
       setItemMenu(null);
       setQuantity(1);
       setNumber(number + quantity);
-      setCarts(carts.concat(data.addToCart));
+      // find  item update carts
+      const index = carts.findIndex(cart => cart._id === data.addToCart?._id);
+
+      if (index !== -1) {
+        const newCarts = carts.map((cart, index) => {
+          if (cart._id === data.addToCart?._id) {
+            return data.addToCart;
+          }
+          return cart;
+        })
+        setCarts(newCarts);
+      }
       onClose();
 
     },
@@ -101,7 +137,7 @@ export default function Menu(props) {
                 source={{ uri: itemMenu?.image }}
               />
             </View>
-            <View style={styles.viewTextItemMenu}>
+            <View >
               <Text style={styles.textItemMenu} isTruncated={true}>{itemMenu?.name}</Text>
               <Text style={styles.textPriceItemMenu}>{moneyUtils.convertVNDToString(itemMenu?.price || 0)} đ</Text>
               <Text style={styles.textDescription} isTruncated={true} noOfLines={2}>{itemMenu?.description}</Text>
@@ -190,5 +226,23 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%'),
     width: wp('100%'),
     marginTop: 20
+  },
+  quantityContainer: {
+    width: wp('60%'),
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  quantity: {
+    backgroundColor: '#ea580c',
+    paddingHorizontal: 15,
+    paddingVertical: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  textQuantity: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   }
 });

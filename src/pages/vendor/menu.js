@@ -19,7 +19,7 @@ export default function Menu(props) {
 
   const [carts, setCarts] = useState([]);
 
-  const { data, refetch } = useQuery(QUERY.GET_CARTS, {
+  useQuery(QUERY.GET_CARTS, {
     onCompleted: (data) => {
       setCarts(data.carts.carts);
     },
@@ -105,6 +105,8 @@ export default function Menu(props) {
           return cart;
         })
         setCarts(newCarts);
+      } else {
+        setCarts([...carts, data.addToCart]);
       }
       onClose();
 

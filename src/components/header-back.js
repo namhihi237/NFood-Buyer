@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Text, Center } from 'native-base';
-import { storageUtils } from '../utils'
+import { Center } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from '../constants';
 const HeaderBack = (props) => {
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 16,
     color: '#fff',
-    fontFamily: 'SF-UI-Text-Semibold',
+    fontFamily: 'Dongle-Bold',
     fontWeight: "bold",
     fontSize: hp('1.8%'),
   },

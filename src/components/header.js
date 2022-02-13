@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Button, Switch } from "native-base";
-// import { Text } from 'native-base';
-import { storageUtils } from '../utils'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from '../constants';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 const Header = (props) => {
   const navigation = useNavigation();
-
   const onPress = props.onPress ? props.onPress : () => navigation.navigate(SCREEN.HOME);
 
   return (
@@ -48,9 +43,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontFamily: 'SF-UI-Text-Semibold',
-    fontWeight: "bold",
-    fontSize: hp('1.8%'),
+    fontFamily: 'Dongle-Bold',
+    fontSize: hp('3.2%'),
   },
 
   right: {

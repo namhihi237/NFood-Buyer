@@ -15,6 +15,15 @@ const Vendor = (props) => {
   const navigation = useNavigation();
 
   const marginLeft = index === 0 ? wp('5%') : 0;
+
+  const renderLike = (item) => {
+    const likePercent = parseInt(item.rating / item.numberOfReviews);
+    if (!likePercent || likePercent.toString() === 'NaN') {
+      return 100;
+    }
+    return likePercent;
+  }
+
   return (
     <TouchableOpacity style={{ ...styles.container, marginLeft }} onPress={() => navigation.navigate(SCREEN.VENDOR, { vendor: item })}>
       <Image
@@ -28,8 +37,8 @@ const Vendor = (props) => {
         <Text style={styles.rate}>{parseFloat(item.distance / 1000).toFixed(1)} km </Text>
       </View>
       <View style={styles.rateContainer}>
-        <FontAwesome5 name="star" size={hp('1.9%')} color="#ffc107" />
-        <Text style={styles.rate}>{item?.rating}</Text>
+        <FontAwesome5 name="thumbs-up" size={hp('1.9%')} color="#ffc107" />
+        <Text style={styles.rate}>{renderLike(item)}% hài lòng</Text>
       </View>
     </TouchableOpacity>
   );

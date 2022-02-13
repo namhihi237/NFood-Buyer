@@ -19,7 +19,7 @@ export default Search;
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    height: 40,
     width: wp('90%'),
     marginLeft: wp('5%'),
     backgroundColor: '#D7D9DB',
@@ -29,18 +29,17 @@ const styles = StyleSheet.create({
     marginTop: hp('2%'),
   },
   button: {
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     borderRadius: 18,
     backgroundColor: '#F24F04',
     justifyContent: 'center',
     alignItems: 'center'
   },
   inputText: {
-    height: 50,
+    height: 40,
     width: '80%',
     fontSize: 18,
     color: '#000',
   }
-
 });

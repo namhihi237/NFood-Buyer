@@ -9,6 +9,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import { Toast } from '../../components';
 import { timeUtils } from '../../utils';
+import _ from 'lodash';
+
 export default function Info(props) {
   const { vendor } = props;
 
@@ -78,9 +80,41 @@ export default function Info(props) {
     return `${item.openTime} - ${item.closeTime}`;
   }
 
-  const renderItem = (item) => {
+  const checkOpen = (item) => {
+    const currentTime = new Date();
+    const currentDay = currentTime.getDay();
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
+    const timeOpen = item?.timeOpen || [];
+
+    // convert currentDay to string
+    let currentDayString = "";
+    if (currentDay === 0) {
+      currentDayString = "8";
+    } else {
+      currentDayString = (currentDay + 1).toString();
+    }
+
+    // check timeOpen
+    const timeOpenItem = _.find(timeOpen, { day: currentDayString, isOpen: true });
+    console.log(timeOpenItem);
+    if (!timeOpenItem) {
+      return 'Chưa mở cửa';
+    }
+
+    // check timeOpen
+    const start = parseFloat(timeOpenItem.openTime.split(':')[0] + "." + timeOpenItem.openTime.split(':')[1]);
+    const end = parseFloat(timeOpenItem.closeTime.split(':')[0] + "." + timeOpenItem.closeTime.split(':')[1]);
+    const currentFloat = parseFloat(currentHour + "." + currentMinute);
+    if (currentFloat < start || currentFloat > end) {
+      return 'Chưa mở cửa';
+    }
+    return 'Đang mở cửa';
+  }
+
+  const renderItem = (item, index) => {
     return (
-      <View style={styles.itemContainer}>
+      <View style={styles.itemContainer} key={index}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
             <Text bold fontSize="lg">{item.buyer?.name}</Text>
@@ -121,7 +155,7 @@ export default function Info(props) {
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
-        <Text style={styles.openText} >Chưa mở cửa</Text>
+        <Text style={styles.openText} >{checkOpen(vendor)}</Text>
         <TouchableOpacity onPress={() => onOpen()}>
           <Text style={styles.openTime} >Xem giờ mở cửa</Text>
         </TouchableOpacity>
@@ -141,7 +175,7 @@ export default function Info(props) {
                   ? <FlatList
                     data={data?.getReviewsByVendor?.reviews}
                     keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => renderItem(item)}
+                    renderItem={({ item, index }) => renderItem(item, index)}
                   /> :
                   <View style={styles.noData}>
                     <Text fontSize="xl">Chưa có đánh giá nào</Text>

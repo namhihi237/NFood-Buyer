@@ -36,6 +36,14 @@
 		B1EBFCCA453B4CA3AD1CB361 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A7CC921E4A44E4F9D9F9DA6 /* Octicons.ttf */; };
 		02863B90ACE6417FA2143A75 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24BF8E330C4747C184EF07A8 /* SimpleLineIcons.ttf */; };
 		86AA715AD084487185880170 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B03DBE8325B44843B44F2F8C /* Zocial.ttf */; };
+		AF58F2356B0E49B5BBB2123D /* Dongle-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B65AFAFD328647E9AD31ED84 /* Dongle-Bold.ttf */; };
+		AF750E1059A94AD083E938EE /* Dongle-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DE726EDFFA04E7694A15A93 /* Dongle-Light.ttf */; };
+		F32DF794C30048B9A98824B8 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F45C668B8B847C7BBD5DA59 /* Dongle-Regular.ttf */; };
+		E60F6ECD319341B5AC0BBA11 /* SVN-Poppins Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D45DEAF9440449BA836584C /* SVN-Poppins Black.ttf */; };
+		EA06F94893714EACB02D7F61 /* SVN-Poppins Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BB08FFC61C24FBC8E05458E /* SVN-Poppins Bold.ttf */; };
+		F532C8F7860C4D68BE0CC30E /* SVN-Poppins Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B99F98AA11304EC4BEF25D6B /* SVN-Poppins Medium.ttf */; };
+		A9B1A8BBC1A94F178FECFBAE /* SVN-Poppins Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1D6A61D6B694B9CAE0EB75D /* SVN-Poppins Regular.ttf */; };
+		ABE3BF10510E427D896C598F /* SVN-Poppins SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDE4AAE3F31B4A7BA6D4E889 /* SVN-Poppins SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +92,14 @@
 		7A7CC921E4A44E4F9D9F9DA6 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		24BF8E330C4747C184EF07A8 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		B03DBE8325B44843B44F2F8C /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B65AFAFD328647E9AD31ED84 /* Dongle-Bold.ttf */ = {isa = PBXFileReference; name = "Dongle-Bold.ttf"; path = "../assets/fonts/Dongle-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1DE726EDFFA04E7694A15A93 /* Dongle-Light.ttf */ = {isa = PBXFileReference; name = "Dongle-Light.ttf"; path = "../assets/fonts/Dongle-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8F45C668B8B847C7BBD5DA59 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; name = "Dongle-Regular.ttf"; path = "../assets/fonts/Dongle-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7D45DEAF9440449BA836584C /* SVN-Poppins Black.ttf */ = {isa = PBXFileReference; name = "SVN-Poppins Black.ttf"; path = "../assets/fonts/SVN-Poppins Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1BB08FFC61C24FBC8E05458E /* SVN-Poppins Bold.ttf */ = {isa = PBXFileReference; name = "SVN-Poppins Bold.ttf"; path = "../assets/fonts/SVN-Poppins Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B99F98AA11304EC4BEF25D6B /* SVN-Poppins Medium.ttf */ = {isa = PBXFileReference; name = "SVN-Poppins Medium.ttf"; path = "../assets/fonts/SVN-Poppins Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A1D6A61D6B694B9CAE0EB75D /* SVN-Poppins Regular.ttf */ = {isa = PBXFileReference; name = "SVN-Poppins Regular.ttf"; path = "../assets/fonts/SVN-Poppins Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EDE4AAE3F31B4A7BA6D4E889 /* SVN-Poppins SemiBold.ttf */ = {isa = PBXFileReference; name = "SVN-Poppins SemiBold.ttf"; path = "../assets/fonts/SVN-Poppins SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +216,14 @@
 				7A7CC921E4A44E4F9D9F9DA6 /* Octicons.ttf */,
 				24BF8E330C4747C184EF07A8 /* SimpleLineIcons.ttf */,
 				B03DBE8325B44843B44F2F8C /* Zocial.ttf */,
+				B65AFAFD328647E9AD31ED84 /* Dongle-Bold.ttf */,
+				1DE726EDFFA04E7694A15A93 /* Dongle-Light.ttf */,
+				8F45C668B8B847C7BBD5DA59 /* Dongle-Regular.ttf */,
+				7D45DEAF9440449BA836584C /* SVN-Poppins Black.ttf */,
+				1BB08FFC61C24FBC8E05458E /* SVN-Poppins Bold.ttf */,
+				B99F98AA11304EC4BEF25D6B /* SVN-Poppins Medium.ttf */,
+				A1D6A61D6B694B9CAE0EB75D /* SVN-Poppins Regular.ttf */,
+				EDE4AAE3F31B4A7BA6D4E889 /* SVN-Poppins SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -319,6 +343,14 @@
 				B1EBFCCA453B4CA3AD1CB361 /* Octicons.ttf in Resources */,
 				02863B90ACE6417FA2143A75 /* SimpleLineIcons.ttf in Resources */,
 				86AA715AD084487185880170 /* Zocial.ttf in Resources */,
+				AF58F2356B0E49B5BBB2123D /* Dongle-Bold.ttf in Resources */,
+				AF750E1059A94AD083E938EE /* Dongle-Light.ttf in Resources */,
+				F32DF794C30048B9A98824B8 /* Dongle-Regular.ttf in Resources */,
+				E60F6ECD319341B5AC0BBA11 /* SVN-Poppins Black.ttf in Resources */,
+				EA06F94893714EACB02D7F61 /* SVN-Poppins Bold.ttf in Resources */,
+				F532C8F7860C4D68BE0CC30E /* SVN-Poppins Medium.ttf in Resources */,
+				A9B1A8BBC1A94F178FECFBAE /* SVN-Poppins Regular.ttf in Resources */,
+				ABE3BF10510E427D896C598F /* SVN-Poppins SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

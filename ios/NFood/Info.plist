@@ -77,6 +77,14 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Dongle-Bold.ttf</string>
+		<string>Dongle-Light.ttf</string>
+		<string>Dongle-Regular.ttf</string>
+		<string>SVN-Poppins Black.ttf</string>
+		<string>SVN-Poppins Bold.ttf</string>
+		<string>SVN-Poppins Medium.ttf</string>
+		<string>SVN-Poppins Regular.ttf</string>
+		<string>SVN-Poppins SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -79,6 +79,9 @@ export default function Checkout(props) {
         index: 0,
         routes: [{ name: SCREEN.HOME }],
       });
+    },
+    onError: (error) => {
+      Toast(error.message, "danger", "top-right");
     }
   });
 
@@ -208,6 +211,7 @@ export default function Checkout(props) {
           <Text fontSize="lg" style={{ marginBottom: 5 }}>Mã giảm giá</Text>
           <Input
             type={"text"}
+            borderColor="#B2B6BB"
             w={{
               base: "100%",
               md: "25%",

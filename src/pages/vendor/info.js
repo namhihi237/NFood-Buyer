@@ -1,4 +1,4 @@
-import { View, Modal, Text, Center } from "native-base";
+import { View, Modal, Text, Center, Actionsheet, useDisclose } from "native-base";
 
 import React from 'react';
 import { StyleSheet, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
@@ -13,6 +13,9 @@ export default function Info(props) {
   const { vendor } = props;
 
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclose();
+
   const [addFavorite] = useMutation(MUTATION.ADD_FAVORITE, {
     variables: {
       vendorId: vendor?._id,
@@ -44,6 +47,37 @@ export default function Info(props) {
     }
   }
 
+  const renderLike = (item) => {
+    const likePercent = parseInt(item?.rating / item?.numberOfReviews);
+    if (!likePercent || likePercent.toString() === 'NaN') {
+      return 100;
+    }
+    return likePercent;
+  }
+
+  const renderDate = (item) => {
+    switch (item.day) {
+      case '2':
+        return 'Thứ 2';
+      case '3':
+        return 'Thứ 3';
+      case '4':
+        return 'Thứ 4';
+      case '5':
+        return 'Thứ 5';
+      case '6':
+        return 'Thứ 6';
+      case '7':
+        return 'Thứ 7';
+      case '8':
+        return 'Chủ nhật';
+    }
+  }
+
+  const renderHours = (item) => {
+    return `${item.openTime} - ${item.closeTime}`;
+  }
+
   const renderItem = (item) => {
     return (
       <View style={styles.itemContainer}>
@@ -73,8 +107,8 @@ export default function Info(props) {
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
         <View style={styles.distanceContainer}>
-          <FontAwesome5 name="star" size={15} color="#ffc107" style={{ marginRight: 10 }} />
-          <Text style={styles.text} >{vendor?.rating}</Text>
+          <FontAwesome5 name="thumbs-up" size={15} color="#ffc107" style={{ marginRight: 10 }} />
+          <Text style={styles.text} >{renderLike(vendor)}% yêu thích</Text>
           <TouchableOpacity onPress={() => {
             setModalVisible(true);
             getReviewsByVendor();
@@ -83,12 +117,12 @@ export default function Info(props) {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={addFavorite}>
-          <FontAwesome5 name="thumbs-up" size={20} color="#ec4899" style={{ marginBottom: 5, marginRight: 10 }} />
+          <FontAwesome5 name="heart" size={20} color="#ec4899" style={{ marginBottom: 5, marginRight: 10 }} />
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
         <Text style={styles.openText} >Chưa mở cửa</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => onOpen()}>
           <Text style={styles.openTime} >Xem giờ mở cửa</Text>
         </TouchableOpacity>
       </View>
@@ -117,7 +151,26 @@ export default function Info(props) {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-    </View>
+
+      <Actionsheet isOpen={isOpen} onClose={() => {
+        onClose();
+      }}>
+        <Actionsheet.Content>
+          {
+            vendor?.timeOpen?.map((item, index) => {
+              if (item.isOpen) {
+                return (
+                  <View justifyContent='space-between' flexDirection={'row'} width='100%' pt="2" pb="2" >
+                    <Text>{renderDate(item)}: </Text>
+                    <Text>{renderHours(item)}</Text>
+                  </View>
+                )
+              }
+            })
+          }
+        </Actionsheet.Content>
+      </Actionsheet>
+    </View >
   );
 }
 
@@ -176,5 +229,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 150,
+  },
+  itemSheet: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '70%',
   }
 });

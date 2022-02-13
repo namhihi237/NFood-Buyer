@@ -24,6 +24,12 @@ export default {
       image
       distance
       address
+      timeOpen {
+        openTime
+        day
+        closeTime
+        isOpen
+      }
       menu {
         _id
         name

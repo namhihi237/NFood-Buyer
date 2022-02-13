@@ -13,8 +13,6 @@ export default function Favorite(props) {
   const { isOpen, onOpen, onClose } = useDisclose()
 
   const { data, refetch } = useQuery(QUERY.GET_VENDOR_FAVORITES, {
-    onCompleted: (data) => {
-    },
     fetchPolicy: 'network-only',
   });
 
@@ -35,6 +33,28 @@ export default function Favorite(props) {
     });
   }
 
+  const renderLike = (item) => {
+    const likePercent = parseInt(item?.rating / item?.numberOfReviews);
+    if (!likePercent || likePercent.toString() === 'NaN') {
+      return 100;
+    }
+    return likePercent;
+  }
+
+  const renderTag = (menu) => {
+    return (
+      <View style={styles.tagContainer}>
+        {menu.map((item, index) => {
+          return (
+            <View style={styles.tag} key={index}>
+              <Text style={styles.tagText}>{item.name}</Text>
+            </View>
+          )
+        })}
+      </View>
+    )
+  }
+
 
   const renderItem = (item) => {
     return (
@@ -44,8 +64,9 @@ export default function Favorite(props) {
           <View>
             <Text fontSize="md" bold>{item?.name}</Text>
             <View style={{ marginTop: 5 }}>
-              <Text fontSize="md">45% hài lòng</Text>
+              <Text fontSize="md">{renderLike(item)}% hài lòng</Text>
             </View>
+            {renderTag(item.menu)}
           </View>
           <TouchableOpacity style={{ marginTop: 2, width: 5 }} onPress={() => {
             onOpen();
@@ -112,5 +133,17 @@ const styles = StyleSheet.create({
   },
   delete: {
     flexDirection: 'row',
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginTop: 10,
+  },
+  tag: {
+    backgroundColor: '#FCC342',
+    paddingHorizontal: 10,
+    marginHorizontal: 5,
+    borderRadius: 6,
   }
 });

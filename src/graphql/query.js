@@ -201,6 +201,10 @@ export default {
       distance
       address
       numberOfReviews
+      menu {
+        name
+        _id
+      }
       location {
         coordinates
       }

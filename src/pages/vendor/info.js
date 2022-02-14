@@ -97,9 +97,11 @@ export default function Info(props) {
 
     // check timeOpen
     const timeOpenItem = _.find(timeOpen, { day: currentDayString, isOpen: true });
-    console.log(timeOpenItem);
     if (!timeOpenItem) {
-      return 'Chưa mở cửa';
+      return {
+        isOpen: false,
+        text: 'Chưa mở cửa'
+      };
     }
 
     // check timeOpen
@@ -107,9 +109,16 @@ export default function Info(props) {
     const end = parseFloat(timeOpenItem.closeTime.split(':')[0] + "." + timeOpenItem.closeTime.split(':')[1]);
     const currentFloat = parseFloat(currentHour + "." + currentMinute);
     if (currentFloat < start || currentFloat > end) {
-      return 'Chưa mở cửa';
+      return {
+        isOpen: false,
+        text: 'Chưa mở cửa'
+      };
     }
-    return 'Đang mở cửa';
+
+    return {
+      isOpen: true,
+      text: 'Đang mở cửa'
+    }
   }
 
   const renderItem = (item, index) => {
@@ -155,7 +164,7 @@ export default function Info(props) {
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
-        <Text style={styles.openText} >{checkOpen(vendor)}</Text>
+        <Text style={{ ...styles.openText, color: checkOpen(vendor).isOpen ? '#059669' : '#525252' }} >{checkOpen(vendor).text}</Text>
         <TouchableOpacity onPress={() => onOpen()}>
           <Text style={styles.openTime} >Xem giờ mở cửa</Text>
         </TouchableOpacity>
@@ -243,7 +252,7 @@ const styles = StyleSheet.create({
     color: "#959BA4",
   },
   openTime: {
-    fontFamily: "SF-UI-Display-Regular",
+    fontFamily: "Dongle-Regular",
     fontSize: 15,
     color: "#36AFDC",
     fontWeight: "bold"

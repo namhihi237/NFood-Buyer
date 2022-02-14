@@ -1,12 +1,12 @@
 import { Text, Pressable, View, Box, Center } from "native-base";
 import React from "react";
-import { StyleSheet, StatusBar, Image, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, Image, Dimensions, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
-import { HeaderBack, ButtonCustom, Toast } from "../../components";
+import { HeaderBack } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useQuery, useMutation } from '@apollo/client';
-import { QUERY, MUTATION } from "../../graphql";
+import { useQuery } from '@apollo/client';
+import { QUERY } from "../../graphql";
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Item from './item';
 
@@ -26,6 +26,13 @@ export default function ListOrders(props) {
   React.useEffect(() => {
     navigation.addListener('focus', () => {
       refetch();
+
+      if (route.params?.clear) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: SCREEN.HOME }],
+        });
+      }
     });
   }, []);
 
@@ -134,7 +141,13 @@ export default function ListOrders(props) {
 
   return (
     <View style={styles.container} >
-      <HeaderBack title="Đơn hàng của bạn" />
+      <HeaderBack title="Đơn hàng của bạn" onPress={() => {
+        if (route.params?.clear) {
+          navigation.navigate(SCREEN.HOME);
+        } else {
+          navigation.goBack();
+        }
+      }} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={data ? renderScene : renderSceneNo}

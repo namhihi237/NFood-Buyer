@@ -1,10 +1,10 @@
-import { Text, Input, View, Checkbox, Button, Center, Modal } from "native-base";
+import { Text, Input, View, Checkbox, Button, Modal } from "native-base";
 import React from "react";
-import { StyleSheet, TouchableOpacity, Image, ScrollView, Linking, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { WebView } from 'react-native-webview';
 import { SCREEN } from "../../constants";
-import { HeaderBack, ButtonCustom, Toast } from "../../components";
+import { HeaderBack, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import { QUERY, MUTATION } from "../../graphql";
@@ -67,17 +67,13 @@ export default function Checkout(props) {
     }
   }
 
-
-
-  const [order, { loading }] = useMutation(MUTATION.CHECKOUT, {
+  const [order] = useMutation(MUTATION.CHECKOUT, {
     onCompleted: (data) => {
       Toast("Đặt hàng thành công", "success", "top-right");
       setNumber(0);
       setCarts([]);
-      navigation.navigate(SCREEN.LIST_ORDERS);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: SCREEN.HOME }],
+      navigation.navigate(SCREEN.LIST_ORDERS, {
+        clear: true,
       });
     },
     onError: (error) => {

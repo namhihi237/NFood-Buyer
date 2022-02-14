@@ -42,6 +42,19 @@ export default {
           description
         }
       }
+      vouchers {
+        _id
+        promoCode
+        discount
+        status
+        quantity
+        startDate
+        maxDiscount
+        minTotal
+        endDate
+        discountType
+        createdAt
+      }
     }
   }`,
 

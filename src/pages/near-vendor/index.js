@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
 import { QUERY } from "../../graphql";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { vendorUtils } from '../../utils';
 export default function PopularList(props) {
 
   const navigation = useNavigation();
@@ -57,8 +58,11 @@ export default function PopularList(props) {
         <Text fontSize="lg" bold isTruncated={true} noOfLines={1} >{item.name}</Text>
         <Text fontSize="sm" italic isTruncated={true} noOfLines={1}>{item.address}</Text>
         <View style={styles.like}>
-          <FontAwesome5 name="thumbs-up" size={16} color="#16a34a" />
-          <Text ml="2">{renderLike(item)}%</Text>
+          <View style={styles.like}>
+            <FontAwesome5 name="thumbs-up" size={16} color="#005db4" />
+            <Text ml="2">{renderLike(item)}%</Text>
+          </View>
+          <Text style={{ color: vendorUtils.checkOpen(item).isOpen ? '#15803d' : '#959BA4' }} ml="4">{vendorUtils.checkOpen(item).text}</Text>
         </View>
         {renderTag(item.menu)}
       </View>
@@ -120,6 +124,7 @@ const styles = StyleSheet.create({
   like: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: wp('5%'),
   }
 
 });

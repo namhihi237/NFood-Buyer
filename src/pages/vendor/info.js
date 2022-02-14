@@ -1,14 +1,12 @@
 import { View, Modal, Text, Center, Actionsheet, useDisclose } from "native-base";
-
 import React from 'react';
 import { StyleSheet, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useMutation, useLazyQuery } from '@apollo/client';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { MUTATION, QUERY } from "../../graphql";
 import { Toast } from '../../components';
-import { timeUtils } from '../../utils';
+import { timeUtils, vendorUtils } from '../../utils';
 import _ from 'lodash';
 
 export default function Info(props) {
@@ -80,47 +78,6 @@ export default function Info(props) {
     return `${item.openTime} - ${item.closeTime}`;
   }
 
-  const checkOpen = (item) => {
-    const currentTime = new Date();
-    const currentDay = currentTime.getDay();
-    const currentHour = currentTime.getHours();
-    const currentMinute = currentTime.getMinutes();
-    const timeOpen = item?.timeOpen || [];
-
-    // convert currentDay to string
-    let currentDayString = "";
-    if (currentDay === 0) {
-      currentDayString = "8";
-    } else {
-      currentDayString = (currentDay + 1).toString();
-    }
-
-    // check timeOpen
-    const timeOpenItem = _.find(timeOpen, { day: currentDayString, isOpen: true });
-    if (!timeOpenItem) {
-      return {
-        isOpen: false,
-        text: 'Chưa mở cửa'
-      };
-    }
-
-    // check timeOpen
-    const start = parseFloat(timeOpenItem.openTime.split(':')[0] + "." + timeOpenItem.openTime.split(':')[1]);
-    const end = parseFloat(timeOpenItem.closeTime.split(':')[0] + "." + timeOpenItem.closeTime.split(':')[1]);
-    const currentFloat = parseFloat(currentHour + "." + currentMinute);
-    if (currentFloat < start || currentFloat > end) {
-      return {
-        isOpen: false,
-        text: 'Chưa mở cửa'
-      };
-    }
-
-    return {
-      isOpen: true,
-      text: 'Đang mở cửa'
-    }
-  }
-
   const renderItem = (item, index) => {
     return (
       <View style={styles.itemContainer} key={index}>
@@ -164,7 +121,7 @@ export default function Info(props) {
         </TouchableOpacity>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
-        <Text style={{ ...styles.openText, color: checkOpen(vendor).isOpen ? '#059669' : '#525252' }} >{checkOpen(vendor).text}</Text>
+        <Text style={{ ...styles.openText, color: vendorUtils.checkOpen(vendor).isOpen ? '#059669' : '#525252' }} >{vendorUtils.checkOpen(vendor).text}</Text>
         <TouchableOpacity onPress={() => onOpen()}>
           <Text style={styles.openTime} >Xem giờ mở cửa</Text>
         </TouchableOpacity>

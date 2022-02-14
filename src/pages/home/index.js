@@ -166,9 +166,9 @@ export default function Home(props) {
 
           <View style={styles.popularTitle}>
             <TouchableOpacity>
-              <Text bold fontSize="lg" style={styles.text}>ĐỒ ĂN PHỔ BIẾN</Text>
+              <Text bold fontSize="lg" style={styles.text}>QUÁN ĐANG KHUYẾN MÃI</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.NEAR_VENDOR)}>
+            <TouchableOpacity onPress={() => navigation.navigate(SCREEN.PROMOTION_VENDOR)}>
               <Text bold fontSize="md" style={styles.textAll}>Xem tất cả</Text>
             </TouchableOpacity>
           </View>

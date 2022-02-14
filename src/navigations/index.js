@@ -20,7 +20,8 @@ import {
   Favorite,
   Forgot,
   CheckCode,
-  UpdatePassword
+  UpdatePassword,
+  PromotionList
 } from '../pages';
 
 import Tab from './tab';
@@ -67,6 +68,7 @@ const Navigation = () => {
         <Stack.Screen name={SCREEN.FORGOT_PASSWORD} component={Forgot} />
         <Stack.Screen name={SCREEN.CHECK_CODE} component={CheckCode} />
         <Stack.Screen name={SCREEN.UPDATE_PASSWORD} component={UpdatePassword} />
+        <Stack.Screen name={SCREEN.PROMOTION_VENDOR} component={PromotionList} />
 
       </Stack.Navigator>
     </NavigationContainer>

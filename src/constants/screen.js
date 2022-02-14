@@ -22,4 +22,5 @@ export default {
   FORGOT_PASSWORD: 'forgotPassword',
   CHECK_CODE: 'checkCode',
   UPDATE_PASSWORD: 'updatePassword',
+  PROMOTION_VENDOR: 'promotionVendor',
 }

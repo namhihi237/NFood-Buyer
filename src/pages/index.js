@@ -16,6 +16,7 @@ import { ReviewShipper, ReviewVendor } from './reviews';
 import Wallet from "./wallet";
 import Favorite from "./favorite";
 import { Forgot, CheckCode, UpdatePassword } from "./forgot-password";
+import PromotionList from './promotion-vendor';
 
 export {
   Register,
@@ -39,4 +40,5 @@ export {
   Forgot,
   CheckCode,
   UpdatePassword,
+  PromotionList
 };

@@ -4,10 +4,10 @@ import { StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SCREEN } from "../../constants";
 import { HeaderBack, Search } from "../../components";
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/client';
-import { MUTATION, QUERY } from "../../graphql";
-
+import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@apollo/client';
+import { QUERY } from "../../graphql";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function PopularList(props) {
 
   const navigation = useNavigation();
@@ -40,14 +40,26 @@ export default function PopularList(props) {
     )
   }
 
+  const renderLike = (item) => {
+    const likePercent = parseInt(item.rating / item.numberOfReviews);
+    if (!likePercent || likePercent.toString() === 'NaN') {
+      return 100;
+    }
+    return likePercent;
+  }
+
   const renderItem = ({ item }) => {
     return (<TouchableOpacity style={styles.cardContainer} onPress={() => navigation.navigate(SCREEN.VENDOR, {
       vendor: item
     })}>
       <Image source={{ uri: item.image }} style={styles.image} />
-      <View pl="2" pr="2">
-        <Text bold fontSize="xl" isTruncated={true} noOfLines={2} mt="4">{item.name}</Text>
-        <Text fontSize="sm" italic isTruncated={true} noOfLines={2}>{item.address}</Text>
+      <View pl="2" pr="2" style={styles.cardRight}>
+        <Text fontSize="lg" bold isTruncated={true} noOfLines={1} >{item.name}</Text>
+        <Text fontSize="sm" italic isTruncated={true} noOfLines={1}>{item.address}</Text>
+        <View style={styles.like}>
+          <FontAwesome5 name="thumbs-up" size={16} color="#16a34a" />
+          <Text ml="2">{renderLike(item)}%</Text>
+        </View>
         {renderTag(item.menu)}
       </View>
     </TouchableOpacity>)
@@ -60,7 +72,7 @@ export default function PopularList(props) {
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
       <HeaderBack title={"Quán gần bạn"} />
-      <Search onChangeText={onChangeKeyword} onPress={refetch} />
+      <Search onChangeText={onChangeKeyword} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
       <FlatList
         data={data?.getAllVendors?.items}
         renderItem={renderItem}
@@ -74,6 +86,7 @@ export default function PopularList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   cardContainer: {
     marginHorizontal: wp('5%'),
@@ -81,11 +94,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 18,
     marginRight: wp('5%'),
-    paddingBottom: 15,
+    flexDirection: 'row',
   },
   image: {
-    height: hp('15%'),
-    width: wp('90%'),
+    height: wp('27%'),
+    width: wp('27%'),
     borderRadius: 18,
   },
   tagContainer: {
@@ -99,6 +112,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 5,
     borderRadius: 6,
+  },
+  cardRight: {
+    justifyContent: 'space-between',
+    maxWidth: wp('65%'),
+  },
+  like: {
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 
 });

@@ -7,7 +7,11 @@ const Search = (props) => {
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.inputText} onChangeText={props.onChangeText}></TextInput>
+      <TextInput
+        style={styles.inputText}
+        onChangeText={props.onChangeText}
+        placeholderTextColor="#979797"
+        placeholder={props.placeholder}></TextInput>
       <TouchableOpacity style={styles.button} onPress={props.onPress}>
         <FontAwesome5 name="search" size={20} color="#fff" />
       </TouchableOpacity>
@@ -23,23 +27,24 @@ const styles = StyleSheet.create({
     width: wp('90%'),
     marginLeft: wp('5%'),
     backgroundColor: '#D7D9DB',
-    borderRadius: 18,
+    borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginTop: hp('2%'),
   },
   button: {
     height: 40,
     width: 40,
-    borderRadius: 18,
+    borderRadius: 10,
     backgroundColor: '#F24F04',
     justifyContent: 'center',
     alignItems: 'center'
   },
   inputText: {
     height: 40,
-    width: '80%',
+    width: '88%',
     fontSize: 18,
     color: '#000',
+    paddingLeft: 15,
   }
 });

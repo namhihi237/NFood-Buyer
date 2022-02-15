@@ -84,6 +84,7 @@ export default {
     carts {
       carts {
         _id
+        vendorId
         item {
           _id
           name

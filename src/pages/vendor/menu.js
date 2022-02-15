@@ -1,4 +1,4 @@
-import { Actionsheet, Text, View, Input, useDisclose, Heading, Center } from "native-base";
+import { Actionsheet, Text, View, Input, useDisclose, Heading, Center, AlertDialog, Button } from "native-base";
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -16,6 +16,10 @@ export default function Menu(props) {
   const [itemMenu, setItemMenu] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [number, setNumber] = useRecoilState(numberOfCarts);
+
+  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
+  const onCloseAlert = () => setIsOpenAlert(false);
+  const cancelRef = React.useRef(null);
 
   const [carts, setCarts] = useState([]);
 
@@ -94,6 +98,15 @@ export default function Menu(props) {
       setItemMenu(null);
       setQuantity(1);
       setNumber(number + quantity);
+
+      // check new vendor or existing vendor
+      if (carts?.length > 0) {
+        if (carts[0]?.vendorId !== vendorId) {
+          setCarts([]);
+          setNumber(quantity);
+        }
+      }
+
       // find  item update carts
       const index = carts.findIndex(cart => cart._id === data.addToCart?._id);
 
@@ -109,7 +122,6 @@ export default function Menu(props) {
         setCarts([...carts, data.addToCart]);
       }
       onClose();
-
     },
     onError: (error) => {
       Toast(error.message, "danger", 'top-right');
@@ -119,6 +131,17 @@ export default function Menu(props) {
     }
 
   });
+
+  const checkAddCart = () => {
+    // check new vendor or existing vendor
+    if (carts?.length > 0) {
+      if (carts[0]?.vendorId !== vendorId) {
+        setIsOpenAlert(true);
+      }
+    } else {
+      addToCart();
+    }
+  }
 
   return (
     <View style={styles.menuContainer}>
@@ -155,10 +178,31 @@ export default function Menu(props) {
           <Order quantity={quantity} price={itemMenu?.price}
             reduce={reduceQuantity}
             increase={() => setQuantity(quantity + 1)}
-            addToCart={addToCart}
+            addToCart={checkAddCart}
           />
         </Actionsheet.Content>
       </Actionsheet>
+
+      <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpenAlert} onClose={onCloseAlert} closeOnOverlayClick={false}>
+        <AlertDialog.Content>
+          <AlertDialog.Body>
+            Bạn có muốn đổi cửa hàng?
+          </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Button.Group space={2}>
+              <Button variant="unstyled" colorScheme="coolGray" onPress={onCloseAlert} ref={cancelRef}>
+                Không
+              </Button>
+              <Button colorScheme="warning" onPress={() => {
+                onCloseAlert();
+                addToCart();
+              }}>
+                Đồng ý
+              </Button>
+            </Button.Group>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
     </View>
   );
 }

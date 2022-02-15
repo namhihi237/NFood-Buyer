@@ -34,7 +34,7 @@ export default function PromotionList(props) {
         {menu.map((item, index) => {
           return (
             <View style={styles.tag} key={index}>
-              <Text style={styles.tagText}>{item.name}</Text>
+              <Text fontSize="xs">{item.name}</Text>
             </View>
           )
         })}
@@ -58,13 +58,13 @@ export default function PromotionList(props) {
       <View pl="2" pr="2" style={styles.cardRight}>
         <Text fontSize="lg" bold isTruncated={true} noOfLines={1} >{item.name}</Text>
         <View style={styles.like}>
-          <FontAwesome5 name="map-marker" size={16} color="#047857" />
+          <FontAwesome5 name="map-marker" size={15} color="#047857" />
           <Text ml="2">{parseFloat(item?.distance / 1000).toFixed(1)} km</Text>
         </View>
         <Text fontSize="sm" italic isTruncated={true} noOfLines={1}>{item.address}</Text>
         <View style={styles.like}>
           <View style={styles.like}>
-            <FontAwesome5 name="thumbs-up" size={16} color="#005db4" />
+            <FontAwesome5 name="thumbs-up" size={15} color="#005db4" />
             <Text ml="2">{renderLike(item)}%</Text>
           </View>
           <Text style={{ color: vendorUtils.checkOpen(item).isOpen ? '#15803d' : '#959BA4' }} ml="4">{vendorUtils.checkOpen(item).text}</Text>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    marginTop: 10,
+    marginTop: 3,
   },
   tag: {
     backgroundColor: '#FCC342',

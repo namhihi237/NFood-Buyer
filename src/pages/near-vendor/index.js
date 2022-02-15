@@ -33,7 +33,7 @@ export default function PopularList(props) {
         {menu.map((item, index) => {
           return (
             <View style={styles.tag} key={index}>
-              <Text style={styles.tagText}>{item.name}</Text>
+              <Text fontSize="xs" >{item.name}</Text>
             </View>
           )
         })}
@@ -79,7 +79,7 @@ export default function PopularList(props) {
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-      <HeaderBack title={"Quán gần bạn"} />
+      <HeaderBack title={"Quán Đang khuyến mãi"} />
       <Search onChangeText={onChangeKeyword} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
       <FlatList
         data={data?.getAllVendors?.items}
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    marginTop: 10,
+    marginTop: 3,
   },
   tag: {
     backgroundColor: '#FCC342',

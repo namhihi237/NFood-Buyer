@@ -15,6 +15,7 @@ import { MUTATION, QUERY } from "../../graphql";
 import Address from "./address";
 import Category from "./Category";
 import Vendor from "./Vendor";
+import _ from "lodash";
 
 const dataL = [{ _id: 1, name: "Bánh mỳ", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
 { _id: 2, name: "Sinh tố", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
@@ -106,7 +107,7 @@ export default function Home(props) {
       longitude: location.longitude,
       distance: 500, //km,
       isPromotion: true,
-      limit: 6,
+      limit: 10,
       offset: 0
     },
     fetchPolicy: 'first-cache',
@@ -155,7 +156,7 @@ export default function Home(props) {
             style={styles.popularList}
             renderItem={renderVendorItem}
             keyExtractor={keyExtractor}
-            data={data?.getAllVendors?.items}
+            data={_.shuffle(data?.getAllVendors?.items)}
           />
 
           <View style={styles.popularTitle}>
@@ -174,7 +175,7 @@ export default function Home(props) {
             style={styles.popularList}
             renderItem={renderVendorItem}
             keyExtractor={keyExtractor}
-            data={data?.vendors?.items}
+            data={_.shuffle(data?.vendors?.items)}
           />
 
 

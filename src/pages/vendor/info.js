@@ -86,12 +86,12 @@ export default function Info(props) {
             <Text bold fontSize="lg">{item.buyer?.name}</Text>
           </View>
           <View style={{ ...styles.ratingText, backgroundColor: item.rating === 3 ? 'red' : item.rating === 2 ? '#166534' : '#7e22ce' }}>
-            <Text fontSize="sm" color="#fff" bold>
+            <Text fontSize="xs" color="#fff" bold>
               {renderRatingToText(item.rating)}
             </Text>
           </View>
         </View>
-        <Text italic fontSize="sm" color="#959BA4">{timeUtils.convertFullTime(new Date(item.createdAt - 0))}</Text>
+        <Text italic fontSize="xs" color="#959BA4">{timeUtils.convertFullTime(new Date(item.createdAt - 0))}</Text>
 
         <Text>{item.comment}</Text>
         <View style={{ height: 1, backgroundColor: '#959BA4' }} mt="2"></View>
@@ -131,7 +131,7 @@ export default function Info(props) {
           <Modal.CloseButton />
           <Modal.Header>
             <Center>
-              <Text color="#f24f04" isTruncated={true} bold fontSize="md">Đánh giá của cửa hàng {vendor?.name}</Text>
+              <Text color="#f24f04" isTruncated={true} bold fontSize="md">Đánh giá về hàng</Text>
             </Center>
           </Modal.Header>
           <Modal.Body>
@@ -221,9 +221,11 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   ratingText: {
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   noData: {
     alignItems: 'center',

@@ -9,7 +9,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY } from "../../graphql";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { vendorUtils } from '../../utils';
-export default function PopularList(props) {
+export default function PromotionList(props) {
 
   const navigation = useNavigation();
   const [keyword, setKeyword] = React.useState('');
@@ -21,7 +21,8 @@ export default function PopularList(props) {
       page: 1,
       limit: 100,
       distance: 500,
-      keyword
+      keyword,
+      isPromotion: true
     },
     fetchPolicy: 'network-only',
   });

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 export default {
-  VENDORS: gql`query Vendors($distance: Float, $longitude: Float, $latitude: Float, $limit: Int, $offset: Int) {
+  VENDORS: gql`query Vendors($distance: Float, $longitude: Float, $latitude: Float, $limit: Int, $offset: Int,$isPromotion: Boolean) {
     vendors(distance: $distance, longitude: $longitude, latitude: $latitude, limit: $limit, offset: $offset) {
       items {
         _id
@@ -14,6 +14,28 @@ export default {
       total
     }
     getQuantityOfCart
+
+     getAllVendors(offset: $offset, limit: $limit, distance: $distance, isPromotion: $isPromotion) {
+      items {
+        name
+        _id
+        rating
+        image
+        distance
+        address
+        numberOfReviews
+        timeOpen {
+          openTime
+          day
+          closeTime
+          isOpen
+        }
+        menu {
+          name
+          _id
+        }
+      }
+    }
   }`,
   VENDOR: gql`query Vendor($vendorId: ID!) {
     vendor(id: $vendorId) {
@@ -224,8 +246,8 @@ export default {
     }
   }`,
 
-  GET_ALL_VENDORS: gql`query GetAllVendors($keyword: String, $offset: Int, $limit: Int, $distance: Float) {
-    getAllVendors(keyword: $keyword, offset: $offset, limit: $limit, distance: $distance) {
+  GET_ALL_VENDORS: gql`query GetAllVendors($keyword: String, $offset: Int, $limit: Int, $distance: Float, $isPromotion: Boolean) {
+    getAllVendors(keyword: $keyword, offset: $offset, limit: $limit, distance: $distance, isPromotion: $isPromotion) {
       items {
         name
         _id
@@ -234,6 +256,12 @@ export default {
         distance
         address
         numberOfReviews
+        timeOpen {
+          openTime
+          day
+          closeTime
+          isOpen
+        }
         menu {
           name
           _id

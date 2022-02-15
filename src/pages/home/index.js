@@ -13,32 +13,8 @@ import { gps, locationGPS, numberOfCarts, myAddress } from "../../recoil/list-st
 import { useRecoilState } from "recoil";
 import { MUTATION, QUERY } from "../../graphql";
 import Address from "./address";
-import Popular from "./popular";
 import Category from "./Category";
 import Vendor from "./Vendor";
-const popular = [
-  {
-    _id: 1,
-    name: "Cà phê sữa",
-    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
-    price: "15000",
-    rating: 3
-  },
-  {
-    _id: 2,
-    name: "Cà phê sữa",
-    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
-    price: "20000",
-    rating: 3
-  },
-  {
-    _id: 3,
-    name: "Cà phê sữa",
-    image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633193124/DoAnTN/ts_vhxmax.jpg",
-    price: "25000",
-    rating: 3
-  }
-];
 
 const dataL = [{ _id: 1, name: "Bánh mỳ", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
 { _id: 2, name: "Sinh tố", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
@@ -128,17 +104,16 @@ export default function Home(props) {
     variables: {
       latitude: location.latitude,
       longitude: location.longitude,
-      distance: 20, //km,
+      distance: 500, //km,
+      isPromotion: true,
+      limit: 6,
+      offset: 0
     },
     fetchPolicy: 'first-cache',
     onCompleted: (data) => {
       setNumberCarts(data.getQuantityOfCart);
     }
   });
-
-  const renderPopularItem = (item) => {
-    return (<Popular item={item} />);
-  }
 
   const keyExtractor = item => item?._id;
 
@@ -178,9 +153,9 @@ export default function Home(props) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={styles.popularList}
-            renderItem={renderPopularItem}
+            renderItem={renderVendorItem}
             keyExtractor={keyExtractor}
-            data={popular}
+            data={data?.getAllVendors?.items}
           />
 
           <View style={styles.popularTitle}>

@@ -9,12 +9,16 @@ import { useQuery } from '@apollo/client';
 import { QUERY } from "../../graphql";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { vendorUtils } from '../../utils';
+import _ from 'lodash';
+
 export default function PopularList(props) {
 
   const navigation = useNavigation();
   const [keyword, setKeyword] = React.useState('');
 
   const onChangeKeyword = (keyword) => setKeyword(keyword);
+
+  const onChangeKeywordDebounce = _.debounce(onChangeKeyword, 1000);
 
   const { data, refetch } = useQuery(QUERY.GET_ALL_VENDORS, {
     variables: {
@@ -79,8 +83,8 @@ export default function PopularList(props) {
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-      <HeaderBack title={"Quán Đang khuyến mãi"} />
-      <Search onChangeText={onChangeKeyword} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
+      <HeaderBack title={"Quán đang khuyến mãi"} />
+      <Search onChangeText={onChangeKeywordDebounce} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
       <FlatList
         data={data?.getAllVendors?.items}
         renderItem={renderItem}

@@ -1,4 +1,4 @@
-import { Text, FormControl, View, Modal, Button, Input } from "native-base";
+import { Text, FormControl, View, Modal, Button, Input, AlertDialog } from "native-base";
 import React, { useState } from 'react';
 import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -16,6 +16,10 @@ export default function Store(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  const [isOpen, setIsOpen] = React.useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = React.useRef(null);
 
   const onChangePassword = (text) => setPassword(text);
   const onChangeNewPassword = (text) => setNewPassword(text);
@@ -67,16 +71,17 @@ export default function Store(props) {
   const navigation = useNavigation();
 
   const logOut = async () => {
+    onClose();
     await storageUtils.removeItem("token");
     await storageUtils.removeItem("phoneNumber");
     await storageUtils.removeItem("password");
     navigation.navigate(SCREEN.LOGIN, { clear: true });
   }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
         <View style={styles.headerIcon}>
-          <FontAwesome5 name="cog" size={hp('2.6%')} color="#fff" style={{ marginRight: 15 }} />
           <FontAwesome5 name="shopping-cart" size={hp('2.6%')} color="#fff" onPress={() => navigation.navigate(SCREEN.CART)} />
         </View>
         <View style={styles.info}>
@@ -153,7 +158,7 @@ export default function Store(props) {
           </View>
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={logOut}>
+        <TouchableWithoutFeedback onPress={() => setIsOpen(true)}>
           <View style={styles.btnLogout} >
             <View style={styles.ordersHeaderLeft}>
               <Text bold color="#06b6d4">Đăng xuất tài khoản</Text>
@@ -203,6 +208,25 @@ export default function Store(props) {
           </Modal.Footer>
         </Modal.Content>
       </Modal>
+
+      <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
+        <AlertDialog.Content>
+          <AlertDialog.Header>Đăng xuất tài khoản</AlertDialog.Header>
+          <AlertDialog.Body>
+            Bạn có chắc chắn muốn đăng xuất tài khoản?
+          </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Button.Group space={2}>
+              <Button variant="unstyled" colorScheme="coolGray" onPress={onClose} ref={cancelRef}>
+                Không
+              </Button>
+              <Button colorScheme="danger" onPress={logOut}>
+                Đồng ý
+              </Button>
+            </Button.Group>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
     </View >
   );
 }

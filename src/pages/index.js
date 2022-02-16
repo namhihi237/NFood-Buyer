@@ -2,7 +2,7 @@ import Register from "./register";
 import Login from "./login";
 import Home from "./home";
 import Notification from "./notification";
-import Profile from "./profile";
+import { Profile, ManageProfile, UpdateProfile } from "./profile";
 import RegisterBuyer from "./register-buyer";
 import Vendor from "./vendor";
 import Cart from "./cart";
@@ -40,5 +40,7 @@ export {
   Forgot,
   CheckCode,
   UpdatePassword,
-  PromotionList
+  PromotionList,
+  ManageProfile,
+  UpdateProfile
 };

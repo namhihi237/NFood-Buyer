@@ -107,6 +107,9 @@ export default {
       name
       address
       image
+      email
+      gender
+      birthday
       isBuyer
       coordinates
     }
@@ -284,5 +287,9 @@ export default {
         createdAt
       }
     }
-  }`
+  }`,
+
+  GET_SIGNATURE: gql`query getSignatureImage {
+    getSignatureImage
+  }`,
 };

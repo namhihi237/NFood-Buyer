@@ -23,4 +23,6 @@ export default {
   CHECK_CODE: 'checkCode',
   UPDATE_PASSWORD: 'updatePassword',
   PROMOTION_VENDOR: 'promotionVendor',
+  MANAGE_PROFILE: 'manageProfile',
+  UPDATE_PROFILE: 'updateProfile',
 }

@@ -161,11 +161,13 @@ export default function Checkout(props) {
     } else if (data.title === "cancel") {
       Toast("Thanh toán thất bại, thử lại", "danger", "top-right");
       setShowModal(false);
+    } else if (data.title === "not-open") {
+      Toast("Cửa hàng hiện tại chưa mở cửa", "danger", "top-right");
+      setShowModal(false);
     } else {
       return;
     }
   };
-
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>

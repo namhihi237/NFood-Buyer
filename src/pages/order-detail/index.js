@@ -68,6 +68,9 @@ export default function OrderDetail(props) {
       case 'Cancelled':
         status = 'ĐÃ HỦY';
         break;
+      case 'Failed':
+        status = 'GIAO HÀNG THẤT BẠI';
+        break;
       default:
         break;
     }
@@ -92,6 +95,9 @@ export default function OrderDetail(props) {
       case 'Canceled':
         title = 'ĐẶT LẠI';
         icon = 'undo-alt';
+      case 'Failed':
+        title = 'ĐẶT LẠI';
+        icon = 'undo-alt';
         break;
       default:
         break;
@@ -106,7 +112,7 @@ export default function OrderDetail(props) {
           id: route.params.orderId
         }
       });
-    } else if (['Delivered', 'Canceled'].includes(data?.getOrderByIdBuyer?.orderStatus)) {
+    } else if (['Delivered', 'Canceled', 'Failed'].includes(data?.getOrderByIdBuyer?.orderStatus)) {
       navigation.navigate(SCREEN.VENDOR, { vendor: data?.getOrderByIdBuyer?.vendor });
     }
   }

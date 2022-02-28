@@ -11,6 +11,8 @@ class Order {
         return 'Đã nhận hàng';
       case 'Cancelled':
         return 'Đã hủy';
+      case 'Failed':
+        return 'Giao hàng thất bại';
       default:
         return 'Không xác định';
     }
@@ -59,6 +61,11 @@ class Order {
         return {
           icon: 'times-circle',
           color: '#a3a3a3',
+        }
+      case 'Failed':
+        return {
+          icon: 'exclamation"',
+          color: '#881337',
         }
       default:
         return 'help';

@@ -9,8 +9,7 @@ import { Toast } from '../../components';
 import { SCREEN } from "../../constants";
 import { QUERY, MUTATION } from '../../graphql';
 import { storageUtils } from '../../utils';
-
-const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1637807216/user_ilxv1x.png";
+const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1646043555/DoAnTN/user1_ougwyl.png";
 
 export default function Store(props) {
   const [modalVisible, setModalVisible] = useState(false);

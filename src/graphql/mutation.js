@@ -115,8 +115,8 @@ export default {
     changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }`,
 
-  UPDATE_PROFILE: gql`mutation UpdateBuyerProfile($name: String, $image: String, $email: String, $birthDay: String, $gender: String) {
-    updateBuyerProfile(name: $name, image: $image, email: $email, birthDay: $birthDay, gender: $gender) {
+  UPDATE_PROFILE: gql`mutation UpdateBuyerProfile($name: String, $image: String, $email: String, $birthday: String, $gender: String) {
+    updateBuyerProfile(name: $name, image: $image, email: $email, birthday: $birthday, gender: $gender) {
       _id
       name
       phoneNumber

@@ -15,7 +15,7 @@ export default function ManageProfile(props) {
   const routes = useRoute();
 
   const [show, setShow] = useState(false);
-  const [birthday, setBirthDay] = useState();
+  const [birthday, setBirthDay] = useState(new Date(routes.params?.user?.birthday - 0));
   const [gender, setGender] = useState(routes.params?.user?.gender);
   const [name, setName] = useState(routes.params?.user?.name);
   const [email, setEmail] = useState(routes.params?.user?.email);
@@ -43,6 +43,7 @@ export default function ManageProfile(props) {
     },
 
     onError: (error) => {
+      console.log(error);
       Toast(error.message, 'danger', 'top-right');
     }
   });
@@ -53,8 +54,19 @@ export default function ManageProfile(props) {
       return;
     }
 
+    let data = {
+      name,
+      email,
+      birthday: birthday?.toString(),
+      gender,
+      image: ""
+    }
+    if (!email) {
+      delete data.email;
+    }
+    console.log(data);
     updateProfile({
-      variables: { name, email, birthday: birthday?.toString(), gender }
+      variables: data
     });
 
   }
@@ -101,8 +113,8 @@ export default function ManageProfile(props) {
                   bg: "teal.600",
                   endIcon: <CheckIcon size="5" />
                 }} mt={1} onValueChange={itemValue => setGender(itemValue)}>
-                <Select.Item label="Male" value="Male" />
-                <Select.Item label="Female" value="Female" />
+                <Select.Item label="Nam" value="Male" />
+                <Select.Item label="Nữ" value="Female" />
               </Select>
             </View>
           </View>

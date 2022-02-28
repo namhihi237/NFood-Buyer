@@ -2,7 +2,7 @@ import { Text, View } from "native-base";
 import React from 'react';
 import { StyleSheet, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Toast, HeaderBack } from '../../components';
@@ -10,16 +10,16 @@ import { SCREEN } from "../../constants";
 import { QUERY, MUTATION } from '../../graphql';
 import * as ImagePicker from 'react-native-image-picker';
 import axios from 'axios';
-import { createFormData } from '../../utils';
+import { createFormData, timeUtils } from '../../utils';
 
-const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1637807216/user_ilxv1x.png";
+const noImage = "https://res.cloudinary.com/do-an-cnpm/image/upload/v1646043555/DoAnTN/user1_ougwyl.png";
 
 export default function ManageProfile(props) {
 
   let [photo, setPhoto] = React.useState('');
   const navigation = useNavigation();
 
-  const { data } = useQuery(QUERY.GET_USER, {
+  const { data, refetch } = useQuery(QUERY.GET_USER, {
     fetchPolicy: "network-only",
     variables: {
       role: "buyer"
@@ -39,6 +39,11 @@ export default function ManageProfile(props) {
       }
     });
   };
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
 
   const [uploadImage] = useLazyQuery(QUERY.GET_SIGNATURE, {
     fetchPolicy: 'no-cache',
@@ -92,6 +97,14 @@ export default function ManageProfile(props) {
           <View style={styles.row}>
             <FontAwesome5 name="envelope" size={16} color="#000" />
             <Text ml="4">{data?.getUser?.email || 'Chưa cập nhật'}</Text>
+          </View>
+          <View style={styles.row}>
+            <FontAwesome5 name="birthday-cake" size={16} color="#000" />
+            <Text ml="4">{timeUtils.convertDate(new Date(data?.getUser?.birthday - 0)) || 'Chưa cập nhật'}</Text>
+          </View>
+          <View style={styles.row}>
+            <FontAwesome5 name="venus-mars" size={16} color="#000" />
+            <Text ml="4">{data?.getUser?.gender || 'Chưa cập nhật'}</Text>
           </View>
         </View>
 

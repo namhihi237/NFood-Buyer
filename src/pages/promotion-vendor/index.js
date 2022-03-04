@@ -83,7 +83,7 @@ export default function PromotionList(props) {
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-      <HeaderBack title={"Quán gần bạn"} />
+      <HeaderBack title={"Quán đang có khuyến mãi"} />
       <Search onChangeText={onChangeKeywordDebounce} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
       <FlatList
         data={data?.getAllVendors?.items}

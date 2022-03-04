@@ -83,7 +83,7 @@ export default function PopularList(props) {
 
   return (
     <View style={styles.container} contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-      <HeaderBack title={"Quán đang khuyến mãi"} />
+      <HeaderBack title={"Quán gần bạn"} />
       <Search onChangeText={onChangeKeywordDebounce} onPress={refetch} placeholder="Bạn muốn ăn gì?" />
       <FlatList
         data={data?.getAllVendors?.items}

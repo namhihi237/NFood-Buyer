@@ -137,6 +137,8 @@ export default function Menu(props) {
     if (carts?.length > 0) {
       if (carts[0]?.vendorId !== vendorId) {
         setIsOpenAlert(true);
+      } else {
+        addToCart();
       }
     } else {
       addToCart();

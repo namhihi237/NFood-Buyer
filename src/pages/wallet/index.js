@@ -7,18 +7,35 @@ import { HeaderBack, ButtonCustom, Toast } from "../../components";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import { QUERY, MUTATION, SUBSCRIPTION, client } from "../../graphql";
-import { moneyUtils } from '../../utils';
+import { moneyUtils, orderUtils, timeUtils } from '../../utils';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Wallet(props) {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const { data, refetch } = useQuery(QUERY.GET_TRANSACTIONS, {
+    variables: {
+      type: 'buyer',
+    },
+    fetchPolicy: 'network-only',
+  });
+
   const renderItem = (item) => {
     return (
       <View>
-
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: wp('4%') }}>
+          <View style={styles.item}>
+            <Text mb="2">{'Thanh toán'} </Text>
+            <Text fontSize="sm" italic>{timeUtils.convertFullTime(new Date(item.createdAt - 0))}</Text>
+          </View>
+          <View>
+            <Text bold>-{moneyUtils.convertVNDToString(item.amount)} đ</Text>
+          </View>
+        </View>
+        <View style={{ height: 1, backgroundColor: '#d4d4d4', marginHorizontal: wp('4%'), marginTop: 10 }}></View>
       </View>
+
     )
   }
 
@@ -42,14 +59,13 @@ export default function Wallet(props) {
             <Text style={styles.text}>Rút tiền</Text>
           </TouchableOpacity>
         </View> */}
-        <View style={styles.history}>
-          <Text bold fontSize="md">Lịch sử giao dịch</Text>
-        </View>
-        <FlatList
-          data={[]}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-        />
+        {
+          data?.getTransactions?.length > 0 ? (<FlatList
+            data={data?.getTransactions || []}
+            renderItem={({ item }) => renderItem(item)}
+            keyExtractor={(item) => item._id}
+          />) : <View><Text>Bạn chưa có giao dịch nào</Text></View>
+        }
       </View>
     </View >
   );
@@ -59,6 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
+    backgroundColor: '#fff',
   },
   balanceContainer: {
     backgroundColor: '#F24F04',

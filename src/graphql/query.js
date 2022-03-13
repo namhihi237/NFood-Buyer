@@ -293,4 +293,16 @@ export default {
   GET_SIGNATURE: gql`query getSignatureImage {
     getSignatureImage
   }`,
+
+  GET_TRANSACTIONS: gql`query GetTransactions($type: String!) {
+    getTransactions(type: $type) {
+      _id
+      userId
+      amount
+      type
+      currency
+      createdAt
+    }
+  }`,
+
 };

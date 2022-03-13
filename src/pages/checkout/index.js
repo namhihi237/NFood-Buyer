@@ -25,6 +25,7 @@ export default function Checkout(props) {
   const [method, setMethod] = React.useState("");
   const [isCOD, setIsCOD] = React.useState(false);
   const [isCredit, setIsCredit] = React.useState(false);
+  const [isWallet, setIsWallet] = React.useState(false);
   const [carts, setCarts] = useRecoilState(listCarts);
   const [number, setNumber] = useRecoilState(numberOfCarts);
 
@@ -81,27 +82,30 @@ export default function Checkout(props) {
     }
   });
 
-  const onchangeCheckBox = (isSelected, cod) => {
+  const onchangeCheckBox = (isSelected, cod, wallet) => {
     if (isSelected) {
       if (cod) {
         setIsCOD(true);
         setIsCredit(false);
+        setIsWallet(false);
         setMethod("COD");
+      }
+      else if (wallet) {
+        setIsCOD(false);
+        setIsCredit(false);
+        setIsWallet(true);
+        setMethod("WALLET");
       } else {
         setIsCOD(false);
         setIsCredit(true);
+        setIsWallet(false);
         setMethod("CRE");
       }
     } else {
-      if (cod) {
-        setIsCOD(false);
-        setIsCredit(false);
-        setMethod("");
-      } else {
-        setIsCOD(false);
-        setIsCredit(false);
-        setMethod("");
-      }
+      setIsCOD(false);
+      setIsCredit(false);
+      setIsWallet(false);
+      setMethod("");
     }
   }
 
@@ -202,6 +206,18 @@ export default function Checkout(props) {
               accessibilityLabel="This is cod method checkbox"
               onChange={(isSelected) => onchangeCheckBox(isSelected, true)}
               isChecked={isCOD} />
+          </View>
+          <View style={styles.leftContainer}>
+            <View style={styles.left}>
+              <View style={styles.iconContainer}>
+                <Image source={require("../../../assets/images/wallet.png")} style={{ width: 30, height: 30 }} />
+              </View>
+              <Text fontSize="lg">Thanh toán bằng tài khoản trong ví</Text>
+            </View>
+            <Checkbox colorScheme="orange" style={{ marginTop: 12 }}
+              accessibilityLabel="This is wallet method checkbox"
+              onChange={(isSelected) => onchangeCheckBox(isSelected, false, true)}
+              isChecked={isWallet} />
           </View>
         </View>
 

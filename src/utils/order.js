@@ -78,6 +78,8 @@ class Order {
         return 'Thanh toán khi nhận hàng';
       case 'CRE':
         return 'Thanh toán qua paypal';
+      case 'WALLET':
+        return 'Thanh toán qua ví';
     }
   }
 }

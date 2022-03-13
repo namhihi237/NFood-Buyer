@@ -137,6 +137,16 @@ export default function Store(props) {
           </TouchableWithoutFeedback>
         </View>
 
+        <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.CART)}>
+          <View style={styles.ordersHeader} >
+            <View style={styles.ordersHeaderLeft}>
+              <FontAwesome5 name="cart-arrow-down" size={hp('2.6%')} color="#ea580c" style={{ marginRight: 10 }} />
+              <Text>Giỏ hàng của tôi</Text>
+            </View>
+            <FontAwesome5 name="angle-right" size={hp('2.6%')} color="#000" style={{ marginLeft: 10 }} />
+          </View>
+        </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREEN.WALLET, {
           money: data?.getUser.money,
         })}>

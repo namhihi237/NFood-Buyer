@@ -112,6 +112,7 @@ export default {
       birthday
       isBuyer
       coordinates
+      money
     }
   }`,
 

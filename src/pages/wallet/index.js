@@ -29,10 +29,10 @@ export default function Wallet(props) {
         <View style={styles.balanceContainer} >
           <View style={styles.balancePanel} >
             <Text color="#fff" fontSize="xl">Số dư trong ví</Text>
-            <Text fontSize="3xl" color="#fff">{moneyUtils.convertVNDToString(10000)} đ</Text>
+            <Text fontSize="3xl" color="#fff">{moneyUtils.convertVNDToString(route.params?.money)} đ</Text>
           </View>
         </View>
-        <View style={styles.actionContainer}>
+        {/* <View style={styles.actionContainer}>
           <TouchableOpacity style={styles.button}>
             <FontAwesome5 name="wallet" size={wp('7%')} color="#F24F04" style={styles.icon} />
             <Text style={styles.text}>Nạp tiền</Text>
@@ -41,7 +41,7 @@ export default function Wallet(props) {
             <FontAwesome5 name="credit-card" size={wp('7%')} color="#F24F04" style={styles.icon} />
             <Text style={styles.text}>Rút tiền</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View style={styles.history}>
           <Text bold fontSize="md">Lịch sử giao dịch</Text>
         </View>
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   },
   history: {
     marginHorizontal: wp('5%'),
+    marginVertical: hp('2%'),
   }
 
 });

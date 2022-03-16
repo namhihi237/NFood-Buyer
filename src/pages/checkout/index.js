@@ -14,6 +14,7 @@ import Summary from "./summary";
 import axios from "axios";
 import { storageUtils } from '../../utils';
 const url = 'https://nfood-api.southeastasia.cloudapp.azure.com/api/v1/payment/charge-order';
+const baseUrl = 'https://nfood-api.southeastasia.cloudapp.azure.com/api/v1';
 
 export default function Checkout(props) {
 
@@ -51,6 +52,12 @@ export default function Checkout(props) {
   const chargeOrder = async () => {
     try {
       const token = await storageUtils.getString('token');
+      const { data: result } = await axios.get(`${baseUrl}/vendor/${route.params.vendorId}/check-open`);
+      if (result.status === false) {
+        Toast('Cửa hàng này hiện tại không mở cửa', 'danger', 'top-right');
+        return;
+      }
+
       const { data } = await axios.post(`${url}`, {
         promoCode,
       }, {
@@ -236,7 +243,6 @@ export default function Checkout(props) {
                 {"Áp dụng"}
               </Button>
             }
-
           />
         </View>
       </View>

@@ -60,7 +60,7 @@ export default function Home(props) {
   useEffect(() => {
     setTimeout(() => {
       getLocation();
-    }, 1000);
+    }, 0);
 
     // clear setTimeout
     return () => {
@@ -111,7 +111,7 @@ export default function Home(props) {
       limit: 10,
       offset: 0
     },
-    fetchPolicy: 'first-cache',
+    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       setNumberCarts(data.getQuantityOfCart);
     }

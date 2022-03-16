@@ -9,6 +9,9 @@ import { useRecoilState } from "recoil";
 import { moneyUtils } from "../../utils"
 import Order from "./order";
 import { Toast, Loading } from "../../components";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { SCREEN } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Menu(props) {
   const { menu, vendorId } = props;
@@ -22,6 +25,7 @@ export default function Menu(props) {
   const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef(null);
 
+  const navigation = useNavigation();
   useQuery(QUERY.GET_CARTS, {
     onCompleted: (data) => {
       setCarts(data.carts.carts);
@@ -150,9 +154,37 @@ export default function Menu(props) {
     }
   }
 
+  const renderTotal = () => {
+    let total = 0;
+    if (carts?.length > 0) {
+      carts.forEach(cart => {
+        total += cart.quantity * cart.item.price;
+      })
+    }
+    return total;
+  }
+
   return (
     <View style={styles.menuContainer}>
       {loading ? <Loading /> : null}
+      <View>
+        {
+          carts?.length > 0 ? (<View style={styles.tempContainer}>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity style={styles.cartContainer} onPress={() => navigation.navigate(SCREEN.CART)}>
+                <FontAwesome5 name="shopping-cart" size={hp('3%')} color="#ea580c" />
+              </TouchableOpacity>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={styles.moneyCart}>{moneyUtils.convertVNDToString(renderTotal())} đ</Text>
+                <Text style={styles.tempText}>Tạm tính</Text>
+              </View>
+            </View>
+            <TouchableOpacity style={styles.continueContainer} onPress={() => navigation.navigate(SCREEN.CHECKOUT, { subTotal: renderTotal(), vendorId })}>
+              <Text style={styles.continueText}>Tiếp tục</Text>
+            </TouchableOpacity>
+          </View>) : null
+        }
+      </View>
       {renderListMenu()}
       <Actionsheet isOpen={isOpen} onClose={() => {
         setItemMenu(null);
@@ -298,5 +330,45 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  tempContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: wp('4%'),
+    alignItems: 'center',
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+  },
+  continueContainer: {
+    backgroundColor: '#ea580c',
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    paddingHorizontal: 35,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  moneyCart: {
+    fontFamily: "Avenir Book",
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  continueText: {
+    fontFamily: "Avenir Book",
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  tempText: {
+    color: '#444251',
+    fontFamily: 'Avenir Book',
+  },
+  cartContainer: {
+    backgroundColor: '#f4f4f4f4',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 10,
   }
 });

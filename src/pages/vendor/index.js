@@ -4,9 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
 import { Modal, Text, View } from 'native-base';
-
 import { Loading } from '../../components';
-import { SCREEN } from "../../constants"
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { QUERY } from "../../graphql";
 import Info from "./info";
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('4%'),
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "Avenir Book",
     color: '#000',
   },

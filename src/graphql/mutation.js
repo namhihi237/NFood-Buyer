@@ -37,6 +37,7 @@ export default {
         _id
         name
         price
+        image
       }
       quantity
       createdAt

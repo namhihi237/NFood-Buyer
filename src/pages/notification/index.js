@@ -8,12 +8,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useQuery } from '@apollo/client';
 import { QUERY } from "../../graphql";
 import { timeUtils } from '../../utils';
-
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 export default function Notification(props) {
 
   const navigation = useNavigation();
 
-  const { data, refetch } = useQuery(QUERY.GET_NOTIFICATIONS, {
+  const { data, refetch, loading } = useQuery(QUERY.GET_NOTIFICATIONS, {
     variables: {
       userType: "buyer",
       skip: 0,
@@ -50,13 +50,30 @@ export default function Notification(props) {
   return (
     <View style={styles.container} >
       <Header title="Thông báo" onPress={() => navigation.navigate(SCREEN.HOME)} />
-      <FlatList
-        style={{}}
-        data={data ? data.getNotifications.items : []}
-        renderItem={({ item }) => renderItem(item)}
-        keyExtractor={item => item._id}
+      {
+        loading ?
+          (<SkeletonPlaceholder>
+            <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
+              <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
+              <SkeletonPlaceholder.Item marginLeft={20}>
+                <SkeletonPlaceholder.Item width={120} height={20} borderRadius={4} />
+                <SkeletonPlaceholder.Item
+                  marginTop={6}
+                  width={80}
+                  height={20}
+                  borderRadius={4}
+                />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder.Item>
+          </SkeletonPlaceholder>)
+          : (<FlatList
+            style={{}}
+            data={data ? data.getNotifications.items : []}
+            renderItem={({ item }) => renderItem(item)}
+            keyExtractor={item => item._id}
 
-      />
+          />)
+      }
     </View >
   );
 }

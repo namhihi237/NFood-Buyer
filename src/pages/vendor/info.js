@@ -101,10 +101,10 @@ export default function Info(props) {
   return (
     <View style={styles.contentInfo}>
       <Text style={styles.title} >{vendor?.name}</Text>
-      <View style={styles.distanceContainer}>
+      {/* <View style={styles.distanceContainer}>
         <FontAwesome5 name="map-marker-alt" size={15} color="#000" style={{ marginRight: 10 }} />
         <Text style={styles.text} >{parseFloat(vendor?.distance / 1000).toFixed(1)} km</Text>
-      </View>
+      </View> */}
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
         <View style={styles.distanceContainer}>
           <FontAwesome5 name="thumbs-up" size={15} color="#ffc107" style={{ marginRight: 10 }} />
@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    marginTop: 8,
   },
   text: {
     fontFamily: "SF-UI-Display-Regular",

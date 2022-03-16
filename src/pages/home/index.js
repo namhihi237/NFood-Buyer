@@ -16,6 +16,7 @@ import Address from "./address";
 import Category from "./Category";
 import Vendor from "./Vendor";
 import _ from "lodash";
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 const dataL = [{ _id: 1, name: "Bánh mỳ", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633184768/DoAnTN/food_d4tzno.png" },
 { _id: 2, name: "Sinh tố", image: "https://res.cloudinary.com/do-an-cnpm/image/upload/v1633190410/DoAnTN/Group_1217_a2nt2y.png" },
@@ -95,13 +96,13 @@ export default function Home(props) {
     )
   }
 
-  const [updateGPSAddressBuyer] = useMutation(MUTATION.SET_LOCATION_BUYER, {
+  const [updateGPSAddressBuyer, { loading: loading1 }] = useMutation(MUTATION.SET_LOCATION_BUYER, {
     onCompleted: (data) => {
       setAddress(data.updateGPSAddressBuyer);
     },
   });
 
-  const { data } = useQuery(QUERY.VENDORS, {
+  const { data, loading } = useQuery(QUERY.VENDORS, {
     variables: {
       latitude: location.latitude,
       longitude: location.longitude,
@@ -190,7 +191,20 @@ export default function Home(props) {
   return (
     <View style={styles.mainContainer}>
       <Address address={address || ""} />
-      {!isGPS ? renderOpenGPS() : renderContent()}
+      {!isGPS ? renderOpenGPS() : (loading || loading1) ? (<SkeletonPlaceholder>
+        <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
+          <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
+          <SkeletonPlaceholder.Item marginLeft={20}>
+            <SkeletonPlaceholder.Item width={120} height={20} borderRadius={4} />
+            <SkeletonPlaceholder.Item
+              marginTop={6}
+              width={80}
+              height={20}
+              borderRadius={4}
+            />
+          </SkeletonPlaceholder.Item>
+        </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder>) : renderContent()}
     </View>
   );
 }

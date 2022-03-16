@@ -89,6 +89,7 @@ export default {
           _id
           name
           price
+          image
         }
         quantity
       }
@@ -96,6 +97,7 @@ export default {
         _id
         name
         address
+        image
       }
     }
   }`,

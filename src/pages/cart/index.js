@@ -1,7 +1,7 @@
 import { View, Modal } from "native-base";
 
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { StyleSheet, TouchableOpacity, ScrollView, Text } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, ScrollView, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation, useQuery } from '@apollo/client';
@@ -67,20 +67,25 @@ export default function Cart(props) {
   const rendererItems = () => {
     return carts?.map((cart, index) => {
       return (
-        <View key={index} style={{ paddingVertical: 10 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-            <Text style={styles.text}>{cart.item.name}</Text>
-            <Text style={styles.text}>{moneyUtils.convertVNDToString(cart.item.price * cart.quantity)} đ</Text>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={styles.quantity}>
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => reduceQuantity(cart._id)}>
-                <FontAwesome5 name="minus" size={16} color="#000" />
-              </TouchableOpacity>
-              <Text style={styles.quantityText}>{cart.quantity.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => increaseQuantity(cart._id)}>
-                <FontAwesome5 name="plus" size={16} color="#000" />
-              </TouchableOpacity>
+        <View key={index} style={{ marginBottom: 5, marginTop: 5 }} >
+          <View>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={{ uri: cart.item.image }} style={{ height: 70, width: 70, borderRadius: 10 }}></Image>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, width: wp('75%'), marginTop: 5 }}>
+                <Text style={{ ...styles.text, marginLeft: 10 }}>{cart.item.name}</Text>
+                <Text style={styles.text}>{moneyUtils.convertVNDToString(cart.item.price * cart.quantity)} đ</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View style={styles.quantity}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => reduceQuantity(cart._id)}>
+                  <FontAwesome5 name="minus" size={14} color="#f24f04" />
+                </TouchableOpacity>
+                <Text style={styles.quantityText}>{cart.quantity.toString().padStart(2, '0')}</Text>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => increaseQuantity(cart._id)}>
+                  <FontAwesome5 name="plus" size={14} color="#f24f04" />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -106,12 +111,17 @@ export default function Cart(props) {
     <View style={{ height: '100%' }}>
       <HeaderBack title="Giỏ hàng của tôi" />
       <ScrollView style={{ marginTop: 10, marginBottom: hp('15%') }}>
-        {data?.carts?.vendor ? (<TouchableOpacity style={styles.vendorContainer}>
-          <View>
-            <Text style={styles.vendorName}>{data?.carts?.vendor?.name}</Text>
-            <Text style={styles.address}>{data?.carts?.vendor?.address}</Text>
+        {data?.carts?.vendor ? (<TouchableOpacity style={styles.vendorContainer} onPress={() => navigation.navigate(SCREEN.VENDOR, {
+          vendor: data.carts.vendor
+        })}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Image source={{ uri: data?.carts?.vendor?.image }} style={{ height: 60, width: 60, marginRight: 10, borderRadius: 6 }} />
+            <View style={{ maxWidth: wp('70%') }}>
+              <Text style={styles.vendorName}>{data?.carts?.vendor?.name}</Text>
+              <Text numberOfLines={2} style={styles.address}>{data?.carts?.vendor?.address}  </Text>
+            </View>
           </View>
-          <FontAwesome5 name="chevron-right" size={20} color="#000" />
+          <FontAwesome5 name="chevron-right" size={20} color="#f24f04" />
         </TouchableOpacity>) : (<View style={{ justifyContent: 'center', alignItems: 'center', height: 100 }}>
           <Text style={styles.noCart}>Bạn chưa chọn món ăn nào</Text>
         </View>)}
@@ -149,7 +159,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('1%'),
   },
   address: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#959ba4',
     fontFamily: 'HelveticaNeue'
   },
@@ -162,15 +172,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    minWidth: wp('22%'),
+    minWidth: wp('16%'),
+    marginTop: 10
   },
   quantityText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
     color: '#000',
   },
   buttonContainer: {
-    padding: 3,
+    padding: 2,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#b2b6bb',

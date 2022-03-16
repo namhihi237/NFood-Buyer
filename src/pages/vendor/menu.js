@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useMutation, useQuery } from '@apollo/client';
-import { numberOfCarts } from "../../recoil/list-state";
+import { numberOfCarts, listCarts } from "../../recoil/list-state";
 import { MUTATION, QUERY } from "../../graphql";
 import { useRecoilState } from "recoil";
 import { moneyUtils } from "../../utils"
 import Order from "./order";
-import { Toast } from "../../components";
+import { Toast, Loading } from "../../components";
 
 export default function Menu(props) {
   const { menu, vendorId } = props;
@@ -16,12 +16,11 @@ export default function Menu(props) {
   const [itemMenu, setItemMenu] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [number, setNumber] = useRecoilState(numberOfCarts);
+  const [carts, setCarts] = useRecoilState(listCarts);
 
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
   const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef(null);
-
-  const [carts, setCarts] = useState([]);
 
   useQuery(QUERY.GET_CARTS, {
     onCompleted: (data) => {
@@ -63,10 +62,10 @@ export default function Menu(props) {
                       source={{ uri: itemMenu.image }}
                     />
                   </View>
-                  <View >
+                  <View style={{ maxWidth: wp('65%') }}>
                     <Text style={styles.textItemMenu} isTruncated={true}>{itemMenu.name}</Text>
                     <Text style={styles.textPriceItemMenu}>{moneyUtils.convertVNDToString(itemMenu.price)} đ</Text>
-                    <Text style={styles.textDescription} isTruncated={true} noOfLines={2}>{itemMenu.description}</Text>
+                    <Text style={styles.textDescription} isTruncated={true} noOfLines={3}>{itemMenu.description}</Text>
                     <View style={styles.quantityContainer}>
                       {renderBuyQuantity(itemMenu._id)}
                     </View>
@@ -87,7 +86,7 @@ export default function Menu(props) {
     }
   }
 
-  const [addToCart] = useMutation(MUTATION.ADD_TO_CART, {
+  const [addToCart, { loading }] = useMutation(MUTATION.ADD_TO_CART, {
     variables: {
       vendorId: vendorId,
       itemId: itemMenu?._id,
@@ -99,18 +98,20 @@ export default function Menu(props) {
       setQuantity(1);
       setNumber(number + quantity);
 
+      let newVendor = false;
       // check new vendor or existing vendor
       if (carts?.length > 0) {
         if (carts[0]?.vendorId !== vendorId) {
           setCarts([]);
           setNumber(quantity);
+          newVendor = true;
         }
       }
 
       // find  item update carts
       const index = carts.findIndex(cart => cart._id === data.addToCart?._id);
 
-      if (index !== -1) {
+      if (index !== -1 && !newVendor) {
         const newCarts = carts.map((cart, index) => {
           if (cart._id === data.addToCart?._id) {
             return data.addToCart;
@@ -119,7 +120,11 @@ export default function Menu(props) {
         })
         setCarts(newCarts);
       } else {
-        setCarts([...carts, data.addToCart]);
+        if (newVendor) {
+          setCarts([data.addToCart]);
+        } else {
+          setCarts([...carts, data.addToCart]);
+        }
       }
       onClose();
     },
@@ -147,6 +152,7 @@ export default function Menu(props) {
 
   return (
     <View style={styles.menuContainer}>
+      {loading ? <Loading /> : null}
       {renderListMenu()}
       <Actionsheet isOpen={isOpen} onClose={() => {
         setItemMenu(null);
@@ -164,10 +170,10 @@ export default function Menu(props) {
                 source={{ uri: itemMenu?.image }}
               />
             </View>
-            <View >
+            <View style={{ maxWidth: wp('65%') }}>
               <Text style={styles.textItemMenu} isTruncated={true}>{itemMenu?.name}</Text>
               <Text style={styles.textPriceItemMenu}>{moneyUtils.convertVNDToString(itemMenu?.price || 0)} đ</Text>
-              <Text style={styles.textDescription} isTruncated={true} noOfLines={2}>{itemMenu?.description}</Text>
+              <Text style={styles.textDescription} isTruncated={true} noOfLines={3}>{itemMenu?.description}</Text>
             </View>
           </View>
           <Input
@@ -255,7 +261,7 @@ const styles = StyleSheet.create({
   textDescription: {
     fontFamily: "Avenir Book",
     color: '#959ba4',
-    fontSize: 14,
+    fontSize: 13,
   },
   textTitle: {
     fontFamily: "Avenir Book",

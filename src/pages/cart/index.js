@@ -72,7 +72,9 @@ export default function Cart(props) {
             <View style={{ flexDirection: 'row' }}>
               <Image source={{ uri: cart.item.image }} style={{ height: 70, width: 70, borderRadius: 10 }}></Image>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5, width: wp('75%'), marginTop: 5 }}>
-                <Text style={{ ...styles.text, marginLeft: 10 }}>{cart.item.name}</Text>
+                <View style={{ maxWidth: wp('55%') }}>
+                  <Text style={{ ...styles.text, marginLeft: 10, }} ellipsizeMode="tail" numberOfLines={2}>{cart.item.name}</Text>
+                </View>
                 <Text style={styles.text}>{moneyUtils.convertVNDToString(cart.item.price * cart.quantity)} đ</Text>
               </View>
             </View>
@@ -117,7 +119,7 @@ export default function Cart(props) {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Image source={{ uri: data?.carts?.vendor?.image }} style={{ height: 60, width: 60, marginRight: 10, borderRadius: 6 }} />
             <View style={{ maxWidth: wp('70%') }}>
-              <Text style={styles.vendorName}>{data?.carts?.vendor?.name}</Text>
+              <Text style={styles.vendorName} ellipsizeMode="tail">{data?.carts?.vendor?.name}</Text>
               <Text numberOfLines={2} style={styles.address}>{data?.carts?.vendor?.address}  </Text>
             </View>
           </View>
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     fontFamily: 'HelveticaNeue'
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#000',
     fontFamily: 'HelveticaNeue'
   },

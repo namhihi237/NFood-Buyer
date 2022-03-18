@@ -68,6 +68,12 @@ export default function Home(props) {
     };
   }, [])
 
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
+
   const renderOpenGPS = () => {
     return (
       <Modal
@@ -102,7 +108,7 @@ export default function Home(props) {
     },
   });
 
-  const { data, loading } = useQuery(QUERY.VENDORS, {
+  const { data, loading, refetch } = useQuery(QUERY.VENDORS, {
     variables: {
       latitude: location.latitude,
       longitude: location.longitude,

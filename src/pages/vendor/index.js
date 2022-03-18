@@ -3,8 +3,8 @@ import { StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
-import { Modal, Text, View } from 'native-base';
-import { Loading } from '../../components';
+import { Modal, Text, View, useClipboard } from 'native-base';
+import { Loading, Toast } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { QUERY } from "../../graphql";
 import Info from "./info";
@@ -17,6 +17,10 @@ export default function Vendor(props) {
   const vendor = route.params.vendor;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [voucher, setVoucher] = React.useState(null);
+  const {
+    value,
+    onCopy
+  } = useClipboard();
 
   const { data } = useQuery(QUERY.VENDOR, {
     variables: {
@@ -83,11 +87,11 @@ export default function Vendor(props) {
         ) : null
       }
 
-      <TouchableOpacity style={styles.group}>
+      {/* <TouchableOpacity style={styles.group}>
         <FontAwesome5 name="user-plus" size={18} color="#000" />
         <Text style={styles.text}>Đặt hàng theo nhóm</Text>
         <FontAwesome5 name="chevron-right" size={18} color="#000" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {data ? <Menu menu={data.vendor?.menu} vendorId={vendor._id} /> : <Loading />}
       <View>
         <Modal isOpen={modalVisible} onClose={setModalVisible}>
@@ -95,7 +99,15 @@ export default function Vendor(props) {
             <Modal.CloseButton />
             <Modal.Body>
               <View style={styles.promoCodeContainer}>
-                <Text bold fontSize="md" color={"#dc2626"}>{voucher?.promoCode}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                  <Text bold fontSize="xl" color={"#dc2626"} mr="4">{voucher?.promoCode}</Text>
+                  <TouchableOpacity onPress={() => {
+                    onCopy(voucher?.promoCode);
+                    Toast('Đã sao chép')
+                  }}>
+                    <FontAwesome5 name="copy" size={18} color="#000" />
+                  </TouchableOpacity>
+                </View>
                 <Text bold>{returnContentVoucher(voucher)}</Text>
               </View>
               <View style={styles.timeContainer}>
@@ -104,7 +116,7 @@ export default function Vendor(props) {
               </View>
 
               <View>
-                <Text bold>Điều kiện sửa dụng</Text>
+                <Text bold>Điều kiện sử dụng</Text>
                 <Text fontSize="sm" italic>* Một khách hàng chỉ được sử dụng 1 lần.</Text>
                 <Text fontSize="sm" italic>{renderConditionsMinTotal(voucher)}</Text>
                 <Text fontSize="sm" italic>{renderConditionsMaxDiscount(voucher)}</Text>

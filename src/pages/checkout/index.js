@@ -127,7 +127,7 @@ export default function Checkout(props) {
 
   const [checkVoucher] = useLazyQuery(QUERY.CHECK_PROMO_CODE, {
     variables: {
-      promoCode: promoCode.toLocaleUpperCase(),
+      promoCode,
       subTotal: route.params.subTotal,
       vendorId: route.params.vendorId
     },
@@ -149,7 +149,7 @@ export default function Checkout(props) {
       await chargeOrder();
       return;
     }
-    order({ variables: { method, promoCode: promoCode.toLocaleUpperCase() } });
+    order({ variables: { method, promoCode } });
   }
 
   const checkPromoCode = () => {
@@ -232,6 +232,7 @@ export default function Checkout(props) {
           <Text fontSize="lg" style={{ marginBottom: 5 }}>Mã giảm giá</Text>
           <Input
             type={"text"}
+            fontSize="md"
             borderColor="#B2B6BB"
             w={{
               base: "100%",

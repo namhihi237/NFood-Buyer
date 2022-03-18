@@ -194,6 +194,12 @@ export default function Store(props) {
           </View>
         </TouchableWithoutFeedback>
 
+        <View style={styles.btnLogout} >
+          <View >
+            <Text bold color="#4f4f4f">Phiên bản hiện tại 1.0.0</Text>
+            <Text mt="2" italic color="#4f4f4f">Được phát triển bới NFood</Text>
+          </View>
+        </View>
       </View>
 
       <Modal

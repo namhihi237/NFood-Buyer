@@ -1,4 +1,4 @@
-import { Text, View, Box, Center } from "native-base";
+import { Text, View } from "native-base";
 import React from "react";
 import { StyleSheet, StatusBar, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,7 +8,6 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation, useSubscription } from '@apollo/client';
 import { QUERY, MUTATION, SUBSCRIPTION, client } from "../../graphql";
 import { moneyUtils, orderUtils, timeUtils } from '../../utils';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Wallet(props) {
   const navigation = useNavigation();
@@ -21,12 +20,21 @@ export default function Wallet(props) {
     fetchPolicy: 'network-only',
   });
 
+  const returnTitle = (type) => {
+    switch (type) {
+      case 'wallet':
+        return 'Thanh toán bằng ví';
+      case 'payment_paypal':
+        return 'Thanh toán bằng paypal';
+    }
+  }
+
   const renderItem = (item) => {
     return (
       <View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: wp('4%') }}>
           <View style={styles.item}>
-            <Text mb="2">{'Thanh toán'} </Text>
+            <Text mb="2">{returnTitle(item.type)} </Text>
             <Text fontSize="sm" italic>{timeUtils.convertFullTime(new Date(item.createdAt - 0))}</Text>
           </View>
           <View>

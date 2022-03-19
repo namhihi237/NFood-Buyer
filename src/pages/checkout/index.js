@@ -168,7 +168,9 @@ export default function Checkout(props) {
       Toast("Thanh toán thành công", "success", "top-right");
       setNumber(0);
       setCarts([]);
-      navigation.navigate(SCREEN.LIST_ORDERS);
+      navigation.navigate(SCREEN.LIST_ORDERS, {
+        clear: true,
+      });
     } else if (data.title === "cancel") {
       Toast("Thanh toán thất bại, thử lại", "danger", "top-right");
       setShowModal(false);

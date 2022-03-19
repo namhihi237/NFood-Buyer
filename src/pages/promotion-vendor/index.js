@@ -46,7 +46,7 @@ export default function PromotionList(props) {
   }
 
   const renderLike = (item) => {
-    const likePercent = parseInt(item.rating / item.numberOfReviews);
+    const likePercent = parseFloat(item?.rating / item?.numberOfReviews).toFixed(2) * 100;
     if (!likePercent || likePercent.toString() === 'NaN') {
       return 100;
     }

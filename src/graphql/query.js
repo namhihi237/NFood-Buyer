@@ -46,6 +46,7 @@ export default {
       image
       distance
       address
+      numberOfReviews
       timeOpen {
         openTime
         day

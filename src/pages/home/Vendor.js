@@ -17,7 +17,7 @@ const Vendor = (props) => {
   const marginLeft = index === 0 ? wp('5%') : 0;
 
   const renderLike = (item) => {
-    const likePercent = parseInt(item.rating / item.numberOfReviews);
+    const likePercent = parseFloat(item?.rating / item?.numberOfReviews).toFixed(2) * 100;
     if (!likePercent || likePercent.toString() === 'NaN') {
       return 100;
     }
@@ -33,7 +33,7 @@ const Vendor = (props) => {
         <Text bold style={styles.name} isTruncated={true} noOfLines={2}>{item?.name}</Text>
       </View>
       <View style={styles.rateContainer}>
-        <FontAwesome5 name="map-marker-alt" size={hp('1.9%')} color="#000" />
+        <FontAwesome5 name="map-marker-alt" size={hp('1.9%')} color="#166534" />
         <Text style={styles.rate}>{parseFloat(item.distance / 1000).toFixed(1)} km </Text>
       </View>
       <View style={styles.rateContainer}>

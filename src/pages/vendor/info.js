@@ -48,7 +48,7 @@ export default function Info(props) {
   }
 
   const renderLike = (item) => {
-    const likePercent = parseInt(item?.rating / item?.numberOfReviews);
+    const likePercent = parseFloat(item?.rating / item?.numberOfReviews).toFixed(2) * 100;
     if (!likePercent || likePercent.toString() === 'NaN') {
       return 100;
     }
@@ -108,7 +108,7 @@ export default function Info(props) {
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
         <View style={styles.distanceContainer}>
           <FontAwesome5 name="thumbs-up" size={15} color="#ffc107" style={{ marginRight: 10 }} />
-          <Text style={styles.text} >{renderLike(vendor)}% yêu thích</Text>
+          <Text style={styles.text} >{renderLike(vendor)}% hài lòng</Text>
           <TouchableOpacity onPress={() => {
             setModalVisible(true);
             getReviewsByVendor();
@@ -119,6 +119,10 @@ export default function Info(props) {
         <TouchableOpacity onPress={addFavorite}>
           <FontAwesome5 name="heart" size={20} color="#ec4899" style={{ marginBottom: 5, marginRight: 10 }} />
         </TouchableOpacity>
+      </View>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <FontAwesome5 name="map-marker-alt" size={15} color="#059669" style={{ marginRight: 10 }} />
+        <Text isTruncated={true} style={styles.text} >{vendor?.address}</Text>
       </View>
       <View style={{ ...styles.distanceContainer, justifyContent: 'space-between' }}>
         <Text style={{ ...styles.openText, color: vendorUtils.checkOpen(vendor).isOpen ? '#059669' : '#525252' }} >{vendorUtils.checkOpen(vendor).text}</Text>
